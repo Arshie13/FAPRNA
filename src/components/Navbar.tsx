@@ -12,12 +12,12 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white">
-      <div className="container flex h-20 items-center justify-between px-4 md:px-6">
-        <div className="flex items-center gap-2">
+      <div className="flex h-32 items-center justify-center px-10 md:px-6">
+        <div className="flex items-center gap-2 mx-5">
           <Link href="/" className="flex items-center">
             <div className="flex flex-col">
               <div className="flex items-center">
-                <Image src="/logo.png" alt="FAPRNA-NV Logo" width={40} height={40} className="mr-2" />
+                <Image src="/faprna_logo.png" alt="FAPRNA-NV Logo" width={40} height={40} className="mr-2" />
                 <span className="text-xl font-bold text-[#003366]">FAPRNA-NV</span>
               </div>
               <div className="hidden flex-col text-xs text-[#003366] md:flex">
@@ -28,7 +28,7 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <nav className="hidden md:flex md:items-center md:gap-6">
+        <nav className="hidden mx-5 md:flex md:items-center md:gap-6">
           <Link href="/membership" className="text-sm font-medium text-[#003366] hover:text-[#003366]/80">
             Membership
           </Link>

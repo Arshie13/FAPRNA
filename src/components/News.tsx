@@ -1,0 +1,97 @@
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Calendar, Users, Award } from "lucide-react"
+
+export default function FaprnaNews() {
+  const newsItems = [
+    {
+      id: 1,
+      type: "event",
+      date: "MARCH 2, 2024",
+      time: "8 am - 3pm",
+      title: "Maternal and Child Health",
+      subtitle: "GET IT RIGHT FROM THE START",
+      location: "CHAIRMAN'S AUDITORIUM AT OPTUM",
+      address: "2716 N TENAYA WAY, LAS VEGAS, NV 89128",
+      ceus: "6 CEUs",
+      image: "/placeholder.svg?height=300&width=400",
+      bgColor: "bg-blue-600",
+      icon: <Calendar className="h-5 w-5" />,
+    },
+    {
+      id: 2,
+      type: "proclamation",
+      title: "Las Vegas Proclamation",
+      subtitle: "From the Office of the Mayor",
+      description: "Official recognition from the City of Las Vegas",
+      image: "/placeholder.svg?height=300&width=400",
+      bgColor: "bg-purple-600",
+      icon: <Award className="h-5 w-5" />,
+    },
+    {
+      id: 3,
+      type: "group",
+      title: "Board Members & Partners",
+      subtitle: "Our Leadership Team",
+      description: "Meet our dedicated board members and organizational partners",
+      image: "/placeholder.svg?height=300&width=400",
+      bgColor: "bg-gray-600",
+      icon: <Users className="h-5 w-5" />,
+    },
+  ]
+
+  return (
+    <section className="w-full bg-gray-50 py-16">
+      <div className="container mx-auto px-4">
+        <div className="mb-12 text-center">
+          <p className="mb-2 text-sm uppercase tracking-wider text-gray-500">FAPRNA News</p>
+          <h2 className="mb-4 text-3xl font-bold text-gray-800 md:text-4xl">What&apos;s Happening at Our Association</h2>
+          <p className="text-lg text-gray-600">Monthly meetings and update of scheduled events</p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {newsItems.map((item) => (
+            <Card key={item.id} className="group overflow-hidden border-0 shadow-lg transition-all hover:shadow-xl">
+              <div className={`relative h-48 ${item.bgColor}`}>
+                <div className="absolute inset-0 bg-black/20" />
+                <div className="relative z-10 flex h-full flex-col justify-between p-6 text-white">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      {item.icon}
+                      <span className="text-sm font-medium uppercase tracking-wide">
+                        {item.type === "event" ? "Event" : item.type === "proclamation" ? "Recognition" : "Team"}
+                      </span>
+                    </div>
+                    {item.ceus && <Badge className="bg-white/20 text-white hover:bg-white/30">{item.ceus}</Badge>}
+                  </div>
+
+                  <div>
+                    {item.date && <p className="mb-2 text-lg font-bold">{item.date}</p>}
+                    {item.time && <p className="mb-2 text-sm">{item.time}</p>}
+                    <h3 className="text-xl font-bold">{item.title}</h3>
+                    <p className="text-sm opacity-90">{item.subtitle}</p>
+                  </div>
+                </div>
+              </div>
+
+              <CardContent className="p-6">
+                {item.location && (
+                  <div className="mb-2">
+                    <p className="font-medium text-gray-800">{item.location}</p>
+                    <p className="text-sm text-gray-600">{item.address}</p>
+                  </div>
+                )}
+                {item.description && <p className="text-gray-600">{item.description}</p>}
+                <div className="mt-4">
+                  <button className="text-sm font-medium text-[#003366] hover:text-[#0056b3] transition-colors">
+                    Learn More →
+                  </button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
