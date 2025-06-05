@@ -29,10 +29,13 @@ export default function Navbar() {
         </div>
 
         <nav className="hidden mx-5 md:flex md:items-center md:gap-6">
+          <Link href="/" className="text-sm font-medium text-[#003366] hover:text-[#003366]/80">
+            Home
+          </Link>
           <Link href="/membership" className="text-sm font-medium text-[#003366] hover:text-[#003366]/80">
             Membership
           </Link>
-          <Link href="/events" className="text-sm font-medium text-[#003366] hover:text-[#003366]/80">
+          <Link href="/event-registration" className="text-sm font-medium text-[#003366] hover:text-[#003366]/80">
             Events
           </Link>
           <Link href="/contact" className="text-sm font-medium text-[#003366] hover:text-[#003366]/80">
