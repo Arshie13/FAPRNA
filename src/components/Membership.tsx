@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
-import {  ExternalLink } from "lucide-react"
+import { ExternalLink } from "lucide-react"
+import Image from "next/image"
 
 export default function Membership() {
   const eventUrl =
     "https://www.zeffy.com/en-US/ticketing/449e228b-aeae-4517-b5d5-a939b97530e0?fbclid=IwY2xjawKvL7RleHRuA2FlbQIxMABicmlkETF2bXBvOTdlUm9SY3ZUSDNFAR7mWEb-FEnnAzHoJI5TPFFG5SyOhIUh1vB0kortICqY8L2DSbOdU8EAkTgLLA_aem_jbBbTgmjcw80epKBfnPsow"
-    return (
-            <div className="min-h-screen bg-gray-50">
-
-        <main className="flex-1 flex items-center justify-center px-4 py-16">
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <main className="flex-1 flex items-center justify-center px-4 py-16">
         <div className="text-center max-w-2xl mx-auto">
           {/* Event Registration Section */}
           <div className="mb-8 space-y-6">
@@ -20,7 +20,9 @@ export default function Membership() {
                 {/* QR Code */}
                 <div className="flex justify-center mb-6">
                   <div className="bg-white p-4 rounded-lg border-2 border-gray-200">
-                    <img
+                    <Image
+                      width={192}
+                      height={192}
                       src="/faprna-reg.jpg"
                       alt="FAPRNA Membership QR Code"
                       className="w-48 h-48 object-contain"
