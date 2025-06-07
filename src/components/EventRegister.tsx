@@ -37,7 +37,6 @@ export default function EventRegistration() {
             </div>
             <h1 className="mb-4 text-3xl font-bold text-gray-800 md:text-4xl relative">
               What&apos;s Happening at Our Association
-              <div className="absolute -bottom-2 left-1/2 h-1 w-24 -translate-x-1/2 rounded-full bg-gradient-to-r from-blue-400 to-purple-400"></div>
             </h1>
           </div>
 
