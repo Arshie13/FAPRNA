@@ -70,7 +70,7 @@ export default function Navbar() {
                 >
                   Membership
                 </Link>
-                <Link href="/events" className="text-lg font-medium text-[#003366]" onClick={() => setIsOpen(false)}>
+                <Link href="/event-registration" className="text-lg font-medium text-[#003366]" onClick={() => setIsOpen(false)}>
                   Events
                 </Link>
                 <Link href="/contact" className="text-lg font-medium text-[#003366]" onClick={() => setIsOpen(false)}>
@@ -79,7 +79,7 @@ export default function Navbar() {
                 <Link href="/board" className="text-lg font-medium text-[#003366]" onClick={() => setIsOpen(false)}>
                   Board
                 </Link>
-                <Link href="/bylaws" className="text-lg font-medium text-[#003366]" onClick={() => setIsOpen(false)}>
+                <Link href="/by-laws" className="text-lg font-medium text-[#003366]" onClick={() => setIsOpen(false)}>
                   By Laws
                 </Link>
                 <Link href="/register" className="mt-4" onClick={() => setIsOpen(false)}>

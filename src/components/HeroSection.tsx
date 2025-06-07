@@ -21,7 +21,7 @@ export default function HeroSection() {
           A non-profit, professional organization dedicated to unify and foster excellence of the Filipino-American
           Advanced Practice Nurses in Nevada.
         </p>
-        <Link href="/events" className="mt-8">
+        <Link href="/event-registration" className="mt-8">
           <Button className="rounded-full bg-red-600 px-8 py-2 text-lg font-bold uppercase hover:bg-red-700">
             Events!
           </Button>
