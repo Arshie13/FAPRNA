@@ -1,0 +1,53 @@
+export const eventDetails = [
+  {
+    title: "Wellness Workshop",
+    date: "April 15, 2024",
+    time: "10:00 AM - 1:00 PM",
+    location: "Sunrise Hospital Conference Room",
+    address: "3186 S Maryland Pkwy, Las Vegas NV 89109",
+    description: "A half-day workshop focused on nurse well-being, stress reduction, and work-life balance techniques. Learn mindfulness practices and participate in interactive sessions designed to rejuvenate your professional practice.",
+    ceus: 3,
+    images: ['/faprna_logo.png'],
+  },
+  {
+    title: "Continuing Education Symposium",
+    date: "May 10, 2024",
+    time: "9:00 AM - 4:00 PM",
+    location: "UNLV School of Nursing",
+    address: "4505 S Maryland Pkwy, Las Vegas NV 89154",
+    description: "This all-day symposium will feature expert-led sessions on chronic disease management, telehealth innovations, and evidence-based nursing interventions. Includes networking lunch and CEU certification.",
+    ceus: 7,
+    images: ['/continuing_education_symposium.png'],
+  },
+  {
+    title: "Community Health Outreach",
+    date: "June 5, 2024",
+    time: "11:00 AM - 3:00 PM",
+    location: "Doolittle Community Center",
+    address: "1950 N J St, Las Vegas NV 89106",
+    description: "A collaborative event where nurses engage with the local community to provide health screenings, education, and resources. Ideal for those interested in community-based practice and public health impact.",
+    ceus: 4,
+    images: ['/community_health_outreach.png'],
+  },
+  {
+    title: "Leadership in Nursing Seminar",
+    date: "July 20, 2024",
+    time: "1:00 PM - 5:00 PM",
+    location: "Spring Valley Hospital - Education Hall",
+    address: "5400 S Rainbow Blvd, Las Vegas NV 89118",
+    description: "Develop leadership skills and explore new strategies for managing clinical teams, improving patient outcomes, and navigating healthcare policy. Great for RNs aspiring to managerial roles.",
+    ceus: 5,
+    images: ['/leadership_in_nursing.png'],
+  },
+]
+
+export const newEvent = {
+  title: "Maternal and Child Health Event",
+  date: "March 2, 2024",
+  time: "8:00 AM - 3:00 PM",
+  location: "Chairman's Auditorium at Optum",
+  address: "2716 N Tenaya Way, Las Vegas NV 89129",
+  description: "Join us for a comprehensive educational session focused on maternal and child health. This event will cover best practices, current research, and practical applications in maternal and pediatric care. Perfect for advanced practice nurses looking to enhance their knowledge and earn continuing education credits.",
+  ceus: 6,
+  images: ['/maternal_and_child_health.png'],
+}
