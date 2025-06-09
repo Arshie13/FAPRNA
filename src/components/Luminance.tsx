@@ -49,7 +49,7 @@ const TwinklingBackground = () => {
   }, [])
 
   return (
-    <div className="fixed inset-0 pointer-events-none">
+    <div className="absolute inset-0 pointer-events-none">
       {/* Small twinkling dots with adjusted transparency */}
       {dots.map((dot, i) => (
         <div
@@ -73,7 +73,7 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
   const [showHistory, setShowHistory] = useState(false)
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="bg-black text-white relative min-h-screen overflow-hidden">
       {/* Twinkling background */}
       <TwinklingBackground />
 
@@ -128,7 +128,7 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
         <PurpleStar className="top-1/3 left-[60%]" size={3} />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
         {/* Navigation */}
         <div className="mb-8 flex justify-between items-center">
           <Button

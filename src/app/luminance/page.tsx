@@ -10,6 +10,8 @@ function LuminanceContent() {
   const searchParams = useSearchParams()
   const noTransition = searchParams.get("noTransition") === "true"
 
+  console.log("transitioning: ", noTransition)
+
   const handleVote = () => {
     router.push("/vote")
   }
@@ -27,7 +29,7 @@ function LuminanceContent() {
 
 export default function LuminancePage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
       <LuminanceContent />
     </Suspense>
   )
