@@ -38,6 +38,9 @@ export default function Navbar() {
           <Link href="/event-registration" className="text-sm font-medium text-[#003366] hover:text-[#003366]/80">
             Events
           </Link>
+          <Link href="/luminance" className="text-sm font-medium text-[#003366] hover:text-[#003366]/80">
+            Luminance Awards
+          </Link>
           <Link href="/contact" className="text-sm font-medium text-[#003366] hover:text-[#003366]/80">
             Contact
           </Link>
