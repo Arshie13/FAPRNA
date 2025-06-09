@@ -13,7 +13,7 @@ interface LuminanceAwardsProps {
 // Star component for decorative elements
 const GoldStar = ({ className = "", size = 4 }: { className?: string; size?: number }) => (
   <div
-    className={`absolute w-${size} h-${size} bg-gold-300 rotate-45 transform animate-twinkle ${className}`}
+    className={`absolute w-${size} h-${size} bg-amber-300 rotate-45 transform animate-twinkle ${className}`}
     style={{
       clipPath: "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
     }}
@@ -77,36 +77,36 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
       {/* Twinkling background */}
       <TwinklingBackground />
 
-      {/* Gold wave decorative elements */}
+      {/* Amber wave decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
-        <div className="absolute top-0 left-0 w-1/2 h-full border-r border-gold-500/20 border-dashed"></div>
-        <div className="absolute top-0 right-0 w-1/2 h-full border-l border-gold-500/20 border-dashed"></div>
+        <div className="absolute top-0 left-0 w-1/2 h-full border-r border-amber-500/20 border-dashed"></div>
+        <div className="absolute top-0 right-0 w-1/2 h-full border-l border-amber-500/20 border-dashed"></div>
         <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-20 left-10 w-96 h-96 rounded-full bg-gold-radial"></div>
-          <div className="absolute bottom-40 right-20 w-80 h-80 rounded-full bg-gold-radial"></div>
+          <div className="absolute top-20 left-10 w-96 h-96 rounded-full bg-amber-200/20"></div>
+          <div className="absolute bottom-40 right-20 w-80 h-80 rounded-full bg-amber-200/20"></div>
         </div>
 
-        {/* Gold wave lines */}
+        {/* Amber wave lines */}
         <div className="absolute top-0 left-0 w-full h-full">
           <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 1200 800" preserveAspectRatio="none">
             <path
               d="M0,100 C300,150 500,50 1200,100 L1200,0 L0,0 Z"
               fill="none"
-              stroke="#D4AF37"
+              stroke="#f59e42"
               strokeWidth="1"
               strokeOpacity="0.3"
             />
             <path
               d="M0,200 C300,250 700,150 1200,200 L1200,0 L0,0 Z"
               fill="none"
-              stroke="#D4AF37"
+              stroke="#f59e42"
               strokeWidth="1"
               strokeOpacity="0.2"
             />
             <path
               d="M0,300 C200,350 600,250 1200,300 L1200,0 L0,0 Z"
               fill="none"
-              stroke="#D4AF37"
+              stroke="#f59e42"
               strokeWidth="1"
               strokeOpacity="0.1"
             />
@@ -134,7 +134,7 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
           <Button
             asChild
             variant="outline"
-            className="border-gold-500 text-gold-500 hover:bg-gold-500/10 transition-colors"
+            className="border-amber-500 text-amber-500 hover:bg-amber-500/10 transition-colors"
           >
             <Link href="/">
               <Home className="w-4 h-4 mr-2" />
@@ -143,7 +143,7 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
           </Button>
 
           <div className="flex items-center">
-            <div className="w-12 h-12 bg-gradient-to-br from-gold-400 to-gold-600 rounded-full flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center shadow-lg">
               <span className="text-black font-bold text-sm">FAPRNA</span>
             </div>
           </div>
@@ -156,8 +156,8 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
             variant={!showHistory ? "default" : "outline"}
             className={`transition-all duration-300 ${
               !showHistory
-                ? "bg-gradient-to-r from-gold-500 to-gold-600 text-black hover:from-gold-600 hover:to-gold-700 shadow-lg shadow-gold-500/20"
-                : "border-gold-500 text-gold-500 hover:bg-gold-500/10"
+                ? "bg-gradient-to-r from-amber-500 to-amber-600 text-black hover:from-amber-600 hover:to-amber-700 shadow-lg shadow-amber-500/20"
+                : "border-amber-500 text-amber-500 hover:bg-amber-500/10"
             }`}
           >
             <Trophy className="w-4 h-4 mr-2" />
@@ -168,8 +168,8 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
             variant={showHistory ? "default" : "outline"}
             className={`transition-all duration-300 ${
               showHistory
-                ? "bg-gradient-to-r from-gold-500 to-gold-600 text-black hover:from-gold-600 hover:to-gold-700 shadow-lg shadow-gold-500/20"
-                : "border-gold-500 text-gold-500 hover:bg-gold-500/10"
+                ? "bg-gradient-to-r from-amber-500 to-amber-600 text-black hover:from-amber-600 hover:to-amber-700 shadow-lg shadow-amber-500/20"
+                : "border-amber-500 text-amber-500 hover:bg-amber-500/10"
             }`}
           >
             <History className="w-4 h-4 mr-2" />
@@ -183,13 +183,13 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
             {/* Main Luminance Awards Image */}
             <div className="flex justify-center">
               <div className="relative max-w-4xl w-full">
-                <div className="absolute -inset-1 bg-gradient-to-r from-gold-500/30 to-gold-500/20 rounded-lg blur-md"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/30 to-amber-500/20 rounded-lg blur-md"></div>
                 <Image
                   src="/award.jpg"
                   alt="LUMINANCE AWARDEES 2025 - Dr. Reimund Serafica winners in three categories: Advancement of Intentionality, Advancement in Inquiry, and Advancement with Impact"
                   width={1200}
                   height={1600}
-                  className="w-full h-auto rounded-lg shadow-2xl shadow-purple-500/20 border border-gold-500/30 relative z-10"
+                  className="w-full h-auto rounded-lg shadow-2xl shadow-purple-500/20 border border-amber-500/30 relative z-10"
                   priority
                 />
               </div>
@@ -200,7 +200,7 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
               <Button
                 onClick={onVote}
                 size="lg"
-                className="bg-gradient-to-r from-gold-500 to-gold-600 text-black px-8 py-3 hover:from-gold-600 hover:to-gold-700 transition-colors shadow-lg shadow-gold-500/20"
+                className="bg-gradient-to-r from-amber-500 to-amber-600 text-black px-8 py-3 hover:from-amber-600 hover:to-amber-700 transition-colors shadow-lg shadow-amber-500/20"
               >
                 <Vote className="w-5 h-5 mr-2" />
                 Submit Nomination
