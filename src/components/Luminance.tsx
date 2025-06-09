@@ -185,7 +185,7 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
               <div className="relative max-w-4xl w-full">
                 <div className="absolute -inset-1 bg-gradient-to-r from-gold-500/30 to-gold-500/20 rounded-lg blur-md"></div>
                 <Image
-                  src="/images/luminance-awardees-2025.png"
+                  src="/award.jpg"
                   alt="LUMINANCE AWARDEES 2025 - Dr. Reimund Serafica winners in three categories: Advancement of Intentionality, Advancement in Inquiry, and Advancement with Impact"
                   width={1200}
                   height={1600}
