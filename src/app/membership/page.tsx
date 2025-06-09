@@ -2,7 +2,7 @@ import Membership from "@/components/Membership"
 
 export default function MembershipPage() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col pt-25 pb-25">
       <main className="flex-1">
         <Membership />
       </main>

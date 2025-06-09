@@ -1,9 +1,17 @@
 import Link from "next/link"
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react"
+// import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react"
 
 export default function Footer() {
   return (
     <footer className="w-full border-t bg-[#003366] py-10 text-white">
+      <div className="items-center text-center mb-6">
+        <h1 className="text-lg font-bold text-white">
+          Get in touch. Vi Anne Calipusan (President)Text (702) 335-8206orEmer Sambo (Assistant PRO)Text (702) 327-6162oremail info@FAPRNA.organytime.
+        </h1>
+      </div>
+      <div className="w-full flex justify-center mb-8">
+        <div className="w-full max-w-screen border-t border-white/30"></div>
+      </div>
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <div>
@@ -11,7 +19,10 @@ export default function Footer() {
             <p className="text-sm text-white/80">
               Filipino-American Advanced Practice Registered Nurses Association of Nevada
             </p>
-            <div className="mt-4 flex space-x-4">
+
+            {/* uncomment this along with the imports in case they have socials */}
+
+            {/* <div className="mt-4 flex space-x-4">
               <Link href="#" className="text-white/80 hover:text-white">
                 <Facebook className="h-5 w-5" />
                 <span className="sr-only">Facebook</span>
@@ -28,7 +39,7 @@ export default function Footer() {
                 <Linkedin className="h-5 w-5" />
                 <span className="sr-only">LinkedIn</span>
               </Link>
-            </div>
+            </div> */}
           </div>
           <div>
             <h3 className="mb-4 text-lg font-bold">Quick Links</h3>
@@ -39,7 +50,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/events" className="text-white/80 hover:text-white">
+                <Link href="/event-registration" className="text-white/80 hover:text-white">
                   Events
                 </Link>
               </li>

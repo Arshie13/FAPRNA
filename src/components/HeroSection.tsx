@@ -1,18 +1,20 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 export default function HeroSection() {
   return (
-    <section className="relative h-[600px] w-full overflow-hidden md:h-[700px]">
+    <section className="relative w-full overflow-hidden md:h-[600px]">
       {/* Hero background image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/hero-background.jpg')",
-          backgroundBlendMode: "overlay",
-          backgroundColor: "rgba(0, 0, 0, 0.2)",
-        }}
-      />
+      <div className="absolute inset-0 bg-cover bg-center">
+        <Image 
+          src="/placeholder.png"
+          alt="Hero Background"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+     </div>
 
       {/* Content overlay */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center text-white">
