@@ -136,7 +136,7 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
             variant="outline"
             className="border-amber-500 text-amber-500 hover:bg-amber-500/10 transition-colors"
           >
-            <Link href="/">
+            <Link href="/landing-page">
               <Home className="w-4 h-4 mr-2" />
               Back to FAPRNA Homepage
             </Link>
