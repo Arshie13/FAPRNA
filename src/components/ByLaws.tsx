@@ -1655,7 +1655,7 @@ export default function FAPRNABylawsPage() {
               </div>
             </section>
 
-            <div className="mt-20 pt-12 border-t border-gray-200">
+            {/* <div className="mt-20 pt-12 border-t border-gray-200">
               <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-8">
                 <div className="text-center">
                   <div className="mb-8">
@@ -1706,7 +1706,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           {/* Table of Contents - Right Side */}
           <div className="md:w-1/4">
