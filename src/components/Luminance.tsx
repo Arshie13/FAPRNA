@@ -118,7 +118,7 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
               border: "2px solid #FFD700",
             }}
           >
-            <Link href="/">
+            <Link href="/landing-page">
               <Home className="w-4 h-4 mr-2" />
               Back to FAPRNA Homepage
             </Link>

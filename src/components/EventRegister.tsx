@@ -27,12 +27,12 @@ export default function EventRegistration() {
         ></div>
       </div>
 
-      <section className="relative w-full py-16">
+      <section className="relative w-full py-4">
         <div className="container mx-auto px-4">
           {/* Header with enhanced styling */}
-          <div className="mb-12 text-center">
+          <div className="text-center">
             <div className="relative inline-block">
-              <p className="mb-2 text-sm uppercase tracking-wider text-gray-500 relative z-10">FAPRNA News</p>
+              <p className="text-sm uppercase tracking-wider text-gray-500 relative z-10">FAPRNA News</p>
               <div className="absolute -top-2 -left-4 h-8 w-8 rounded-full bg-blue-200/30 blur-sm"></div>
             </div>
             <h1 className="mb-4 text-3xl font-bold text-gray-800 md:text-4xl relative">
