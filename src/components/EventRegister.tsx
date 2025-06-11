@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Calendar, MapPin, Users, DollarSign } from "lucide-react"
 import Image from "next/image"
-import { newEvent, eventDetails } from "@/app/mock_data/index"
+import { newEvent, eventDetails } from "@/mock_data/index"
 
 export default function EventRegistration() {
   return (

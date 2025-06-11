@@ -131,7 +131,7 @@ export default function FAPRNABylawsPage() {
                 <div className="space-y-8">
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         1.01
                       </span>
                       Name
@@ -148,7 +148,7 @@ export default function FAPRNABylawsPage() {
 
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         1.02
                       </span>
                       Board
@@ -177,7 +177,7 @@ export default function FAPRNABylawsPage() {
                 <div className="space-y-8">
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         2.01
                       </span>
                       Specific Purpose
@@ -192,7 +192,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         2.02
                       </span>
                       Charitable, Educational, and Scientific Purposes and
@@ -213,7 +213,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         2.03
                       </span>
                       Governing Instruments
@@ -225,7 +225,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         2.04
                       </span>
                       Nondiscrimination Policy
@@ -239,7 +239,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         2.05
                       </span>
                       Operating Provision
@@ -256,7 +256,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         2.06
                       </span>
                       Limitations on Activities
@@ -295,7 +295,7 @@ export default function FAPRNABylawsPage() {
                 <div className="space-y-8">
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         3.01
                       </span>
                       {/* Membership */} Pseudo Title
@@ -308,7 +308,7 @@ export default function FAPRNABylawsPage() {
 
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         3.02
                       </span>
                       {/* Non-voting Categories */} Pseudo Title
@@ -321,7 +321,7 @@ export default function FAPRNABylawsPage() {
 
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         3.03
                       </span>
                       {/* Dues */} Pseudo Title
@@ -336,7 +336,7 @@ export default function FAPRNABylawsPage() {
 
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         3.04
                       </span>
                       {/* Board Contribution */} Pseudo Title
@@ -374,7 +374,7 @@ export default function FAPRNABylawsPage() {
                   {/* Example for 4.01 */}
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         4.01
                       </span>
                       Members
@@ -391,7 +391,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         4.02
                       </span>
                       Number
@@ -404,7 +404,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         4.03
                       </span>
                       Annual Meeting
@@ -420,7 +420,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         4.04
                       </span>
                       Election and Term of Office
@@ -436,7 +436,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         4.05
                       </span>
                       Powers and Duties
@@ -453,7 +453,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         4.06
                       </span>
                       Additional Meetings
@@ -468,7 +468,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         4.07
                       </span>
                       Notice of Meetings
@@ -505,7 +505,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         4.08
                       </span>
                       Quorum
@@ -522,7 +522,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         4.09
                       </span>
                       Voting
@@ -536,7 +536,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         4.10
                       </span>
                       Action Without a Meeting
@@ -554,7 +554,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         4.11
                       </span>
                       Removal
@@ -567,7 +567,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         4.12
                       </span>
                       Resignation
@@ -582,7 +582,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         4.13
                       </span>
                       Vacancies
@@ -598,7 +598,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         4.14
                       </span>
                       Committee
@@ -618,7 +618,7 @@ export default function FAPRNABylawsPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         4.15
                       </span>
                       Participation by Telephone or Online Communication
@@ -650,7 +650,7 @@ export default function FAPRNABylawsPage() {
                 <div className="space-y-8">
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         5.01
                       </span>
                       Election and Qualifications; Term of Office
@@ -679,7 +679,7 @@ export default function FAPRNABylawsPage() {
                 <div className="space-y-8">
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         5.01a
                       </span>
                       President
@@ -702,7 +702,7 @@ export default function FAPRNABylawsPage() {
                 <div className="space-y-8">
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         5.01b
                       </span>
                       President-Elect
@@ -720,7 +720,7 @@ export default function FAPRNABylawsPage() {
                 <div className="space-y-8">
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         5.01c
                       </span>
                       VP of Enternal Affairs
@@ -740,7 +740,7 @@ export default function FAPRNABylawsPage() {
                 <div className="space-y-8">
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         5.01d
                       </span>
                       VP of Internal Affairs
@@ -762,7 +762,7 @@ export default function FAPRNABylawsPage() {
                 <div className="space-y-8">
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         5.01d
                       </span>
                       VP of Finance
@@ -782,7 +782,7 @@ export default function FAPRNABylawsPage() {
                   <div className="space-y-8">
                     <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                       <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                        <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                        <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                           5.02
                         </span>
                         Vacancies
@@ -798,7 +798,7 @@ export default function FAPRNABylawsPage() {
                   <div className="space-y-8">
                     <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                       <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                        <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                        <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                           5.03
                         </span>
                         Powers and Duties of the President
@@ -819,7 +819,7 @@ export default function FAPRNABylawsPage() {
                   <div className="space-y-8">
                     <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                       <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                        <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                        <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                           5.04
                         </span>
                         Powers and Duties of the Vice-Presidents
@@ -835,7 +835,7 @@ export default function FAPRNABylawsPage() {
                   <div className="space-y-8">
                     <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                       <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                        <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                        <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                           5.05
                         </span>
                         Powers and Duties of the Secretary
@@ -860,7 +860,7 @@ export default function FAPRNABylawsPage() {
                   <div className="space-y-8">
                     <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                       <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                        <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                        <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                           5.06
                         </span>
                         Powers and Duties of the Treasurer
@@ -887,7 +887,7 @@ export default function FAPRNABylawsPage() {
                   <div className="space-y-8">
                     <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                       <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                        <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                        <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                           5.07
                         </span>
                         Delegation
@@ -906,7 +906,7 @@ export default function FAPRNABylawsPage() {
                   <div className="space-y-8">
                     <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                       <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                        <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                        <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                           5.08
                         </span>
                         Removal
@@ -922,7 +922,7 @@ export default function FAPRNABylawsPage() {
                   <div className="space-y-8">
                     <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                       <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                        <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                        <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                           5.09
                         </span>
                         Resignation
@@ -954,7 +954,7 @@ export default function FAPRNABylawsPage() {
                 <div className="space-y-8">
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         6.01
                       </span>
                       Bank Accounts, Checks and Notes
@@ -974,7 +974,7 @@ export default function FAPRNABylawsPage() {
                 <div className="space-y-8">
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         6.02
                       </span>
                       Contracts
@@ -997,7 +997,7 @@ export default function FAPRNABylawsPage() {
                 <div className="space-y-8">
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         6.03
                       </span>
                       Investments
@@ -1028,7 +1028,7 @@ export default function FAPRNABylawsPage() {
                 <div className="space-y-8">
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         7.01
                       </span>
                       Purpose
@@ -1044,7 +1044,7 @@ export default function FAPRNABylawsPage() {
 
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         7.02
                       </span>
                       Definitions
@@ -1104,7 +1104,7 @@ export default function FAPRNABylawsPage() {
 
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         7.03
                       </span>
                       Procedures
@@ -1167,7 +1167,7 @@ export default function FAPRNABylawsPage() {
                             producing a conflict of interest, the governing
                             board or committee shall determine by a majority
                             vote of the disinterested directors whether the
-                            transaction or arrangement is in the Organization's
+                            transaction or arrangement is in the Organization&apos;s
                             best interest, for its own benefit, and whether it
                             is fair and reasonable. In conformity with the above
                             determination it shall make its decision as to
@@ -1190,7 +1190,7 @@ export default function FAPRNABylawsPage() {
                             alleged failure to disclose.
                           </li>
                           <li>
-                            If, after hearing the member's response and after
+                            If, after hearing the member&apos;s response and after
                             making further investigation as warranted by the
                             circumstances, the governing board or committee
                             determines the member has failed to disclose an
@@ -1204,7 +1204,7 @@ export default function FAPRNABylawsPage() {
 
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         7.04
                       </span>
                       Records of Proceedings
@@ -1221,7 +1221,7 @@ export default function FAPRNABylawsPage() {
                           with an actual or possible conflict of interest, the
                           nature of the financial interest, any action taken to
                           determine whether a conflict of interest was present,
-                          and the governing board's decision as to whether a
+                          and the governing board&apos;s decision as to whether a
                           conflict of interest in fact existed.
                         </li>
                         <li>
@@ -1238,7 +1238,7 @@ export default function FAPRNABylawsPage() {
 
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         7.05
                       </span>
                       Compensation
@@ -1249,14 +1249,14 @@ export default function FAPRNABylawsPage() {
                           A voting member of the governing board who receives
                           compensation, directly or indirectly, from the
                           Organization for services is precluded from voting on
-                          matters pertaining to that member's compensation.
+                          matters pertaining to that member&apos;s compensation.
                         </li>
                         <li>
                           A voting member of any committee whose jurisdiction
                           includes compensation matters and who receives
                           compensation, directly or indirectly, from the
                           Organization for services is precluded from voting on
-                          matters pertaining to that member's compensation.
+                          matters pertaining to that member&apos;s compensation.
                         </li>
                         <li>
                           No voting member of the governing board or any
@@ -1272,7 +1272,7 @@ export default function FAPRNABylawsPage() {
 
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         7.06
                       </span>
                       Annual Statements
@@ -1302,7 +1302,7 @@ export default function FAPRNABylawsPage() {
 
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         7.07
                       </span>
                       Periodic Reviews
@@ -1320,12 +1320,12 @@ export default function FAPRNABylawsPage() {
                         <li>
                           Whether compensation arrangements and benefits are
                           reasonable, based on competent survey information, and
-                          the result of arm's length bargaining.
+                          the result of arm&apos;s length bargaining.
                         </li>
                         <li>
                           Whether partnerships, joint ventures, and arrangements
                           with management organizations conform to the
-                          Organization's written policies, are properly
+                          Organization&apos;s written policies, are properly
                           recorded, reflect reasonable investment or payments
                           for goods and services, further charitable purposes
                           and do not result in inurement, impermissible private
@@ -1337,7 +1337,7 @@ export default function FAPRNABylawsPage() {
 
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         7.08
                       </span>
                       Use of Outside Experts
@@ -1371,7 +1371,7 @@ export default function FAPRNABylawsPage() {
                   {/* Section 8.01 */}
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         8.01
                       </span>
                       Indemnity Under Law
@@ -1385,7 +1385,7 @@ export default function FAPRNABylawsPage() {
                   {/* Section 8.02 */}
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         8.02
                       </span>
                       Additional Indemnification
@@ -1562,7 +1562,7 @@ export default function FAPRNABylawsPage() {
                   {/* Section 8.03 */}
                   <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors duration-200">
                     <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="w-8 h-8 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      <span className="w-10 h-10 bg-[#003366] text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                         8.03
                       </span>
                       Limitation
@@ -1661,7 +1661,7 @@ export default function FAPRNABylawsPage() {
                   <div className="mb-8">
                     <div className="w-16 h-16 mx-auto mb-4 bg-[#003366] rounded-full flex items-center justify-center">
                       <svg
-                        className="w-8 h-8 text-white"
+                        className="w-10 h-10 text-white"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -1720,11 +1720,10 @@ export default function FAPRNABylawsPage() {
                     <li key={article.id}>
                       <button
                         onClick={() => scrollToSection(article.id)}
-                        className={`w-full text-left px-3 py-2 rounded-md transition-colors duration-200 ${
-                          activeSection === article.id
+                        className={`w-full text-left px-3 py-2 rounded-md transition-colors duration-200 ${activeSection === article.id
                             ? "bg-[#003366] text-white font-medium"
                             : "hover:bg-gray-100 text-gray-700"
-                        }`}
+                          }`}
                       >
                         <div className="font-medium">{article.title}</div>
                         <div className="text-xs truncate opacity-80">
