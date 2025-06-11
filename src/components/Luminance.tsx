@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Trophy, History, Vote, Home } from "lucide-react"
+import { Trophy, History, Home, StarIcon } from "lucide-react"
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
@@ -10,58 +10,80 @@ interface LuminanceAwardsProps {
   onVote: () => void
 }
 
-// Star component for decorative elements
-const GoldStar = ({ className = "", size = 4 }: { className?: string; size?: number }) => (
-  <div
-    className={`absolute w-${size} h-${size} bg-amber-300 rotate-45 transform animate-twinkle ${className}`}
-    style={{
-      clipPath: "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
-    }}
-  ></div>
-)
-
-// Add a new PurpleStar component for twinkling stars with purple color
-const PurpleStar = ({ className = "", size = 3 }: { className?: string; size?: number }) => (
-  <div
-    className={`absolute w-${size} h-${size} bg-purple-400 rotate-45 transform animate-twinkle ${className}`}
-    style={{
-      clipPath: "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
-    }}
-  ></div>
-)
-
-// Add a new component for the twinkling background with subtle purple dots
-const TwinklingBackground = () => {
-  const [dots, setDots] = useState<
-    { width: number; height: number; top: number; left: number; delay: number; duration: number }[]
+// Golden Bokeh Orbs component
+const GoldenBokeh = () => {
+  const [orbs, setOrbs] = useState<
+    { size: number; top: number; left: number; delay: number; duration: number; opacity: number }[]
   >([])
 
   useEffect(() => {
-    const newDots = Array.from({ length: 60 }).map(() => ({
-      width: Math.random() * 2 + 1,
-      height: Math.random() * 2 + 1,
+    const newOrbs = Array.from({ length: 25 }).map(() => ({
+      size: Math.random() * 80 + 20,
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      delay: Math.random() * 8,
+      duration: Math.random() * 6 + 4,
+      opacity: Math.random() * 0.7 + 0.3,
+    }))
+    setOrbs(newOrbs)
+  }, [])
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {orbs.map((orb, i) => (
+        <div
+          key={i}
+          className="absolute rounded-full animate-float"
+          style={{
+            width: orb.size + "px",
+            height: orb.size + "px",
+            top: orb.top + "%",
+            left: orb.left + "%",
+            animationDelay: orb.delay + "s",
+            animationDuration: orb.duration + "s",
+            background: `radial-gradient(circle, rgba(255, 215, 0, ${orb.opacity}) 0%, rgba(212, 175, 55, ${orb.opacity * 0.8}) 30%, rgba(255, 215, 0, 0) 70%)`,
+            filter: "blur(2px)",
+            boxShadow: `0 0 ${orb.size * 0.5}px rgba(255, 215, 0, ${orb.opacity * 0.6})`,
+          }}
+        ></div>
+      ))}
+    </div>
+  )
+}
+
+// Golden Sparkles component
+const GoldenSparkles = () => {
+  const [sparkles, setSparkles] = useState<
+    { size: number; top: number; left: number; delay: number; duration: number }[]
+  >([])
+
+  useEffect(() => {
+    const newSparkles = Array.from({ length: 40 }).map(() => ({
+      size: Math.random() * 4 + 2,
       top: Math.random() * 100,
       left: Math.random() * 100,
       delay: Math.random() * 5,
-      duration: Math.random() * 5 + 3,
+      duration: Math.random() * 3 + 2,
     }))
-    setDots(newDots)
+    setSparkles(newSparkles)
   }, [])
 
   return (
     <div className="absolute inset-0 pointer-events-none">
-      {/* Small twinkling dots with adjusted transparency */}
-      {dots.map((dot, i) => (
+      {sparkles.map((sparkle, i) => (
         <div
           key={i}
-          className="absolute rounded-full bg-purple-300/40 animate-twinkle"
+          className="absolute animate-twinkle"
           style={{
-            width: dot.width + "px",
-            height: dot.height + "px",
-            top: dot.top + "%",
-            left: dot.left + "%",
-            animationDelay: dot.delay + "s",
-            animationDuration: dot.duration + "s",
+            width: sparkle.size + "px",
+            height: sparkle.size + "px",
+            top: sparkle.top + "%",
+            left: sparkle.left + "%",
+            animationDelay: sparkle.delay + "s",
+            animationDuration: sparkle.duration + "s",
+            background: "#FFD700",
+            borderRadius: "50%",
+            boxShadow: "0 0 10px #FFD700",
           }}
         ></div>
       ))}
@@ -74,67 +96,27 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
 
   return (
     <div className="bg-black text-white relative min-h-screen overflow-hidden">
-      {/* Twinkling background */}
-      <TwinklingBackground />
+      {/* Golden Bokeh Background */}
+      <GoldenBokeh />
 
-      {/* Amber wave decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
-        <div className="absolute top-0 left-0 w-1/2 h-full border-r border-amber-500/20 border-dashed"></div>
-        <div className="absolute top-0 right-0 w-1/2 h-full border-l border-amber-500/20 border-dashed"></div>
-        <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-20 left-10 w-96 h-96 rounded-full bg-amber-200/20"></div>
-          <div className="absolute bottom-40 right-20 w-80 h-80 rounded-full bg-amber-200/20"></div>
-        </div>
+      {/* Golden Sparkles */}
+      <GoldenSparkles />
 
-        {/* Amber wave lines */}
-        <div className="absolute top-0 left-0 w-full h-full">
-          <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 1200 800" preserveAspectRatio="none">
-            <path
-              d="M0,100 C300,150 500,50 1200,100 L1200,0 L0,0 Z"
-              fill="none"
-              stroke="#f59e42"
-              strokeWidth="1"
-              strokeOpacity="0.3"
-            />
-            <path
-              d="M0,200 C300,250 700,150 1200,200 L1200,0 L0,0 Z"
-              fill="none"
-              stroke="#f59e42"
-              strokeWidth="1"
-              strokeOpacity="0.2"
-            />
-            <path
-              d="M0,300 C200,350 600,250 1200,300 L1200,0 L0,0 Z"
-              fill="none"
-              stroke="#f59e42"
-              strokeWidth="1"
-              strokeOpacity="0.1"
-            />
-          </svg>
-        </div>
-
-        {/* Stars with purple tint */}
-        <GoldStar className="top-20 left-[10%]" size={4} />
-        <GoldStar className="top-40 right-[15%]" size={3} />
-        <GoldStar className="bottom-32 left-[20%]" size={5} />
-        <GoldStar className="bottom-60 right-[25%]" size={4} />
-        <GoldStar className="top-80 left-[30%]" size={3} />
-
-        {/* Add purple stars */}
-        <PurpleStar className="top-40 left-[25%]" size={4} />
-        <PurpleStar className="top-60 right-[30%]" size={3} />
-        <PurpleStar className="bottom-40 left-[40%]" size={5} />
-        <PurpleStar className="bottom-80 right-[15%]" size={4} />
-        <PurpleStar className="top-1/3 left-[60%]" size={3} />
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
+      <div className="relative z-10 max-w-5xl mx-auto px-8 sm:px-12 lg:px-16 pt-16 pb-8">
         {/* Navigation */}
         <div className="mb-8 flex justify-between items-center">
           <Button
             asChild
             variant="outline"
-            className="border-amber-500 text-amber-500 hover:bg-amber-500/10 transition-colors"
+            className="transition-colors backdrop-blur-sm px-8 py-4 text-lg font-medium tracking-wide transform hover:scale-105"
+            style={{
+              background: "linear-gradient(45deg, #FFD700, #FFA500, #DAA520, #FFD700)",
+              backgroundSize: "300% 300%",
+              animation: "gradient-shift 3s ease infinite",
+              color: "black",
+              boxShadow: "0 0 30px 0 rgba(255, 215, 0, 0.7), 0 10px 30px rgba(255, 215, 0, 0.3)",
+              border: "2px solid #FFD700",
+            }}
           >
             <Link href="/">
               <Home className="w-4 h-4 mr-2" />
@@ -142,67 +124,140 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
             </Link>
           </Button>
 
-          <div className="flex items-center">
-            <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center shadow-lg">
-              <span className="text-black font-bold text-sm">FAPRNA</span>
-            </div>
-          </div>
+
+        </div>
+
+        {/* Page Title */}
+        <div className="text-center mb-12">
+          <h1
+            className="text-6xl font-serif tracking-wider bg-clip-text text-transparent bg-[length:200%_auto] animate-text-shimmer animate-pulse drop-shadow-2xl"
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, #FFD700 0%, #FFA500 15%, #FFD700 30%, #DAA520 45%, #FFD700 60%, #B8860B 75%, #FFD700 90%, #FFA500 100%)",
+              textShadow: "0 0 30px rgba(255, 215, 0, 0.8)",
+            }}
+          >
+            LUMINANCE AWARDS
+          </h1>
+          <div
+            className="w-48 h-1 mx-auto mt-6 rounded-full"
+            style={{
+              background: "linear-gradient(to right, transparent, #FFD700, #FFA500, #FFD700, transparent)",
+              boxShadow: "0 0 20px rgba(255, 215, 0, 0.6)",
+            }}
+          ></div>
         </div>
 
         {/* Navigation Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
+        <div className="flex flex-wrap justify-center gap-6 mb-12">
           <Button
             onClick={() => setShowHistory(false)}
             variant={!showHistory ? "default" : "outline"}
-            className={`transition-all duration-300 ${
-              !showHistory
-                ? "bg-gradient-to-r from-amber-500 to-amber-600 text-black hover:from-amber-600 hover:to-amber-700 shadow-lg shadow-amber-500/20"
-                : "border-amber-500 text-amber-500 hover:bg-amber-500/10"
+            className={`transition-all duration-300 backdrop-blur-sm text-lg px-8 py-4 transform ${
+              !showHistory ? "hover:scale-105" : ""
             }`}
+            style={
+              !showHistory
+                ? {
+                    background: "linear-gradient(45deg, #FFD700, #FFA500, #DAA520, #FFD700)",
+                    backgroundSize: "300% 300%",
+                    animation: "gradient-shift 3s ease infinite",
+                    color: "black",
+                    boxShadow: "0 0 30px 0 rgba(255, 215, 0, 0.7), 0 10px 30px rgba(255, 215, 0, 0.3)",
+                    border: "2px solid #FFD700",
+                  }
+                : {
+                    borderColor: "#D4AF37",
+                    color: "#D4AF37",
+                    backgroundColor: "rgba(0, 0, 0, 0.3)",
+                    boxShadow: "0 0 15px 0 rgba(212, 175, 55, 0.3)",
+                  }
+            }
           >
-            <Trophy className="w-4 h-4 mr-2" />
+            <Trophy className="w-5 h-5 mr-2" />
             Current Recipients
           </Button>
           <Button
             onClick={() => setShowHistory(true)}
             variant={showHistory ? "default" : "outline"}
-            className={`transition-all duration-300 ${
-              showHistory
-                ? "bg-gradient-to-r from-amber-500 to-amber-600 text-black hover:from-amber-600 hover:to-amber-700 shadow-lg shadow-amber-500/20"
-                : "border-amber-500 text-amber-500 hover:bg-amber-500/10"
+            className={`transition-all duration-300 backdrop-blur-sm text-lg px-8 py-4 transform ${
+              showHistory ? "hover:scale-105" : ""
             }`}
+            style={
+              showHistory
+                ? {
+                    background: "linear-gradient(45deg, #FFD700, #FFA500, #DAA520, #FFD700)",
+                    backgroundSize: "300% 300%",
+                    animation: "gradient-shift 3s ease infinite",
+                    color: "black",
+                    boxShadow: "0 0 30px 0 rgba(255, 215, 0, 0.7), 0 10px 30px rgba(255, 215, 0, 0.3)",
+                    border: "2px solid #FFD700",
+                  }
+                : {
+                    borderColor: "#D4AF37",
+                    color: "#D4AF37",
+                    backgroundColor: "rgba(0, 0, 0, 0.3)",
+                    boxShadow: "0 0 15px 0 rgba(212, 175, 55, 0.3)",
+                  }
+            }
           >
-            <History className="w-4 h-4 mr-2" />
+            <History className="w-5 h-5 mr-2" />
             Previous Recipients
           </Button>
         </div>
 
         {/* Current Winners - Display Image */}
         {!showHistory && (
-          <div className="space-y-8">
+          <div className="space-y-12">
             {/* Main Luminance Awards Image */}
             <div className="flex justify-center">
               <div className="relative max-w-4xl w-full">
-                <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/30 to-amber-500/20 rounded-lg blur-md"></div>
+                <div
+                  className="absolute -inset-2 rounded-xl blur-lg"
+                  style={{
+                    background:
+                      "linear-gradient(45deg, rgba(255, 215, 0, 0.4), rgba(255, 165, 0, 0.5), rgba(255, 215, 0, 0.4))",
+                  }}
+                ></div>
+                <div
+                  className="absolute -inset-1 rounded-xl"
+                  style={{
+                    background: "linear-gradient(45deg, #FFD700, #FFA500, #DAA520, #FFD700)",
+                    padding: "2px",
+                  }}
+                >
+                  <div className="bg-black rounded-xl h-full w-full"></div>
+                </div>
                 <Image
                   src="/award.jpg"
                   alt="LUMINANCE AWARDEES 2025 - Dr. Reimund Serafica winners in three categories: Advancement of Intentionality, Advancement in Inquiry, and Advancement with Impact"
                   width={1200}
                   height={1600}
-                  className="w-full h-auto rounded-lg shadow-2xl shadow-purple-500/20 border border-amber-500/30 relative z-10"
+                  className="w-full h-auto rounded-xl shadow-2xl relative z-10"
+                  style={{
+                    boxShadow: "0 25px 50px -12px rgba(255, 215, 0, 0.5), 0 0 50px rgba(255, 215, 0, 0.3)",
+                  }}
                   priority
                 />
               </div>
             </div>
 
             {/* Voting Button */}
-            <div className="text-center mt-12">
+            <div className="text-center mt-16">
               <Button
                 onClick={onVote}
                 size="lg"
-                className="bg-gradient-to-r from-amber-500 to-amber-600 text-black px-8 py-3 hover:from-amber-600 hover:to-amber-700 transition-colors shadow-lg shadow-amber-500/20"
+                className="px-12 py-8 text-xl font-medium tracking-wide transition-all duration-300 backdrop-blur-sm transform hover:scale-105"
+                style={{
+                  background: "linear-gradient(45deg, #FFD700, #FFA500, #DAA520, #FFD700)",
+                  backgroundSize: "300% 300%",
+                  animation: "gradient-shift 3s ease infinite",
+                  color: "black",
+                  boxShadow: "0 0 30px 0 rgba(255, 215, 0, 0.7), 0 10px 30px rgba(255, 215, 0, 0.3)",
+                  border: "2px solid #FFD700",
+                }}
               >
-                <Vote className="w-5 h-5 mr-2" />
+                <StarIcon className="w-6 h-6 mr-3" />
                 Submit Nomination
               </Button>
             </div>
@@ -211,17 +266,38 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
 
         {/* Historical Winners */}
         {showHistory && (
-          <div className="space-y-8">
+          <div className="space-y-12">
             <div className="text-center">
-              <h2 className="text-4xl font-serif font-light text-gold-500 mb-6 tracking-wide">Hall of Excellence</h2>
-              <div className="w-32 h-0.5 bg-gradient-to-r from-purple-500/50 via-gold-500 to-purple-500/50 mx-auto mb-8"></div>
+              <h2
+                className="text-5xl font-serif font-light mb-8 tracking-wide"
+                style={{
+                  color: "#FFD700",
+                  textShadow: "0 0 20px rgba(255, 215, 0, 0.6)",
+                }}
+              >
+                Hall of Excellence
+              </h2>
+              <div
+                className="w-40 h-1 mx-auto mb-12 rounded-full"
+                style={{
+                  background: "linear-gradient(to right, rgba(139, 92, 246, 0.5), #FFD700, rgba(139, 92, 246, 0.5))",
+                  boxShadow: "0 0 20px rgba(255, 215, 0, 0.4)",
+                }}
+              ></div>
 
-              <div className="bg-black/50 border border-gold-500/30 rounded-lg p-8 max-w-2xl mx-auto shadow-lg shadow-purple-500/10">
-                <p className="text-gold-300 text-lg italic">
+              <div
+                className="bg-black/60 rounded-xl p-12 max-w-3xl mx-auto backdrop-blur-sm"
+                style={{
+                  borderColor: "rgba(255, 215, 0, 0.4)",
+                  borderWidth: "2px",
+                  boxShadow: "0 0 30px 0 rgba(255, 215, 0, 0.3)",
+                }}
+              >
+                <p className="text-xl italic mb-6" style={{ color: "#FFD740" }}>
                   &quot;Previous award recipients will be showcased here as we continue to honor excellence in
                   Filipino-American advanced practice nursing.&quot;
                 </p>
-                <p className="text-gray-400 mt-4">
+                <p className="text-gray-300 text-lg">
                   Check back for updates on our distinguished alumni and their continued contributions to the nursing
                   profession.
                 </p>
@@ -230,6 +306,13 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
           </div>
         )}
       </div>
+
+      <style jsx>{`
+        @keyframes gradient-shift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+      `}</style>
     </div>
   )
 }

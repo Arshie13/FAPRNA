@@ -36,7 +36,16 @@ export default function PageTransition({ children, title }: PageTransitionProps)
         }`}
       >
         <div className="text-center">
-          <h1 className="text-4xl md:text-6xl font-serif font-light text-white tracking-[0.2em] animate-pulse">
+          <h1
+            className="text-4xl md:text-6xl font-serif font-light tracking-[0.2em] animate-pulse bg-clip-text text-transparent"
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, #FFD700 0%, #FFA500 15%, #FFD700 30%, #DAA520 45%, #FFD700 60%, #B8860B 75%, #FFD700 90%, #FFA500 100%)",
+              textShadow: "0 0 30px rgba(255, 215, 0, 0.8)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
             {title}
           </h1>
         </div>
