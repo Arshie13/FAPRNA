@@ -8,7 +8,7 @@ export default function HeroSection() {
       {/* Hero background image */}
       <div className="absolute inset-0 bg-cover bg-center">
         <Image 
-          src="/placeholder.png"
+          src="/heropage.jpeg"
           alt="Hero Background"
           fill
           className="object-cover object-center"
