@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Users, Award } from "lucide-react"
+import Image from "next/image"
 
 export default function FaprnaNews() {
   const newsItems = [
@@ -49,11 +50,19 @@ export default function FaprnaNews() {
           <p className="text-lg text-gray-600">Monthly meetings and update of scheduled events</p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="px-16 py-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {newsItems.map((item) => (
             <Card key={item.id} className="group overflow-hidden border-0 shadow-lg transition-all hover:shadow-xl">
-              <div className={`relative h-48 ${item.bgColor}`}>
-                <div className="absolute inset-0 bg-black/20" />
+              <div className="relative h-48">
+                <Image
+                  src={"/placeholder.png"}
+                  alt="News background"
+                  className="absolute inset-0 w-full h-full object-cover object-center"
+                  style={{ zIndex: 0 }}
+                  width={400}
+                  height={300}
+                />
+                <div className="absolute inset-0 bg-black/30" />
                 <div className="relative z-10 flex h-full flex-col justify-between p-6 text-white">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
