@@ -17,15 +17,40 @@ const GoldenBokeh = () => {
   >([])
 
   useEffect(() => {
-    const newOrbs = Array.from({ length: 25 }).map(() => ({
-      size: Math.random() * 80 + 20,
+    const isMobile = window.innerWidth < 768
+    const orbCount = isMobile ? 12 : 25
+    const maxSize = isMobile ? 40 : 80
+    const minSize = isMobile ? 10 : 20
+
+    const newOrbs = Array.from({ length: orbCount }).map(() => ({
+      size: Math.random() * maxSize + minSize,
       top: Math.random() * 100,
       left: Math.random() * 100,
       delay: Math.random() * 8,
       duration: Math.random() * 6 + 4,
-      opacity: Math.random() * 0.7 + 0.3,
+      opacity: Math.random() * (isMobile ? 0.4 : 0.7) + (isMobile ? 0.2 : 0.3),
     }))
     setOrbs(newOrbs)
+
+    const handleResize = () => {
+      const isMobileNow = window.innerWidth < 768
+      const newOrbCount = isMobileNow ? 12 : 25
+      const newMaxSize = isMobileNow ? 40 : 80
+      const newMinSize = isMobileNow ? 10 : 20
+
+      const resizedOrbs = Array.from({ length: newOrbCount }).map(() => ({
+        size: Math.random() * newMaxSize + newMinSize,
+        top: Math.random() * 100,
+        left: Math.random() * 100,
+        delay: Math.random() * 8,
+        duration: Math.random() * 6 + 4,
+        opacity: Math.random() * (isMobileNow ? 0.4 : 0.7) + (isMobileNow ? 0.2 : 0.3),
+      }))
+      setOrbs(resizedOrbs)
+    }
+
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
   }, [])
 
   return (
@@ -58,14 +83,38 @@ const GoldenSparkles = () => {
   >([])
 
   useEffect(() => {
-    const newSparkles = Array.from({ length: 40 }).map(() => ({
-      size: Math.random() * 4 + 2,
+    const isMobile = window.innerWidth < 768
+    const sparkleCount = isMobile ? 20 : 40
+    const maxSize = isMobile ? 3 : 4
+    const minSize = isMobile ? 1 : 2
+
+    const newSparkles = Array.from({ length: sparkleCount }).map(() => ({
+      size: Math.random() * maxSize + minSize,
       top: Math.random() * 100,
       left: Math.random() * 100,
       delay: Math.random() * 5,
       duration: Math.random() * 3 + 2,
     }))
     setSparkles(newSparkles)
+
+    const handleResize = () => {
+      const isMobileNow = window.innerWidth < 768
+      const newSparkleCount = isMobileNow ? 20 : 40
+      const newMaxSize = isMobileNow ? 3 : 4
+      const newMinSize = isMobileNow ? 1 : 2
+
+      const resizedSparkles = Array.from({ length: newSparkleCount }).map(() => ({
+        size: Math.random() * newMaxSize + newMinSize,
+        top: Math.random() * 100,
+        left: Math.random() * 100,
+        delay: Math.random() * 5,
+        duration: Math.random() * 3 + 2,
+      }))
+      setSparkles(resizedSparkles)
+    }
+
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
   }, [])
 
   return (
@@ -108,23 +157,31 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
           <Button
             asChild
             variant="outline"
-            className="transition-colors backdrop-blur-sm px-8 py-4 text-lg font-medium tracking-wide transform hover:scale-105"
+            className="transition-colors backdrop-blur-sm"
             style={{
-              background: "linear-gradient(45deg, #FFD700, #FFA500, #DAA520, #FFD700)",
-              backgroundSize: "300% 300%",
-              animation: "gradient-shift 3s ease infinite",
-              color: "black",
-              boxShadow: "0 0 30px 0 rgba(255, 215, 0, 0.7), 0 10px 30px rgba(255, 215, 0, 0.3)",
-              border: "2px solid #FFD700",
+              borderColor: "#D4AF37",
+              color: "#D4AF37",
+              backgroundColor: "rgba(0, 0, 0, 0.3)",
+              boxShadow: "0 0 15px 0 rgba(212, 175, 55, 0.4)",
             }}
           >
-            <Link href="/landing-page">
+            <Link href="/">
               <Home className="w-4 h-4 mr-2" />
               Back to FAPRNA Homepage
             </Link>
           </Button>
 
-
+          <div className="flex items-center">
+            <div
+              className="w-12 h-12 rounded-full flex items-center justify-center animate-pulse backdrop-blur-sm"
+              style={{
+                background: "linear-gradient(to bottom right, #FFC700, #D4AF37)",
+                boxShadow: "0 0 20px 0 rgba(212, 175, 55, 0.6)",
+              }}
+            >
+              <span className="text-black font-bold text-sm">FAPRNA</span>
+            </div>
+          </div>
         </div>
 
         {/* Page Title */}
@@ -153,17 +210,13 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
           <Button
             onClick={() => setShowHistory(false)}
             variant={!showHistory ? "default" : "outline"}
-            className={`transition-all duration-300 backdrop-blur-sm text-lg px-8 py-4 transform ${
-              !showHistory ? "hover:scale-105" : ""
-            }`}
+            className="transition-all duration-300 backdrop-blur-sm text-lg px-8 py-4"
             style={
               !showHistory
                 ? {
-                    background: "linear-gradient(45deg, #FFD700, #FFA500, #DAA520, #FFD700)",
-                    backgroundSize: "300% 300%",
-                    animation: "gradient-shift 3s ease infinite",
+                    background: "linear-gradient(to right, #FFD700, #FFA500)",
                     color: "black",
-                    boxShadow: "0 0 30px 0 rgba(255, 215, 0, 0.7), 0 10px 30px rgba(255, 215, 0, 0.3)",
+                    boxShadow: "0 0 25px 0 rgba(255, 215, 0, 0.6)",
                     border: "2px solid #FFD700",
                   }
                 : {
@@ -180,17 +233,13 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
           <Button
             onClick={() => setShowHistory(true)}
             variant={showHistory ? "default" : "outline"}
-            className={`transition-all duration-300 backdrop-blur-sm text-lg px-8 py-4 transform ${
-              showHistory ? "hover:scale-105" : ""
-            }`}
+            className="transition-all duration-300 backdrop-blur-sm text-lg px-8 py-4"
             style={
               showHistory
                 ? {
-                    background: "linear-gradient(45deg, #FFD700, #FFA500, #DAA520, #FFD700)",
-                    backgroundSize: "300% 300%",
-                    animation: "gradient-shift 3s ease infinite",
+                    background: "linear-gradient(to right, #FFD700, #FFA500)",
                     color: "black",
-                    boxShadow: "0 0 30px 0 rgba(255, 215, 0, 0.7), 0 10px 30px rgba(255, 215, 0, 0.3)",
+                    boxShadow: "0 0 25px 0 rgba(255, 215, 0, 0.6)",
                     border: "2px solid #FFD700",
                   }
                 : {
