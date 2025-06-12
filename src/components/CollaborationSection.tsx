@@ -4,10 +4,13 @@ import type React from "react"
 
 import Image from "next/image"
 import { useState, useEffect, useRef } from "react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 export default function CollaborationSection() {
   const [currentSlide, setCurrentSlide] = useState(0)
-
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+  const touchStartX = useRef(0)
+  const touchEndX = useRef(0)
   const carouselRef = useRef<HTMLDivElement>(null)
 
   const logos = [
@@ -21,10 +24,55 @@ export default function CollaborationSection() {
 
   // Auto-play functionality
   useEffect(() => {
-
     if (!isAutoPlaying) return
-  }, [logos.length])
 
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % Math.ceil(logos.length / 2))
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [isAutoPlaying, logos.length])
+
+  // Touch handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX
+    setIsAutoPlaying(false)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return
+
+    const distance = touchStartX.current - touchEndX.current
+    const isLeftSwipe = distance > 50
+    const isRightSwipe = distance < -50
+
+    if (isLeftSwipe) {
+      nextSlide()
+    } else if (isRightSwipe) {
+      prevSlide()
+    }
+
+    // Resume auto-play after 5 seconds
+    setTimeout(() => setIsAutoPlaying(true), 5000)
+  }
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % Math.ceil(logos.length / 2))
+  }
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + Math.ceil(logos.length / 2)) % Math.ceil(logos.length / 2))
+  }
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index)
+    setIsAutoPlaying(false)
+    setTimeout(() => setIsAutoPlaying(true), 5000)
+  }
 
   return (
     <section className="relative w-full bg-gradient-to-br from-slate-50 via-white to-blue-50 py-20 overflow-hidden">
@@ -93,7 +141,9 @@ export default function CollaborationSection() {
             <div
               ref={carouselRef}
               className="overflow-hidden rounded-2xl"
-
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
               <div
                 className="flex transition-transform duration-500 ease-out"
@@ -125,12 +175,21 @@ export default function CollaborationSection() {
               </div>
             </div>
 
-            {/* Navigation Arrows removed */}
-            {/*
-            <button ...>...</button>
-            <button ...>...</button>
-            */}
-
+            {/* Navigation Arrows */}
+            <button
+              onClick={prevSlide}
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-white transition-all duration-200"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-white transition-all duration-200"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
 
           {/* Dots Indicator */}
@@ -138,8 +197,7 @@ export default function CollaborationSection() {
             {Array.from({ length: Math.ceil(logos.length / 2) }).map((_, index) => (
               <button
                 key={index}
-                onClick={() => setCurrentSlide(index)}
-
+                onClick={() => goToSlide(index)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
                   index === currentSlide ? "bg-blue-600 w-6" : "bg-gray-300 hover:bg-gray-400"
                 }`}
@@ -148,8 +206,10 @@ export default function CollaborationSection() {
             ))}
           </div>
 
-          {/* Swipe Instruction removed */}
-
+          {/* Swipe Instruction */}
+          <div className="text-center mt-4">
+            <p className="text-xs text-gray-500">Swipe left or right to see more partners</p>
+          </div>
         </div>
 
         {/* Bottom CTA */}
