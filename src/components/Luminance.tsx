@@ -171,17 +171,6 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
             </Link>
           </Button>
 
-          <div className="flex items-center">
-            <div
-              className="w-12 h-12 rounded-full flex items-center justify-center animate-pulse backdrop-blur-sm"
-              style={{
-                background: "linear-gradient(to bottom right, #FFC700, #D4AF37)",
-                boxShadow: "0 0 20px 0 rgba(212, 175, 55, 0.6)",
-              }}
-            >
-              <span className="text-black font-bold text-sm">FAPRNA</span>
-            </div>
-          </div>
         </div>
 
         {/* Page Title */}
