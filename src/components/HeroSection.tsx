@@ -26,14 +26,14 @@ export default function HeroSection() {
             {/* Left Content */}
             <div className="text-white animate-fade-in-up">
               {/* Professional Organization Badge */}
-              <div className="inline-block mb-6 animate-fade-in-up animation-delay-100">
+              {/* <div className="inline-block mb-6 animate-fade-in-up animation-delay-100">
                 <span
                   className="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide \
                                hover:bg-red-700 transition-all duration-300 hover:scale-105 hover:shadow-lg\n                               animate-pulse-subtle"
                 >
                   Non Profit Organization
                 </span>
-              </div>
+              </div> */}
 
               {/* Main Title */}
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-in-up animation-delay-200">
