@@ -158,6 +158,18 @@ export default function Navbar() {
                   Events
                 </Link>
                 <Link 
+                  href="/luminance" 
+                  className="text-lg font-medium text-[#003366] hover:text-[#003366] transition-all 
+                             duration-300 px-4 py-3 rounded-lg hover:bg-[#003366]/10 relative
+                             before:content-[''] before:absolute before:left-2 before:top-1/2 
+                             before:-translate-y-1/2 before:w-1 before:h-1 before:rounded-full 
+                             before:bg-[#003366] before:opacity-0 before:transition-all 
+                             before:duration-300 hover:before:opacity-100 hover:before:left-3"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Luminance
+                </Link>
+                <Link 
                   href="#contact" 
                   className="text-lg font-medium text-[#003366] hover:text-[#003366] transition-all 
                              duration-300 px-4 py-3 rounded-lg hover:bg-[#003366]/10 relative
