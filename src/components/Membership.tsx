@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ExternalLink, Check, Users, Award, Clock } from "lucide-react"
+import React, { useRef, useState } from "react"
 
 
 export default function Component() {
@@ -66,6 +67,31 @@ export default function Component() {
     },
   ]
 
+  const [current, setCurrent] = useState(0)
+  const touchStartX = useRef<number | null>(null)
+  const touchEndX = useRef<number | null>(null)
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+  }
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX
+  }
+  const handleTouchEnd = () => {
+    if (touchStartX.current !== null && touchEndX.current !== null) {
+      const diff = touchStartX.current - touchEndX.current
+      if (Math.abs(diff) > 50) {
+        if (diff > 0 && current < membershipPlans.length - 1) {
+          setCurrent(current + 1)
+        } else if (diff < 0 && current > 0) {
+          setCurrent(current - 1)
+        }
+      }
+    }
+    touchStartX.current = null
+    touchEndX.current = null
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-red-50">
 
@@ -90,7 +116,83 @@ export default function Component() {
           </div>
 
           {/* Membership Plans */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 ">
+          {/* Mobile carousel */}
+          <div className="block md:hidden mb-16">
+            <div
+              className="relative w-full overflow-hidden"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              <div
+                className="flex transition-transform duration-300"
+                style={{ transform: `translateX(-${current * 100}%)` }}
+              >
+                {membershipPlans.map((plan) => (
+                  <div key={plan.id} className="min-w-full px-2">
+                    {/* Card content (copy from below) */}
+                    <Card
+                      className={`relative overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 ${
+                        plan.popular ? "ring-4 ring-blue-500 ring-opacity-50" : ""
+                      }`}
+                    >
+                      {plan.popular && (
+                        <div className="absolute top-0 left-0 right-0">
+                          <div className="bg-blue-500 text-white text-center py-2 text-sm font-semibold">Most Popular</div>
+                        </div>
+                      )}
+                      <CardHeader className={`bg-gradient-to-r ${plan.color} text-white ${plan.popular ? "pt-12" : "pt-6"}`}>
+                        <div className="flex items-center justify-center mb-4">
+                          <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                            {plan.icon}
+                          </div>
+                        </div>
+                        <CardTitle className="text-center text-xl font-bold mb-2">{plan.name}</CardTitle>
+                        <div className="text-center">
+                          <div className="text-4xl font-bold mb-1">{plan.price}</div>
+                          <div className="text-white/80 text-sm">{plan.period}</div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="p-6">
+                        <p className="text-gray-600 text-center mb-6">{plan.description}</p>
+                        <ul className="space-y-3 mb-8">
+                          {plan.features.map((feature, index) => (
+                            <li key={index} className="flex items-start">
+                              <Check className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                              <span className="text-gray-700 text-sm">{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        <Button
+                          asChild
+                          className={`w-full bg-gradient-to-r ${plan.color} text-white py-3 px-6 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300`}
+                        >
+                          <a href={membershipUrl} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="w-5 h-5 mr-2" />
+                            Join Now
+                          </a>
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </div>
+                ))}
+              </div>
+              {/* Carousel navigation dots */}
+              <div className="flex justify-center mt-4 gap-2">
+                {membershipPlans.map((_, idx) => (
+                  <button
+                    key={idx}
+                    className={`h-2 w-2 rounded-full ${current === idx ? "bg-[#003366]" : "bg-gray-300"}`}
+                    onClick={() => setCurrent(idx)}
+                    aria-label={`Go to slide ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop/tablet grid */}
+          <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             {membershipPlans.map((plan) => (
               <Card
                 key={plan.id}
@@ -103,7 +205,6 @@ export default function Component() {
                     <div className="bg-blue-500 text-white text-center py-2 text-sm font-semibold">Most Popular</div>
                   </div>
                 )}
-
                 <CardHeader className={`bg-gradient-to-r ${plan.color} text-white ${plan.popular ? "pt-12" : "pt-6"}`}>
                   <div className="flex items-center justify-center mb-4">
                     <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
@@ -116,10 +217,8 @@ export default function Component() {
                     <div className="text-white/80 text-sm">{plan.period}</div>
                   </div>
                 </CardHeader>
-
                 <CardContent className="p-6">
                   <p className="text-gray-600 text-center mb-6">{plan.description}</p>
-
                   <ul className="space-y-3 mb-8">
                     {plan.features.map((feature, index) => (
                       <li key={index} className="flex items-start">
@@ -128,7 +227,6 @@ export default function Component() {
                       </li>
                     ))}
                   </ul>
-
                   <Button
                     asChild
                     className={`w-full bg-gradient-to-r ${plan.color} text-white py-3 px-6 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300`}
