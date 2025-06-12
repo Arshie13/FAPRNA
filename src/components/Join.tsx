@@ -204,7 +204,7 @@ export default function WhyJoin() {
               <p className="text-gray-600 mb-6">
                 Join a community of dedicated Filipino-American nursing professionals
               </p>
-              <Link href="/join">
+              <Link href="/membership">
                 <Button className="bg-gradient-to-r from-blue-600 to-red-600 hover:from-blue-700 hover:to-red-700 text-white px-12 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                   <Users className="w-5 h-5 mr-2" />
                   JOIN FAPRNA-NV TODAY
