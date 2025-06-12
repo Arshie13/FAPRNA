@@ -3,203 +3,145 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Calendar, MapPin, Users, DollarSign } from "lucide-react"
+import { Calendar, MapPin, Users, Clock, Award, ArrowRight } from "lucide-react"
 import Image from "next/image"
 import { newEvent, eventDetails } from "@/mock_data/index"
 
 export default function EventRegistration() {
   return (
-    <div className="relative min-h-screen">
-      {/* Background with gradient and pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-200 via-blue-100 to-orange-200">
-        {/* Decorative circles */}
-        <div className="absolute top-20 left-10 h-32 w-32 rounded-full bg-blue-300/40 blur-xl"></div>
-        <div className="absolute top-40 right-20 h-24 w-24 rounded-full bg-purple-300/50 blur-lg"></div>
-        <div className="absolute bottom-40 left-1/4 h-40 w-40 rounded-full bg-blue-400/30 blur-2xl"></div>
-        <div className="absolute bottom-20 right-1/3 h-28 w-28 rounded-full bg-purple-400/40 blur-xl"></div>
-
-        {/* Subtle grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%23000000' fillOpacity='1'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}
-        ></div>
-      </div>
-
-      <section className="relative w-full py-4">
-        <div className="container mx-auto px-4">
-          {/* Header with enhanced styling */}
-          <div className="text-center">
-            <div className="relative inline-block">
-              <p className="text-sm uppercase tracking-wider text-gray-500 relative z-10">FAPRNA News</p>
-              <div className="absolute -top-2 -left-4 h-8 w-8 rounded-full bg-blue-200/30 blur-sm"></div>
-            </div>
-            <h1 className="mb-4 text-3xl font-bold text-gray-800 md:text-4xl relative">
-              What&apos;s Happening at Our Association
-            </h1>
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-blue-600 to-red-600 text-white py-20">
+        <div className="container mx-auto px-4 text-center">
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/20 text-white text-sm font-medium mb-8">
+            <Calendar className="w-4 h-4 mr-2" />
+            FAPRNA-NV EVENTS
           </div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">Professional Development Events</h1>
+          <p className="text-xl max-w-2xl mx-auto opacity-90">
+            Advance your nursing career through exclusive educational opportunities and networking
+          </p>
+        </div>
+      </section>
 
-          <div className="mx-auto max-w-2xl">
-            <div className="mb-8 text-center">
-              <div className="relative inline-block">
-                <h1 className="mb-4 text-3xl font-bold text-gray-800 md:text-4xl relative z-10">NEW EVENT</h1>
-                {/* Decorative background for "NEW EVENT" */}
-                <div className="absolute inset-0 -m-4 rounded-2xl bg-gradient-to-r from-blue-100/50 to-purple-100/50 blur-sm"></div>
+      {/* Featured Event */}
+      {newEvent && (
+        <section className="py-20 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-100 text-red-700 text-sm font-semibold mb-6">
+                <Award className="w-4 h-4 mr-2" />
+                FEATURED EVENT
               </div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">{newEvent.title}</h2>
             </div>
 
-            {newEvent && (
-              <Card className="overflow-hidden border-0 shadow-2xl relative backdrop-blur-sm bg-white/95">
-                {/* Card glow effect */}
-                <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-blue-200 to-purple-200 opacity-20 blur-sm"></div>
-
-                <div className="relative">
-                  <div className="aspect-[4/3] w-full overflow-hidden md:aspect-[16/10] flex items-center justify-center">
-                    <Image
-                      src={newEvent.images[0] || "/placeholder.svg"}
-                      alt={newEvent.title}
-                      width={500}
-                      height={500}
-                      className="object-cover object-center"
-                      priority
-                    />
-                    <div className="absolute inset-0 bg-black/10" />
-                  </div>
+            <Card className="max-w-4xl mx-auto border-0 shadow-xl bg-white">
+              <div className="grid md:grid-cols-2">
+                <div className="relative h-64 md:h-auto">
+                  <Image
+                    src={newEvent.images[0] || "/placeholder.svg"}
+                    alt={newEvent.title}
+                    fill
+                    className="object-cover rounded-l-lg"
+                    priority
+                  />
                 </div>
-
-                <CardContent className="p-8 relative">
-                  <div className="mb-8 text-center">
-                    <h3 className="mb-2 text-2xl font-bold text-blue-600">{newEvent.date}</h3>
-                    <p className="text-gray-600">
-                      {newEvent.location} {newEvent.address}
-                    </p>
-                  </div>
-
-                  <div className="mb-8 grid gap-6 md:grid-cols-2">
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3 p-3 rounded-lg bg-blue-50/50">
-                        <Calendar className="h-5 w-5 text-blue-600" />
-                        <div>
-                          <div className="font-medium">Date & Time</div>
-                          <div className="text-sm text-gray-600">
-                            {newEvent.date} • {newEvent.time}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 p-3 rounded-lg bg-purple-50/50">
-                        <MapPin className="h-5 w-5 text-blue-600" />
-                        <div>
-                          <div className="font-medium">Location</div>
-                          <div className="text-sm text-gray-600">{newEvent.location}</div>
-                          <div className="text-sm text-gray-600">{newEvent.address}</div>
-                        </div>
-                      </div>
+                <CardContent className="p-8">
+                  <div className="space-y-4 mb-6">
+                    <div className="flex items-center text-blue-600">
+                      <Calendar className="w-5 h-5 mr-2" />
+                      <span className="font-semibold">{newEvent.date}</span>
                     </div>
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3 p-3 rounded-lg bg-blue-50/50">
-                        <Users className="h-5 w-5 text-blue-600" />
-                        <div>
-                          <div className="font-medium">Continuing Education</div>
-                          <div className="text-sm text-gray-600">{newEvent.ceus} CEUs Available</div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 p-3 rounded-lg bg-purple-50/50">
-                        <DollarSign className="h-5 w-5 text-blue-600" />
-                        <div>
-                          <div className="font-medium">Registration Fee</div>
-                          <div className="text-sm text-gray-600">Free for Members & Students</div>
-                          <div className="text-sm text-gray-600">$25 for Non-Members</div>
-                        </div>
-                      </div>
+                    <div className="flex items-center text-gray-600">
+                      <Clock className="w-5 h-5 mr-2" />
+                      <span>{newEvent.time}</span>
+                    </div>
+                    <div className="flex items-center text-gray-600">
+                      <MapPin className="w-5 h-5 mr-2" />
+                      <span>{newEvent.location}</span>
+                    </div>
+                    <div className="flex items-center text-gray-600">
+                      <Users className="w-5 h-5 mr-2" />
+                      <span>{newEvent.ceus} CEUs Available</span>
                     </div>
                   </div>
-
-                  <div className="mb-8 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 p-6 border border-blue-100/50">
-                    <h4 className="mb-3 text-lg font-bold text-blue-800">Event Description</h4>
-                    <p className="text-gray-700">{newEvent.description}</p>
-                  </div>
-
-                  <div className="text-center">
-                    <Link
-                      href={`/event-registration/details/${newEvent.title.split(" ").join("")}`}
-                      className="inline-block"
-                    >
-                      <Button className="rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-12 py-6 text-lg font-bold uppercase tracking-wider text-white shadow-lg transition-all hover:from-blue-700 hover:to-purple-700 hover:shadow-xl hover:scale-105">
-                        CLICK TO LEARN MORE →
-                      </Button>
-                    </Link>
-                  </div>
+                  <p className="text-gray-700 mb-6">{newEvent.description}</p>
+                  <Link href={`/event-registration/details/${newEvent.title.split(" ").join("")}`}>
+                    <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 font-semibold">
+                      Register Now
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
                 </CardContent>
-              </Card>
-            )}
+              </div>
+            </Card>
+          </div>
+        </section>
+      )}
+
+      {/* Upcoming Events */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Upcoming Events</h2>
+            <p className="text-lg text-gray-600">Explore our calendar of professional development opportunities</p>
           </div>
 
-          <div className="mx-auto max-w-4xl">
-            {eventDetails && (
-              <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {eventDetails.map((event, index) => (
-                  <Card
-                    key={index}
-                    className="overflow-hidden border-0 shadow-lg flex flex-col h-full relative backdrop-blur-sm bg-white/90 hover:bg-white/95 transition-all duration-300 hover:shadow-xl hover:scale-105"
-                  >
-                    {/* Individual card glow */}
-                    <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-r from-blue-100 to-purple-100 opacity-0 hover:opacity-30 transition-opacity duration-300 blur-sm"></div>
-
-                    <div className="relative">
-                      <div className="aspect-[4/3] w-full overflow-hidden md:aspect-[16/10] flex items-center justify-center">
-                        <Image
-                          src={event.images[0] || "/placeholder.svg"}
-                          alt={event.title}
-                          width={500}
-                          height={500}
-                          className="object-cover object-center transition-transform duration-300 hover:scale-110"
-                          priority
-                        />
-                        <div className="absolute inset-0 bg-black/10" />
+          {eventDetails && (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {eventDetails.map((event, index) => (
+                <Card
+                  key={index}
+                  className="border border-gray-200 shadow-lg hover:shadow-xl transition-shadow bg-white"
+                >
+                  <div className="relative h-48">
+                    <Image
+                      src={event.images[0] || "/placeholder.svg"}
+                      alt={event.title}
+                      fill
+                      className="object-cover rounded-t-lg"
+                    />
+                    <div className="absolute top-4 right-4">
+                      <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                        {event.ceus} CEUs
+                      </span>
+                    </div>
+                  </div>
+                  <CardContent className="p-6">
+                    <div className="mb-4">
+                      <div className="text-blue-600 font-semibold text-sm mb-2">
+                        {event.date} • {event.time}
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">{event.title}</h3>
+                      <p className="text-gray-600 text-sm mb-3">{event.description}</p>
+                      <div className="flex items-center text-gray-500 text-sm">
+                        <MapPin className="w-4 h-4 mr-1" />
+                        {event.location}
                       </div>
                     </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
 
-                    <CardContent className="p-6 flex flex-col flex-1 relative">
-                      <h3 className="mb-2 text-xl font-bold text-blue-600">{event.title}</h3>
-                      <p className="text-gray-600 mb-4">
-                        {event.date} • {event.time}
-                      </p>
-                      <p className="text-gray-700 mb-4 flex-1">{event.description}</p>
-                      <div className="flex items-center justify-between mt-auto">
-                        <Link
-                          href={`/event-registration/details/${event.title.split(" ").join("")}`}
-                          className="text-blue-600 hover:text-purple-600 transition-colors font-medium hover:underline"
-                        >
-                          Learn More!
-                        </Link>
-                        <span className="text-sm text-gray-500 bg-blue-50 px-2 py-1 rounded-full">
-                          {event.ceus} CEUs
-                        </span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
-
-            <div className="mt-12 text-center">
-              <div className="relative inline-block p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-blue-100/50">
-                <p className="text-gray-600">
-                  Questions about registration?{" "}
-                  <Link href="#contact" className="font-medium text-blue-600 hover:text-purple-600 transition-colors">
-                    Contact us
-                  </Link>{" "}
-                  for assistance.
-                </p>
-                {/* Decorative elements */}
-                <div className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-blue-200/50"></div>
-                <div className="absolute -bottom-2 -left-2 h-3 w-3 rounded-full bg-purple-200/50"></div>
-              </div>
+          <div className="mt-12 text-center">
+            <div className="relative inline-block p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-blue-100/50">
+              <p className="text-gray-600">
+                Questions about registration?{" "}
+                <Link href="#contact" className="font-medium text-blue-600 hover:text-purple-600 transition-colors">
+                  Contact us
+                </Link>{" "}
+                for assistance.
+              </p>
+              {/* Decorative elements */}
+              <div className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-blue-200/50"></div>
+              <div className="absolute -bottom-2 -left-2 h-3 w-3 rounded-full bg-purple-200/50"></div>
             </div>
           </div>
         </div>
-      </section>
+      </section >
     </div>
   )
 }
