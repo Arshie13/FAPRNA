@@ -6,26 +6,6 @@ import Link from "next/link"
 export default function Footer() {
   return (
     <footer id="contact" className="w-full border-t bg-[#003366] py-10 text-white">
-      <div className="items-center text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2 text-white">Get in Touch</h2>
-        <p className="text-white/80 text-base mb-1">
-          <span className="font-semibold">Vi Anne Calipusan</span> (President):{" "}
-          <a href="tel:7023358206" className="underline hover:text-white">702-335-8206</a>
-        </p>
-        <p className="text-white/80 text-base mb-1">
-          <span className="font-semibold">Emer Sambo</span> (Assistant PRO):{" "}
-          <a href="tel:7023276162" className="underline hover:text-white">702-327-6162</a>
-        </p>
-        <p className="text-white/80 text-base">
-          Email:{" "}
-          <a href="mailto:info@faprna.org" className="underline hover:text-white">
-            info@faprna.org
-          </a>
-        </p>
-      </div>
-      <div className="w-full flex justify-center mb-8">
-        <div className="w-full max-w-screen border-t border-white/30"></div>
-      </div>
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 text-center md:text-left">
           <div className="flex flex-col items-center md:items-start">
@@ -83,6 +63,8 @@ export default function Footer() {
             <address className="not-italic">
               <p className="mb-2 text-sm text-white/80">Las Vegas, Nevada</p>
               <p className="mb-2 text-sm text-white/80">Email: info@faprna.org</p>
+              <p className="mb-2 text-sm text-white/80">Vi Anne Calipusan (President): 702-335-8206</p>
+              <p className="mb-2 text-sm text-white/80">Emer Sambo (Assistant PRO): 702-327-6162</p>
             </address>
           </div>
         </div>
