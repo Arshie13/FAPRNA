@@ -5,7 +5,7 @@ import Link from "next/link"
 
 export default function Footer() {
   return (
-    <footer className="w-full border-t bg-[#003366] py-10 text-white">
+    <footer id="contact" className="w-full border-t bg-[#003366] py-10 text-white">
       <div className="items-center text-center mb-6">
         <h2 className="text-2xl font-bold mb-2 text-white">Get in Touch</h2>
         <p className="text-white/80 text-base mb-1">
@@ -64,11 +64,6 @@ export default function Footer() {
               <li>
                 <Link href="/event-registration" className="text-white/80 hover:text-white">
                   Events
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-white/80 hover:text-white">
-                  Contact
                 </Link>
               </li>
               <li>
