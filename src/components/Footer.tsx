@@ -92,7 +92,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-8 border-t border-white/20 pt-6 text-center text-sm text-white/60">
-          <p>© {new Date().getFullYear()} FAPRNA-NV. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Wisdomous Software Solution. All rights reserved.</p>
         </div>
       </div>
     </footer>
