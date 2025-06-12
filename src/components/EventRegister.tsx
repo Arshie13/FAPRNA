@@ -1,11 +1,18 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Calendar, MapPin, Users, Clock, Award, ArrowRight } from "lucide-react"
-import Image from "next/image"
-import { newEvent, eventDetails } from "@/mock_data/index"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Calendar,
+  MapPin,
+  Users,
+  Clock,
+  Award,
+  ArrowRight,
+} from "lucide-react";
+import Image from "next/image";
+import { newEvent, eventDetails } from "@/mock_data/index";
 
 export default function EventRegistration() {
   return (
@@ -13,13 +20,14 @@ export default function EventRegistration() {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-600 to-red-600 text-white py-20">
         <div className="container mx-auto px-4 text-center">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/20 text-white text-sm font-medium mb-8">
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/20 text-white text-2xl font-medium mb-8">
             <Calendar className="w-4 h-4 mr-2" />
             FAPRNA-NV EVENTS
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Professional Development Events</h1>
+
           <p className="text-xl max-w-2xl mx-auto opacity-90">
-            Advance your nursing career through exclusive educational opportunities and networking
+            Discover exciting upcoming events and register now to be part of the
+            experience{" "}
           </p>
         </div>
       </section>
@@ -33,7 +41,9 @@ export default function EventRegistration() {
                 <Award className="w-4 h-4 mr-2" />
                 FEATURED EVENT
               </div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">{newEvent.title}</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                {newEvent.title}
+              </h2>
             </div>
 
             <Card className="max-w-4xl mx-auto border-0 shadow-xl bg-white">
@@ -67,7 +77,11 @@ export default function EventRegistration() {
                     </div>
                   </div>
                   <p className="text-gray-700 mb-6">{newEvent.description}</p>
-                  <Link href={`/event-registration/details/${newEvent.title.split(" ").join("")}`}>
+                  <Link
+                    href={`/event-registration/details/${newEvent.title
+                      .split(" ")
+                      .join("")}`}
+                  >
                     <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 font-semibold">
                       Register Now
                       <ArrowRight className="w-4 h-4 ml-2" />
@@ -84,8 +98,12 @@ export default function EventRegistration() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Upcoming Events</h2>
-            <p className="text-lg text-gray-600">Explore our calendar of professional development opportunities</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Upcoming Events
+            </h2>
+            <p className="text-lg text-gray-600">
+              Explore our calendar of professional development opportunities
+            </p>
           </div>
 
           {eventDetails && (
@@ -113,13 +131,25 @@ export default function EventRegistration() {
                       <div className="text-blue-600 font-semibold text-sm mb-2">
                         {event.date} • {event.time}
                       </div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">{event.title}</h3>
-                      <p className="text-gray-600 text-sm mb-3">{event.description}</p>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">
+                        {event.title}
+                      </h3>
+                      <p className="text-gray-600 text-sm mb-3">
+                        {event.description}
+                      </p>
                       <div className="flex items-center text-gray-500 text-sm">
                         <MapPin className="w-4 h-4 mr-1" />
                         {event.location}
                       </div>
                     </div>
+
+                    <Link href={`/event-registration/details/${event.title.split(" ").join("")}`}>
+                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 font-semibold">
+                        Learn More!
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </Link>
+
                   </CardContent>
                 </Card>
               ))}
@@ -127,10 +157,13 @@ export default function EventRegistration() {
           )}
 
           <div className="mt-12 text-center">
-            <div className="relative inline-block p-6 rounded-2xl bg-gradient-to-r from-blue-600 to-red-600 hover:from-blue-700 hover:to-red-700 text-white px-12 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <div className="relative inline-block p-6 bg-gradient-to-r from-blue-600 to-red-600 hover:from-blue-700 hover:to-red-700 text-white px-12 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
               <p className="text--600">
                 Questions about registration?{" "}
-                <Link href="#contact" className="font-medium text-blue-600 hover:text-purple-600 transition-colors">
+                <Link
+                  href="#contact"
+                  className="font-medium text-blue-600 hover:text-purple-600 transition-colors"
+                >
                   Contact us
                 </Link>{" "}
                 for assistance.
@@ -141,7 +174,7 @@ export default function EventRegistration() {
             </div>
           </div>
         </div>
-      </section >
+      </section>
     </div>
-  )
+  );
 }
