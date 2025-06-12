@@ -1,6 +1,18 @@
+"use client"
+
+import type React from "react"
+
 import Image from "next/image"
+import { useState, useEffect, useRef } from "react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 export default function CollaborationSection() {
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+  const touchStartX = useRef(0)
+  const touchEndX = useRef(0)
+  const carouselRef = useRef<HTMLDivElement>(null)
+
   const logos = [
     { src: "/collab1.png", alt: "EXEL Labs", name: "EXEL Labs" },
     { src: "/collab2.png", alt: "Dynamic Manpower Consulting", name: "Dynamic Manpower" },
@@ -9,6 +21,58 @@ export default function CollaborationSection() {
     { src: "/collab5.png", alt: "Advance HealthCare Solutions", name: "Advance HealthCare" },
     { src: "/collab6.png", alt: "Goodwill Pharmacy", name: "Goodwill Pharmacy" },
   ]
+
+  // Auto-play functionality
+  useEffect(() => {
+    if (!isAutoPlaying) return
+
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % Math.ceil(logos.length / 2))
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [isAutoPlaying, logos.length])
+
+  // Touch handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX
+    setIsAutoPlaying(false)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return
+
+    const distance = touchStartX.current - touchEndX.current
+    const isLeftSwipe = distance > 50
+    const isRightSwipe = distance < -50
+
+    if (isLeftSwipe) {
+      nextSlide()
+    } else if (isRightSwipe) {
+      prevSlide()
+    }
+
+    // Resume auto-play after 5 seconds
+    setTimeout(() => setIsAutoPlaying(true), 5000)
+  }
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % Math.ceil(logos.length / 2))
+  }
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + Math.ceil(logos.length / 2)) % Math.ceil(logos.length / 2))
+  }
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index)
+    setIsAutoPlaying(false)
+    setTimeout(() => setIsAutoPlaying(true), 5000)
+  }
 
   return (
     <section className="relative w-full bg-gradient-to-br from-slate-50 via-white to-blue-50 py-20 overflow-hidden">
@@ -45,8 +109,8 @@ export default function CollaborationSection() {
           </p>
         </div>
 
-        {/* Logos Grid */}
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+        {/* Desktop Grid - Hidden on mobile */}
+        <div className="hidden md:grid grid-cols-2 lg:grid-cols-6 gap-8 mb-16">
           {logos.map((logo, idx) => (
             <div
               key={logo.src}
@@ -54,19 +118,15 @@ export default function CollaborationSection() {
               style={{ animationDelay: `${idx * 0.15 + 0.4}s` }}
             >
               <div className="relative w-full max-w-[200px] h-24 mb-4 rounded-2xl bg-white shadow-lg border border-gray-100 transition-all duration-500 group-hover:shadow-2xl group-hover:scale-105 group-hover:border-blue-200 group-hover:-translate-y-2">
-                {/* Subtle gradient overlay on hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-blue-100/0 group-hover:from-blue-50/30 group-hover:to-blue-100/20 rounded-2xl transition-all duration-500"></div>
-
                 <Image
-                  src={logo.src || "/placeholder.svg"}
+                  src={logo.src || "/placeholder.svg?height=96&width=200"}
                   alt={logo.alt}
                   fill
                   className="object-contain p-4 transition-all duration-500 group-hover:scale-110"
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 16vw"
                 />
               </div>
-
-              {/* Partner name - appears on hover */}
               <span className="text-sm font-medium text-gray-700 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                 {logo.name}
               </span>
@@ -74,10 +134,88 @@ export default function CollaborationSection() {
           ))}
         </div>
 
+        {/* Mobile Carousel - Visible only on mobile */}
+        <div className="md:hidden mb-16">
+          <div className="relative">
+            {/* Carousel Container */}
+            <div
+              ref={carouselRef}
+              className="overflow-hidden rounded-2xl"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              <div
+                className="flex transition-transform duration-500 ease-out"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
+                {Array.from({ length: Math.ceil(logos.length / 2) }).map((_, slideIndex) => (
+                  <div key={slideIndex} className="w-full flex-shrink-0 px-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      {logos.slice(slideIndex * 2, slideIndex * 2 + 2).map((logo) => (
+                        <div key={logo.src} className="group flex flex-col items-center">
+                          <div className="relative w-full h-24 mb-3 rounded-xl bg-white shadow-lg border border-gray-100 transition-all duration-300 group-active:scale-95">
+                            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/20 to-blue-100/10 rounded-xl"></div>
+                            <Image
+                              src={logo.src || "/placeholder.svg?height=96&width=200"}
+                              alt={logo.alt}
+                              fill
+                              className="object-contain p-3"
+                              sizes="50vw"
+                            />
+                          </div>
+                          <span className="text-xs font-medium text-gray-700 text-center leading-tight">
+                            {logo.name}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Navigation Arrows */}
+            <button
+              onClick={prevSlide}
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-white transition-all duration-200"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-white transition-all duration-200"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center mt-6 space-x-2">
+            {Array.from({ length: Math.ceil(logos.length / 2) }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === currentSlide ? "bg-blue-600 w-6" : "bg-gray-300 hover:bg-gray-400"
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+
+          {/* Swipe Instruction */}
+          <div className="text-center mt-4">
+            <p className="text-xs text-gray-500">Swipe left or right to see more partners</p>
+          </div>
+        </div>
+
         {/* Bottom CTA */}
-        <div className="text-center mt-16 opacity-0 animate-fade-in-up" style={{ animationDelay: "1.2s" }}>
+        <div className="text-center opacity-0 animate-fade-in-up" style={{ animationDelay: "1.2s" }}>
           <p className="text-gray-600 mb-6">Interested in partnering with us?</p>
-          <button className="inline-flex items-center px-8 py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-all duration-300 hover:shadow-lg hover:scale-105">
+          <button className="inline-flex items-center px-8 py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-all duration-300 hover:shadow-lg hover:scale-105 group">
             <span>Get in Touch</span>
             <svg
               className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1"
