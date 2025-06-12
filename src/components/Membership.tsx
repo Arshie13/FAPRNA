@@ -90,7 +90,7 @@ export default function Component() {
           </div>
 
           {/* Membership Plans */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 ">
             {membershipPlans.map((plan) => (
               <Card
                 key={plan.id}
