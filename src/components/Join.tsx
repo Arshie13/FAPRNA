@@ -5,12 +5,11 @@ import type React from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { CheckCircle, Users, TrendingUp, Award, Network, BookOpen, ChevronLeft, ChevronRight } from "lucide-react"
-import { useState, useEffect, useRef } from "react"
+import { CheckCircle, Users, TrendingUp, Award, Network, BookOpen} from "lucide-react"
+import { useState, useRef } from "react"
 
 export default function WhyJoin() {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const touchStartX = useRef(0)
   const touchEndX = useRef(0)
 
@@ -61,21 +60,9 @@ export default function WhyJoin() {
     },
   ]
 
-  // Auto-play functionality
-  useEffect(() => {
-    if (!isAutoPlaying) return
-
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % benefitCategories.length)
-    }, 5000)
-
-    return () => clearInterval(interval)
-  }, [isAutoPlaying, benefitCategories.length])
-
-  // Touch handlers
+  // Touch handlers (update to always allow swipe, no auto-play resume)
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.targetTouches[0].clientX
-    setIsAutoPlaying(false)
   }
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -83,20 +70,18 @@ export default function WhyJoin() {
   }
 
   const handleTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current) return
-
+    if (touchStartX.current === 0 && touchEndX.current === 0) return
     const distance = touchStartX.current - touchEndX.current
     const isLeftSwipe = distance > 50
     const isRightSwipe = distance < -50
-
     if (isLeftSwipe) {
       nextSlide()
     } else if (isRightSwipe) {
       prevSlide()
     }
-
-    // Resume auto-play after 5 seconds
-    setTimeout(() => setIsAutoPlaying(true), 5000)
+    // Reset
+    touchStartX.current = 0
+    touchEndX.current = 0
   }
 
   const nextSlide = () => {
@@ -109,8 +94,6 @@ export default function WhyJoin() {
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index)
-    setIsAutoPlaying(false)
-    setTimeout(() => setIsAutoPlaying(true), 5000)
   }
 
   return (
@@ -118,12 +101,12 @@ export default function WhyJoin() {
       <div className="container mx-auto px-4">
         {/* Header Section */}
         <div className="mx-auto max-w-4xl text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6">
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-[#003366] text-sm font-medium mb-6">
             <Network className="w-4 h-4 mr-2" />
             MEMBERSHIP BENEFITS
           </div>
-          <h2 className="text-5xl font-bold text-gray-900 mb-6">
-            Why Join <span className="text-blue-600">FAPRNA-NV</span>?
+          <h2 className="text-4xl md:text-5xl font-bold text-[#003366] mb-6">
+            Why Join <span className="text-red-600">FAPRNA-NV</span>?
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Advance your nursing career and make a meaningful impact in the Filipino-American healthcare community
@@ -137,22 +120,22 @@ export default function WhyJoin() {
           ))}
         </div>
 
-        {/* Mobile Carousel - Visible only on mobile */}
+        {/* Mobile Carousel - Full-screen on mobile */}
         <div className="md:hidden mb-16">
-          <div className="relative">
+          <div className="relative h-[70vh] max-h-[600px]">
             {/* Carousel Container */}
             <div
-              className="overflow-hidden rounded-2xl"
+              className="h-full overflow-hidden"
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
             >
               <div
-                className="flex transition-transform duration-500 ease-out"
+                className="flex h-full transition-transform duration-500 ease-out"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
               >
                 {benefitCategories.map((category, index) => (
-                  <div key={index} className="w-full flex-shrink-0 px-4">
+                  <div key={index} className="w-full h-full flex-shrink-0 px-4 flex items-center">
                     <BenefitCard category={category} />
                   </div>
                 ))}
@@ -160,20 +143,20 @@ export default function WhyJoin() {
             </div>
 
             {/* Navigation Arrows */}
-            <button
+            {/* <button
               onClick={prevSlide}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-white transition-all duration-200 z-10"
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center text-[#003366] hover:bg-white transition-all duration-200 z-10"
               aria-label="Previous benefit"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-white transition-all duration-200 z-10"
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center text-[#003366] hover:bg-white transition-all duration-200 z-10"
               aria-label="Next benefit"
             >
               <ChevronRight className="w-5 h-5" />
-            </button>
+            </button> */}
           </div>
 
           {/* Dots Indicator */}
@@ -183,7 +166,7 @@ export default function WhyJoin() {
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentSlide ? "bg-blue-600 w-6" : "bg-gray-300 hover:bg-gray-400"
+                  index === currentSlide ? "bg-[#003366] w-6" : "bg-gray-300 hover:bg-gray-400"
                 }`}
                 aria-label={`Go to benefit ${index + 1}`}
               />
@@ -198,14 +181,14 @@ export default function WhyJoin() {
 
         {/* CTA Section */}
         <div className="text-center">
-          <div className="bg-gradient-to-r from-blue-600 via-red-500 to-yellow-500 p-1 rounded-2xl inline-block mb-6">
+          <div className="bg-gradient-to-r from-[#003366] via-red-600 to-yellow-500 p-1 rounded-2xl inline-block mb-6">
             <div className="bg-white rounded-xl px-8 py-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Join Us</h3>
+              <h3 className="text-2xl font-bold text-[#003366] mb-2">Join Us</h3>
               <p className="text-gray-600 mb-6">
                 Join a community of dedicated Filipino-American nursing professionals
               </p>
               <Link href="/membership">
-                <Button className="bg-gradient-to-r from-blue-600 to-red-600 hover:from-blue-700 hover:to-red-700 text-white px-12 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <Button className="bg-gradient-to-r from-[#003366] to-red-600 hover:from-[#002244] hover:to-red-700 text-white px-12 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                   <Users className="w-5 h-5 mr-2" />
                   JOIN FAPRNA-NV TODAY
                 </Button>
@@ -232,7 +215,7 @@ type BenefitCategory = {
 
 function BenefitCard({ category }: { category: BenefitCategory }) {
   return (
-    <Card className="border-0 shadow-xl bg-white/90 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 group">
+    <Card className="border-0 shadow-xl bg-white/90 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 group h-full">
       <CardContent className="p-8">
         <div className="flex items-center mb-6">
           <div
@@ -240,7 +223,7 @@ function BenefitCard({ category }: { category: BenefitCategory }) {
           >
             {category.icon}
           </div>
-          <h3 className="text-2xl font-bold text-gray-900">{category.title}</h3>
+          <h3 className="text-2xl font-bold text-[#003366]">{category.title}</h3>
         </div>
         <ul className="space-y-4">
           {category.benefits.map((benefit: string, benefitIndex: number) => (
