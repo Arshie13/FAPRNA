@@ -187,7 +187,7 @@ export default function EventRegistration() {
               <div className="relative inline-block p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-blue-100/50">
                 <p className="text-gray-600">
                   Questions about registration?{" "}
-                  <Link href="/contact" className="font-medium text-blue-600 hover:text-purple-600 transition-colors">
+                  <Link href="#contact" className="font-medium text-blue-600 hover:text-purple-600 transition-colors">
                     Contact us
                   </Link>{" "}
                   for assistance.
