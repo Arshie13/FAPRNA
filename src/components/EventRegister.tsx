@@ -120,6 +120,14 @@ export default function EventRegistration() {
                         {event.location}
                       </div>
                     </div>
+
+                    <Link href={`/event-registration/details/${event.title.split(" ").join("")}`}>
+                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 font-semibold">
+                        Learn More!
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </Link>
+
                   </CardContent>
                 </Card>
               ))}
@@ -127,7 +135,7 @@ export default function EventRegistration() {
           )}
 
           <div className="mt-12 text-center">
-            <div className="relative inline-block p-6 rounded-2xl bg-gradient-to-r from-blue-600 to-red-600 hover:from-blue-700 hover:to-red-700 text-white px-12 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <div className="relative inline-block p-6 bg-gradient-to-r from-blue-600 to-red-600 hover:from-blue-700 hover:to-red-700 text-white px-12 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
               <p className="text--600">
                 Questions about registration?{" "}
                 <Link href="#contact" className="font-medium text-blue-600 hover:text-purple-600 transition-colors">

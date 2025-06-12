@@ -2,7 +2,7 @@ import { eventDetails } from "@/mock_data"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Calendar, MapPin, Users, DollarSign, Award, CheckCircle, Star } from "lucide-react"
+import { ArrowLeft, Calendar, MapPin, Users, DollarSign, Award, CheckCircle, Star } from "lucide-react"
 import Link from "next/link"
 
 
@@ -23,9 +23,19 @@ export default function EventDetails() {
             ></div>
           </div>
 
+          <Link href="/event-registration">
+            <Button className="z-30 absolute top-6 left-6 bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm rounded-full px-4 py-2 flex items-center gap-2">
+              {/* Show ArrowLeft icon only on small screens, show text on md+ */}
+              <span className="block md:hidden">
+                <ArrowLeft className="w-5 h-5" />
+              </span>
+              <span className="hidden md:block">
+                Back to Events
+              </span>
+            </Button>
+          </Link>
+
           <div className="relative container mx-auto px-4 py-16">
-
-
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-600/20 border border-red-400/30 text-red-200 text-sm font-medium mb-8">
                 <Award className="w-4 h-4 mr-2" />
