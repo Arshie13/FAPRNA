@@ -18,9 +18,9 @@ export default function HomePage() {
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
 
   const slides = [
-    "/placeholder.svg?height=500&width=900&text=Innovation+in+Action",
-    "/placeholder.svg?height=500&width=900&text=Leading+the+Future",
-    "/placeholder.svg?height=500&width=900&text=Excellence+Delivered",
+    "/slide1.jpeg?height=500&width=900&text=Innovation+in+Action",
+    "/slide2.jpeg?height=500&width=900&text=Leading+the+Future",
+    "/slide3.jpeg?height=500&width=900&text=Excellence+Delivered",
   ];
 
   useEffect(() => {
@@ -139,10 +139,12 @@ export default function HomePage() {
               }`}
             >
               {slides.map((slide, index) => (
-                <img
+                <Image
                   key={index}
-                  src={slide || "/placeholder.svg"}
+                  src={slide}
                   alt={`Slide ${index + 1}`}
+                  width={900}
+                  height={500}
                   className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
                     index === currentSlide ? "opacity-100" : "opacity-0"
                   }`}
