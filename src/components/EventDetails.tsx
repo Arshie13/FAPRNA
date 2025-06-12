@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Calendar, MapPin, Users, DollarSign, Award, ArrowLeft, CheckCircle, Star } from "lucide-react"
 import Link from "next/link"
 
+
 const eventDetail = eventDetails[0]
 
 export default function EventDetails() {
