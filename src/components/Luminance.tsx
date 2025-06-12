@@ -261,7 +261,10 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
           <div className="space-y-12">
             {/* Main Luminance Awards Image */}
             <div className="flex justify-center">
-              <div className="relative max-w-4xl w-full">
+              <div
+                className="relative max-w-4xl w-full opacity-0 animate-fade-in-left"
+                style={{ animationDelay: `0.3s` }}
+              >
                 <div
                   className="absolute -inset-2 rounded-xl blur-lg"
                   style={{
