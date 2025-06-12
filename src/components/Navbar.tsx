@@ -75,6 +75,17 @@ export default function Navbar() {
             <div className="absolute right-0 top-full hidden w-56 rounded-lg bg-white shadow-lg group-hover:block border border-gray-100 overflow-hidden">
               <div className="py-1 space-y-1">
                 <Link 
+                  href="/about" 
+                  className="block px-4 py-3 text-sm font-medium text-[#003366] hover:bg-[#003366]/10 transition-all
+                             hover:pl-6 duration-300 border-b border-gray-100 last:border-b-0 relative
+                             before:content-[''] before:absolute before:left-2 before:top-1/2 
+                             before:-translate-y-1/2 before:w-1 before:h-1 before:rounded-full 
+                             before:bg-[#003366] before:opacity-0 before:transition-all 
+                             before:duration-300 hover:before:opacity-100 hover:before:left-3"
+                >
+                  About
+                </Link>
+                <Link 
                   href="/board" 
                   className="block px-4 py-3 text-sm font-medium text-[#003366] hover:bg-[#003366]/10 transition-all
                              hover:pl-6 duration-300 border-b border-gray-100 last:border-b-0 relative
