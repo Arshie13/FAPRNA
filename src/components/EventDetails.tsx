@@ -1,4 +1,4 @@
-import { eventDetails } from "@/app/mock_data"
+import { eventDetails } from "@/mock_data"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"

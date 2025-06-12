@@ -119,29 +119,29 @@ export default function EventRegistration() {
                         <MapPin className="w-4 h-4 mr-1" />
                         {event.location}
                       </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
 
-            <div className="mt-12 text-center">
-              <div className="relative inline-block p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-blue-100/50">
-                <p className="text-gray-600">
-                  Questions about registration?{" "}
-                  <Link href="#contact" className="font-medium text-blue-600 hover:text-purple-600 transition-colors">
-                    Contact us
-                  </Link>{" "}
-                  for assistance.
-                </p>
-                {/* Decorative elements */}
-                <div className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-blue-200/50"></div>
-                <div className="absolute -bottom-2 -left-2 h-3 w-3 rounded-full bg-purple-200/50"></div>
-              </div>
+          <div className="mt-12 text-center">
+            <div className="relative inline-block p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-blue-100/50">
+              <p className="text-gray-600">
+                Questions about registration?{" "}
+                <Link href="#contact" className="font-medium text-blue-600 hover:text-purple-600 transition-colors">
+                  Contact us
+                </Link>{" "}
+                for assistance.
+              </p>
+              {/* Decorative elements */}
+              <div className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-blue-200/50"></div>
+              <div className="absolute -bottom-2 -left-2 h-3 w-3 rounded-full bg-purple-200/50"></div>
             </div>
           </div>
         </div>
-      </section>
+      </section >
     </div>
   )
 }
