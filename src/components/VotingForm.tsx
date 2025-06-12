@@ -174,7 +174,7 @@ export default function VotingForm() {
         </div>
 
         <Card
-          className="overflow-hidden"
+          className="overflow-hidden p-0"
           style={{
             backgroundColor: "rgba(0, 0, 0, 0.7)",
             borderColor: "#D4AF37",
