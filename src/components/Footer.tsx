@@ -52,6 +52,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/about" className="text-white/80 hover:text-white">
+                  About Us
+                </Link>
+              </li>
+              <li>
                 <Link href="/board" className="text-white/80 hover:text-white">
                   Board
                 </Link>
@@ -61,6 +66,7 @@ export default function Footer() {
                   By Laws
                 </Link>
               </li>
+              
             </ul>
           </div>
           <div className="flex flex-col items-center md:items-start">

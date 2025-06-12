@@ -45,7 +45,7 @@ export default function FaprnaNews() {
     <section className="w-full bg-gray-50 py-16">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
-          <p className="mb-2 text-sm uppercase tracking-wider text-gray-500">FAPRNA News</p>
+          <p className="mb-2 text-sm uppercase tracking-wider text-gray-500">FAPRNA-NV News</p>
           <h2 className="mb-4 text-3xl font-bold text-gray-800 md:text-4xl">
             What&apos;s Happening at Our Association
           </h2>

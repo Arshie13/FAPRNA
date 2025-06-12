@@ -120,7 +120,7 @@ export default function WhyJoin() {
         <div className="text-center">
           <div className="bg-gradient-to-r from-blue-600 via-red-500 to-yellow-500 p-1 rounded-2xl inline-block mb-6">
             <div className="bg-white rounded-xl px-8 py-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Ready to Advance Your Career?</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Join Us</h3>
               <p className="text-gray-600 mb-6">
                 Join a community of dedicated Filipino-American nursing professionals
               </p>
