@@ -10,6 +10,7 @@ import { useState, useRef } from "react"
 
 export default function WhyJoin() {
   const [currentSlide, setCurrentSlide] = useState(0)
+
   const touchStartX = useRef(0)
   const touchEndX = useRef(0)
 
@@ -63,6 +64,7 @@ export default function WhyJoin() {
   // Touch handlers (update to always allow swipe, no auto-play resume)
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.targetTouches[0].clientX
+
   }
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -74,6 +76,7 @@ export default function WhyJoin() {
     const distance = touchStartX.current - touchEndX.current
     const isLeftSwipe = distance > 50
     const isRightSwipe = distance < -50
+
     if (isLeftSwipe) {
       nextSlide()
     } else if (isRightSwipe) {
@@ -82,6 +85,7 @@ export default function WhyJoin() {
     // Reset
     touchStartX.current = 0
     touchEndX.current = 0
+
   }
 
   const nextSlide = () => {
@@ -94,6 +98,7 @@ export default function WhyJoin() {
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index)
+
   }
 
   return (
@@ -126,6 +131,7 @@ export default function WhyJoin() {
             {/* Carousel Container */}
             <div
               className="h-full overflow-hidden"
+
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
@@ -136,6 +142,7 @@ export default function WhyJoin() {
               >
                 {benefitCategories.map((category, index) => (
                   <div key={index} className="w-full h-full flex-shrink-0 px-4 flex items-center">
+
                     <BenefitCard category={category} />
                   </div>
                 ))}
@@ -143,9 +150,7 @@ export default function WhyJoin() {
             </div>
 
             {/* Navigation Arrows */}
-            {/* <button
-              onClick={prevSlide}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center text-[#003366] hover:bg-white transition-all duration-200 z-10"
+
               aria-label="Previous benefit"
             >
               <ChevronLeft className="w-5 h-5" />
@@ -157,6 +162,7 @@ export default function WhyJoin() {
             >
               <ChevronRight className="w-5 h-5" />
             </button> */}
+
           </div>
 
           {/* Dots Indicator */}
@@ -167,6 +173,7 @@ export default function WhyJoin() {
                 onClick={() => goToSlide(index)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
                   index === currentSlide ? "bg-[#003366] w-6" : "bg-gray-300 hover:bg-gray-400"
+
                 }`}
                 aria-label={`Go to benefit ${index + 1}`}
               />
@@ -189,6 +196,7 @@ export default function WhyJoin() {
               </p>
               <Link href="/membership">
                 <Button className="bg-gradient-to-r from-[#003366] to-red-600 hover:from-[#002244] hover:to-red-700 text-white px-12 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+
                   <Users className="w-5 h-5 mr-2" />
                   JOIN FAPRNA-NV TODAY
                 </Button>
@@ -216,6 +224,7 @@ type BenefitCategory = {
 function BenefitCard({ category }: { category: BenefitCategory }) {
   return (
     <Card className="border-0 shadow-xl bg-white/90 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 group h-full">
+
       <CardContent className="p-8">
         <div className="flex items-center mb-6">
           <div
@@ -224,6 +233,7 @@ function BenefitCard({ category }: { category: BenefitCategory }) {
             {category.icon}
           </div>
           <h3 className="text-2xl font-bold text-[#003366]">{category.title}</h3>
+
         </div>
         <ul className="space-y-4">
           {category.benefits.map((benefit: string, benefitIndex: number) => (
@@ -237,3 +247,4 @@ function BenefitCard({ category }: { category: BenefitCategory }) {
     </Card>
   )
 }
+

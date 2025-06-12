@@ -7,6 +7,7 @@ import { useState, useEffect, useRef } from "react"
 
 export default function CollaborationSection() {
   const [currentSlide, setCurrentSlide] = useState(0)
+
   const carouselRef = useRef<HTMLDivElement>(null)
 
   const logos = [
@@ -20,12 +21,10 @@ export default function CollaborationSection() {
 
   // Auto-play functionality
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % Math.ceil(logos.length / 2))
-    }, 3000)
 
-    return () => clearInterval(interval)
+    if (!isAutoPlaying) return
   }, [logos.length])
+
 
   return (
     <section className="relative w-full bg-gradient-to-br from-slate-50 via-white to-blue-50 py-20 overflow-hidden">
@@ -94,6 +93,7 @@ export default function CollaborationSection() {
             <div
               ref={carouselRef}
               className="overflow-hidden rounded-2xl"
+
             >
               <div
                 className="flex transition-transform duration-500 ease-out"
@@ -130,6 +130,7 @@ export default function CollaborationSection() {
             <button ...>...</button>
             <button ...>...</button>
             */}
+
           </div>
 
           {/* Dots Indicator */}
@@ -138,6 +139,7 @@ export default function CollaborationSection() {
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
+
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
                   index === currentSlide ? "bg-blue-600 w-6" : "bg-gray-300 hover:bg-gray-400"
                 }`}
@@ -147,6 +149,7 @@ export default function CollaborationSection() {
           </div>
 
           {/* Swipe Instruction removed */}
+
         </div>
 
         {/* Bottom CTA */}

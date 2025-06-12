@@ -186,6 +186,7 @@ export default function Navbar() {
                   <p className="text-xs text-gray-500 text-center mt-2">Join our upcoming events and workshops</p>
                 </div>
               </div>
+
             </SheetContent>
           </Sheet>
         </div>
