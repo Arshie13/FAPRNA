@@ -119,42 +119,26 @@ export default function EventRegistration() {
                         <MapPin className="w-4 h-4 mr-1" />
                         {event.location}
                       </div>
-                    </div>
-                    <Link href={`/event-registration/details/${event.title.split(" ").join("")}`}>
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 font-semibold">
-                        Learn More
-                        <ArrowRight className="w-4 h-4 ml-2" />
-                      </Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
 
-      {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-red-600 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Stay Connected</h2>
-          <p className="text-lg mb-8 opacity-90">Never miss an opportunity for professional growth</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/membership">
-                <Button
-                  variant="outline"
-                  className="border-2 border-white text-blue-600 hover:text-green-300 px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300"
-                >                Become a Member
-              </Button>
-            </Link>
-              <Link href="/contact">
-                <Button
-                  variant="outline"
-                  className="border-2 border-white text-blue-600 hover:text-green-300 px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300"
-                >
-                Contact Us
-              </Button>
-            </Link>
+            <div className="mt-12 text-center">
+              <div className="relative inline-block p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-blue-100/50">
+                <p className="text-gray-600">
+                  Questions about registration?{" "}
+                  <Link href="#contact" className="font-medium text-blue-600 hover:text-purple-600 transition-colors">
+                    Contact us
+                  </Link>{" "}
+                  for assistance.
+                </p>
+                {/* Decorative elements */}
+                <div className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-blue-200/50"></div>
+                <div className="absolute -bottom-2 -left-2 h-3 w-3 rounded-full bg-purple-200/50"></div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
