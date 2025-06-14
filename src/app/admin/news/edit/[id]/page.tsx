@@ -18,7 +18,17 @@ import { notFound } from "next/navigation"
 //       title: "News Not Found | FAPRNA-NV Admin",
 //     }
 //   }
+//   if (!news) {
+//     return {
+//       title: "News Not Found | FAPRNA-NV Admin",
+//     }
+//   }
 
+//   return {
+//     title: `Edit ${news.id} | FAPRNA-NV Admin`,
+//     description: `Edit news item: ${news.description}`,
+//   }
+// }
 //   return {
 //     title: `Edit ${news.id} | FAPRNA-NV Admin`,
 //     description: `Edit news item: ${news.description}`,
