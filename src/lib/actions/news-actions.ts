@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache"
 import { prisma } from "../utils"
+import { INews } from "../interfaces"
 
 // Get all news items
 export async function getAllNews() {
@@ -26,13 +27,13 @@ export async function getNewsById(id: string) {
     })
     return news
   } catch (error) {
-    console.error(`Failed to fetch news with ID ${id}:`, error)
-    throw new Error(`Failed to fetch news with ID ${id}`)
+    console.error(`Failed to fetch news id: ${id}:`, error)
+    throw new Error(`Failed to fetch news id: ${id}`)
   }
 }
 
 // Create new news item
-export async function createNews(data: any) {
+export async function createNews(data: INews) {
   try {
     // If this news is set as latest, unset any other latest news
     if (data.isLatest) {
@@ -58,7 +59,7 @@ export async function createNews(data: any) {
 }
 
 // Update news item
-export async function updateNews(id: string, data: any) {
+export async function updateNews(id: string, data: INews) {
   try {
     // If this news is set as latest, unset any other latest news
     if (data.isLatest) {

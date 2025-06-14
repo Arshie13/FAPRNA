@@ -32,6 +32,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { deleteNews, setLatestNews } from "@/lib/actions/news-actions"
+import { getAllNews } from "@/lib/actions/news-actions"
 
 type NewsType = "EVENT" | "RECOGNITION" | "TEAM"
 
@@ -60,16 +61,14 @@ export default function NewsAdminDashboard() {
   const [activeTab, setActiveTab] = useState("all")
   const router = useRouter()
 
-  // Fetch news data
   const fetchNews = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch("/api/news")
-      const data = await response.json();
+      const data = await getAllNews();
       setNewsItems(data);
       setIsLoading(false);
     } catch {
-      toast("Failed to fetch news items")
+      toast("Failed to fetch news items");
       setIsLoading(false);
     }
   }

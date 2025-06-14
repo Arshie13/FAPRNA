@@ -18,21 +18,8 @@ import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 import { updateNews } from "@/lib/actions/news-actions"
 import { NewsType } from "@/generated/prisma"
-
-interface FormValues {
-  type: "EVENT" | "RECOGNITION" | "TEAM"
-  title: string
-  time: string
-  date: Date
-  location: string
-  address: string
-  description: string
-  ceus: number
-  image: string
-  expected_attendees: number
-  isFinished: boolean
-  isLatest: boolean
-}
+import { INews } from "@/lib/interfaces"
+import { createNews } from "@/lib/actions/news-actions"
 
 interface News {
   id: string
@@ -62,7 +49,7 @@ export default function NewsForm({ news }: NewsFormProps) {
   const isEditing = !!news
 
   // Initialize form with default values or existing news data
-  const form = useForm<FormValues>({
+  const form = useForm<INews>({
     defaultValues: {
       type: news?.type || "EVENT",
       title: news?.title || "",
@@ -80,36 +67,23 @@ export default function NewsForm({ news }: NewsFormProps) {
   })
 
   // Handle form submission
-  const onSubmit = async (values: FormValues) => {
+  const onSubmit = async (values: INews) => {
     setIsSubmitting(true)
     try {
       if (isEditing && news) {
         await updateNews(news.id, values)
         toast("News item updated successfully")
       } else {
-        console.log("Submitting values:", values);
         const formattedValues = {
           ...values,
           ceus: Number(values.ceus),
           expected_attendees: Number(values.expected_attendees),
-          date: values.date instanceof Date ? values.date.toISOString() : values.date,
+          date: values.date
         };
 
-        const response = await fetch("/api/news", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formattedValues),
-        });
+        await createNews(formattedValues)
 
-        const data = await response.json();
-        
-        if (!response.ok) {
-          const errorMessage = data.error || "Failed to create news item";
-          toast.error(errorMessage);
-          return;
-        }
-
-        console.log("Successfully created news item:", data);
+        console.log("Successfully created news item");
         toast.success("News item created successfully");
       }
       router.push("/admin/news")

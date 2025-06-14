@@ -10,7 +10,8 @@ interface EditNewsPageProps {
 }
 
 export async function generateMetadata({ params }: EditNewsPageProps): Promise<Metadata> {
-  const news = await getNewsById(params.id)
+  const id = await params.id
+  const news = await getNewsById(id)
 
   if (!news) {
     return {
@@ -19,13 +20,14 @@ export async function generateMetadata({ params }: EditNewsPageProps): Promise<M
   }
 
   return {
-    title: `Edit ${news.title} | FAPRNA-NV Admin`,
-    description: `Edit news item: ${news.title}`,
+    title: `Edit ${news.id} | FAPRNA-NV Admin`,
+    description: `Edit news item: ${news.description}`,
   }
 }
 
 export default async function EditNewsPage({ params }: EditNewsPageProps) {
-  const news = await getNewsById(params.id)
+  const id = await params.id;
+  const news = await getNewsById(id)
 
   if (!news) {
     notFound()
