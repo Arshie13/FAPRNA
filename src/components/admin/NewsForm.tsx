@@ -51,7 +51,7 @@ export default function NewsForm({ news }: NewsFormProps) {
   // Initialize form with default values or existing news data
   const form = useForm<INews>({
     defaultValues: {
-      type: news?.type || "EVENT",
+      type: news?.type || NewsType.EVENT,
       title: news?.title || "",
       time: news?.time || "",
       date: news?.date ? new Date(news.date) : new Date(),
@@ -70,20 +70,17 @@ export default function NewsForm({ news }: NewsFormProps) {
   const onSubmit = async (values: INews) => {
     setIsSubmitting(true)
     try {
+      const formattedValues = {
+        ...values,
+        ceus: Number(values.ceus),
+        expected_attendees: Number(values.expected_attendees),
+        date: values.date
+      };
       if (isEditing && news) {
         await updateNews(news.id, values)
         toast("News item updated successfully")
       } else {
-        const formattedValues = {
-          ...values,
-          ceus: Number(values.ceus),
-          expected_attendees: Number(values.expected_attendees),
-          date: values.date
-        };
-
         await createNews(formattedValues)
-
-        console.log("Successfully created news item");
         toast.success("News item created successfully");
       }
       router.push("/admin/news")

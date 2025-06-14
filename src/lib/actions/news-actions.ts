@@ -62,6 +62,7 @@ export async function createNews(data: INews) {
 export async function updateNews(id: string, data: INews) {
   try {
     // If this news is set as latest, unset any other latest news
+    console.log(!isNaN(data.ceus))
     if (data.isLatest) {
       await prisma.news.updateMany({
         where: {
@@ -74,7 +75,10 @@ export async function updateNews(id: string, data: INews) {
 
     const news = await prisma.news.update({
       where: { id },
-      data,
+      data: {
+        ...data,
+        ceus: typeof data.ceus === "string" ? Number(data.ceus) : data.ceus,
+      }
     })
 
     revalidatePath("/admin/news")
