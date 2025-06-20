@@ -87,7 +87,6 @@ export default function VotingForm() {
   const [formData, setFormData] = useState({
     nomineeName: "",
     nomineeTitle: "",
-    nomineeAddress: "",
     nomineeEmail: "",
     nomineePhone: "",
     nominatorName: "",
@@ -474,25 +473,6 @@ export default function VotingForm() {
                         />
                       </div>
                     </div>
-
-                    <div>
-                      <Label
-                        htmlFor="nomineeAddress"
-                        className="text-gray-300 text-sm"
-                      >
-                        Address
-                      </Label>
-                      <Input
-                        id="nomineeAddress"
-                        value={formData.nomineeAddress}
-                        onChange={(e) =>
-                          handleInputChange("nomineeAddress", e.target.value)
-                        }
-                        className="bg-transparent border-gray-700 text-white focus:border-[#D4AF37] focus:ring-[#D4AF37]/20"
-                        required
-                      />
-                    </div>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <Label

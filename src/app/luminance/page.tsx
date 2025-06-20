@@ -10,8 +10,6 @@ function LuminanceContent() {
   const searchParams = useSearchParams()
   const noTransition = searchParams.get("noTransition") === "true"
 
-  console.log("transitioning: ", noTransition)
-
   const handleVote = () => {
     router.push("/vote")
   }

@@ -1,8 +1,8 @@
-import { NewsType } from "@/generated/prisma";
+import { EventType } from "@/generated/prisma";
 
-export interface INews {
+export interface IEvent {
   id: string;
-  type: NewsType;
+  type: EventType;
   title: string;
   time: string;
   date: Date;
