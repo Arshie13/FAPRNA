@@ -50,6 +50,7 @@ model Member {
   fullName          String
   email             String
   password          String
+  phoneNumber       String?
   membershipStatus  MembershipStatus
   image             String
   EventUser         EventUser[]

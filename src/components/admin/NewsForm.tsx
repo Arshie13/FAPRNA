@@ -16,12 +16,11 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Switch } from "@/components/ui/switch"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
-import { updateNews } from "@/lib/actions/news-actions"
-import { NewsType } from "@/generated/prisma"
-import { INews } from "@/lib/interfaces"
-import { createNews } from "@/lib/actions/news-actions"
+import { EventType } from "@/generated/prisma"
+import { IEvent } from "@/lib/interfaces"
+import { createEvent, updateEvent } from "@/lib/actions/event-actions"
 
-interface News {
+interface Event {
   id: string
   type: "EVENT" | "RECOGNITION" | "TEAM"
   title: string
@@ -39,35 +38,35 @@ interface News {
   isLatest: boolean
 }
 
-interface NewsFormProps {
-  news?: News
+interface EventFormProps {
+  event?: Event
 }
 
-export default function NewsForm({ news }: NewsFormProps) {
+export default function EventForm({ event }: EventFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
-  const isEditing = !!news
+  const isEditing = !!event
 
-  // Initialize form with default values or existing news data
-  const form = useForm<INews>({
+  // Initialize form with default values or existing event data
+  const form = useForm<IEvent>({
     defaultValues: {
-      type: news?.type || NewsType.EVENT,
-      title: news?.title || "",
-      time: news?.time || "",
-      date: news?.date ? new Date(news.date) : new Date(),
-      location: news?.location || "",
-      address: news?.address || "",
-      description: news?.description || "",
-      ceus: news?.ceus || 0,
-      image: news?.image || "",
-      expected_attendees: news?.expected_attendees || 0,
-      isFinished: news?.isFinished || false,
-      isLatest: news?.isLatest || false,
+      type: event?.type || EventType.EVENT,
+      title: event?.title || "",
+      time: event?.time || "",
+      date: event?.date ? new Date(event.date) : new Date(),
+      location: event?.location || "",
+      address: event?.address || "",
+      description: event?.description || "",
+      ceus: event?.ceus || 0,
+      image: event?.image || "",
+      expected_attendees: event?.expected_attendees || 0,
+      isFinished: event?.isFinished || false,
+      isLatest: event?.isLatest || false,
     },
   })
 
   // Handle form submission
-  const onSubmit = async (values: INews) => {
+  const onSubmit = async (values: IEvent) => {
     setIsSubmitting(true)
     try {
       const formattedValues = {
@@ -76,17 +75,17 @@ export default function NewsForm({ news }: NewsFormProps) {
         expected_attendees: Number(values.expected_attendees),
         date: values.date
       };
-      if (isEditing && news) {
-        await updateNews(news.id, values)
-        toast("News item updated successfully")
+      if (isEditing && event) {
+        await updateEvent(event.id, values)
+        toast("Event item updated successfully")
       } else {
-        await createNews(formattedValues)
-        toast.success("News item created successfully");
+        await createEvent(formattedValues)
+        toast.success("Event item created successfully");
       }
       router.push("/admin/news")
       router.refresh()
     } catch {
-      toast(isEditing ? "Failed to update news item" : "Failed to create news item")
+      toast(isEditing ? "Failed to update event item" : "Failed to create event item")
     } finally {
       setIsSubmitting(false)
     }
@@ -95,44 +94,44 @@ export default function NewsForm({ news }: NewsFormProps) {
   return (
     <div className="container mx-auto py-10">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">{isEditing ? "Edit News" : "Create News"}</h1>
+        <h1 className="text-3xl font-bold text-gray-900">{isEditing ? "Edit Event" : "Create Event"}</h1>
         <p className="text-gray-500">
-          {isEditing ? "Update existing news item details" : "Add a new news item to the website"}
+          {isEditing ? "Update existing event item details" : "Add a new event item to the website"}
         </p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>{isEditing ? "Edit News Item" : "Create News Item"}</CardTitle>
+          <CardTitle>{isEditing ? "Edit Event Item" : "Create Event Item"}</CardTitle>
           <CardDescription>
-            Fill in the details below to {isEditing ? "update the" : "create a new"} news item.
+            Fill in the details below to {isEditing ? "update the" : "create a new"} event item.
           </CardDescription>
         </CardHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                {/* News Type */}
+                {/* Event Type */}
                 <FormField
                   control={form.control}
                   name="type"
-                  rules={{ required: "Please select a news type" }}
+                  rules={{ required: "Please select an event type" }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>News Type</FormLabel>
+                      <FormLabel>Event Type</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a news type" />
+                            <SelectValue placeholder="Select an event type" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value={NewsType.EVENT}>Event</SelectItem>
-                          <SelectItem value={NewsType.RECOGNITION}>Recognition</SelectItem>
-                          <SelectItem value={NewsType.TEAM}>Team</SelectItem>
+                          <SelectItem value={EventType.EVENT}>Event</SelectItem>
+                          <SelectItem value={EventType.RECOGNITION}>Recognition</SelectItem>
+                          <SelectItem value={EventType.TEAM}>Team</SelectItem>
                         </SelectContent>
                       </Select>
-                      <FormDescription>Select the type of news item you are creating.</FormDescription>
+                      <FormDescription>Select the type of event item you are creating.</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -150,9 +149,9 @@ export default function NewsForm({ news }: NewsFormProps) {
                     <FormItem>
                       <FormLabel>Title</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter news title" {...field} />
+                        <Input placeholder="Enter event title" {...field} />
                       </FormControl>
-                      <FormDescription>The title of the news item.</FormDescription>
+                      <FormDescription>The title of the event item.</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}

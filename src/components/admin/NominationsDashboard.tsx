@@ -30,47 +30,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { getAllNominations, updateNominationStatus, getNominationStats } from "@/lib/actions/nomination-actions"
-
-interface Nomination {
-  id: string
-  nominatorId: string
-  nominee1Id: string
-  nominee2Id?: string
-  nominee3Id?: string
-  createdAt: Date
-  updatedAt: Date
-  category: string
-  reason: string
-  status: string
-  nominator: {
-    id: string
-    fullName: string
-    email: string
-  }
-  nominee1: {
-    id: string
-    fullName: string
-    email: string
-  }
-  nominee2?: {
-    id: string
-    fullName: string
-    email: string
-  }
-  nominee3?: {
-    id: string
-    fullName: string
-    email: string
-  }
-}
-
-interface NominationStats {
-  total: number
-  pending: number
-  approved: number
-  rejected: number
-  categories: { [key: string]: number }
-}
+import { Nomination, NominationStats } from "@/lib/interfaces"
 
 export default function NominationsAdminDashboard() {
   const [nominations, setNominations] = useState<Nomination[]>([])
@@ -85,7 +45,15 @@ export default function NominationsAdminDashboard() {
     setIsLoading(true)
     try {
       const [nominationsData, statsData] = await Promise.all([getAllNominations(), getNominationStats()])
-      setNominations(nominationsData)
+      if (nominationsData.length === 0) {
+        toast("No nominations found")
+        setNominations([])
+        setStats(null)
+      } else {
+        console.log("Fetched nominations:", nominationsData)
+        toast("Nominations fetched successfully")
+        setNominations(nominationsData)
+      }
       setStats(statsData)
     } catch (error) {
       console.log("Error: ", error)

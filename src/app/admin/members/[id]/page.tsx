@@ -3,14 +3,16 @@ import MemberDetails from "@/components/admin/MemberDetails"
 import { getMemberById } from "@/lib/actions/members-actions"
 import { notFound } from "next/navigation"
 
-interface MemberDetailsPageProps {
-  params: {
-    id: string
-  }
-}
+type Params = Promise<{ id: string }>
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
-export async function generateMetadata({ params }: MemberDetailsPageProps): Promise<Metadata> {
-  const member = await getMemberById(params.id)
+export async function generateMetadata(props: { 
+    params: Params, 
+    searchParams: SearchParams 
+  }): Promise<Metadata> {
+  const params = await props.params
+  const id = params.id
+  const member = await getMemberById(id)
 
   if (!member) {
     return {
@@ -24,8 +26,13 @@ export async function generateMetadata({ params }: MemberDetailsPageProps): Prom
   }
 }
 
-export default async function MemberDetailsPage({ params }: MemberDetailsPageProps) {
-  const member = await getMemberById(params.id)
+export default async function MemberDetailsPage(props: { 
+  params: Params, 
+  searchParams: SearchParams 
+  }) {
+  const params = await props.params
+  const id = params.id
+  const member = await getMemberById(id)
 
   if (!member) {
     notFound()

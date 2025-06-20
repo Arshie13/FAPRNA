@@ -2,45 +2,25 @@
 
 import { revalidatePath } from "next/cache"
 import { prisma } from "../utils"
+import { NominationForm } from "../interfaces"
 
 // Get all nominations with related data
 export async function getAllNominations() {
   try {
     const nominations = await prisma.nomination.findMany({
       include: {
-        nominator: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-          },
-        },
-        nominee1: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-          },
-        },
-        nominee2: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-          },
-        },
-        nominee3: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-          },
-        },
+        nominator: { select: { id: true, fullName: true, email: true } },
+        nominee1: { select: { id: true, fullName: true, email: true } },
       },
       orderBy: {
         createdAt: "desc",
       },
     })
+    if (nominations.length === 0) {
+      console.log("No nominations found")
+      return []
+    }
+    console.log("Fetched nominations:", nominations)
     return nominations
   } catch (error) {
     console.error("Failed to fetch nominations:", error)
@@ -162,5 +142,39 @@ export async function deleteNomination(id: string) {
   } catch (error) {
     console.error(`Failed to delete nomination with ID ${id}:`, error)
     throw new Error(`Failed to delete nomination with ID ${id}`)
+  }
+}
+
+export async function createNomination(data: NominationForm) {
+  try {
+    const { nominator, nominee } = data
+
+    const validateNominator = await prisma.member.findFirst({
+      where: { email: nominator.email },
+    })
+    const validateNominee = await prisma.member.findFirst({
+      where: { email: nominee.email },
+    })
+
+    if (!validateNominator || !validateNominee) {
+      throw new Error("Nominator or nominee not found")
+    }
+
+    // Create the nomination
+    const nomination = await prisma.nomination.create({
+      data: {
+        nominatorId: validateNominator.id,
+        nominee1Id: validateNominee.id,
+        category: data.category,
+        reason: data.reason,
+      },
+    })
+
+    revalidatePath("/vote")
+
+    return nomination
+  } catch (error) {
+    console.error("Failed to create nomination:", error)
+    throw new Error("Failed to create nomination")
   }
 }

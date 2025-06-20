@@ -26,8 +26,6 @@ interface NominationDetailsProps {
     id: string
     nominatorId: string
     nominee1Id: string
-    nominee2Id?: string
-    nominee3Id?: string
     createdAt: Date
     updatedAt: Date
     category: string
@@ -39,16 +37,6 @@ interface NominationDetailsProps {
       email: string
     }
     nominee1: {
-      id: string
-      fullName: string
-      email: string
-    }
-    nominee2?: {
-      id: string
-      fullName: string
-      email: string
-    }
-    nominee3?: {
       id: string
       fullName: string
       email: string
@@ -100,7 +88,7 @@ export default function NominationDetails({ nomination }: NominationDetailsProps
     }
   }
 
-  const nominees = [nomination.nominee1, nomination.nominee2, nomination.nominee3].filter(Boolean)
+  const nominees = [nomination.nominee1].filter(Boolean)
 
   return (
     <div className="container mx-auto py-10">
@@ -157,20 +145,20 @@ export default function NominationDetails({ nomination }: NominationDetailsProps
             <CardContent>
               <div className="space-y-4">
                 {nominees.map((nominee, index) => (
-                  <div key={nominee.id} className="flex items-center gap-4 p-4 border rounded-lg">
+                  <div key={nominee?.id} className="flex items-center gap-4 p-4 border rounded-lg">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
                       <User className="h-5 w-5 text-blue-600" />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <h4 className="font-medium text-gray-900">{nominee.fullName}</h4>
+                        <h4 className="font-medium text-gray-900">{nominee?.fullName}</h4>
                         {index === 0 && (
                           <Badge variant="outline" className="text-xs">
                             Primary
                           </Badge>
                         )}
                       </div>
-                      <p className="text-sm text-gray-500">{nominee.email}</p>
+                      <p className="text-sm text-gray-500">{nominee?.email}</p>
                     </div>
                   </div>
                 ))}

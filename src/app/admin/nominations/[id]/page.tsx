@@ -1,16 +1,19 @@
 import type { Metadata } from "next"
-import NominationDetails from "@/components/admin/nomination-details"
+import NominationDetails from "@/components/admin/NominationDetails"
 import { getNominationById } from "@/lib/actions/nomination-actions"
 import { notFound } from "next/navigation"
 
-interface NominationDetailsPageProps {
-  params: {
-    id: string
-  }
-}
+type Params = Promise<{ id: string }>
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
-export async function generateMetadata({ params }: NominationDetailsPageProps): Promise<Metadata> {
-  const nomination = await getNominationById(params.id)
+export async function generateMetadata(props: { 
+  params: Params, 
+  searchParams: SearchParams 
+}): Promise<Metadata> {
+
+  const params = await props.params
+  const id = params.id
+  const nomination = await getNominationById(id)
 
   if (!nomination) {
     return {
@@ -24,8 +27,13 @@ export async function generateMetadata({ params }: NominationDetailsPageProps): 
   }
 }
 
-export default async function NominationDetailsPage({ params }: NominationDetailsPageProps) {
-  const nomination = await getNominationById(params.id)
+export default async function NominationDetailsPage(props: { 
+  params: Params, 
+  searchParams: SearchParams 
+  }) {
+  const params = await props.params
+  const id = params.id
+  const nomination = await getNominationById(id)
 
   if (!nomination) {
     notFound()
