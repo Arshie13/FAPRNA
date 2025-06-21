@@ -1,14 +1,46 @@
-import { eventDetails } from "@/mock_data"
+"use client"
+
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Calendar, MapPin, Users, DollarSign, Award, CheckCircle, Star } from "lucide-react"
 import Link from "next/link"
+import { getEventByTitle } from "@/lib/actions/event-actions"
+import { IEvent } from "@/lib/interfaces"
 
+// const eventDetail = eventDetails[0]
 
-const eventDetail = eventDetails[0]
+export default function EventDetails(title: {title: string}) {
 
-export default function EventDetails() {
+  const [eventDetail, setEventDetail] = useState<IEvent | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchEventDetail() {
+      try {
+        setIsLoading(true)
+        // const processedTitle = title.replace(/-/g, " ") // Convert URL-friendly title to normal title
+        const event = await getEventByTitle(title.title.replace(/%20/g, " "))
+        setEventDetail(event)
+        setIsLoading(false)
+      } catch (error) {
+        console.error("Failed to fetch event details:", error)
+        setIsLoading(false)
+      }
+    }
+
+    fetchEventDetail()
+  }, [title])
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-white">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-600 border-opacity-50"></div>
+      </div>
+    );
+  }
+
   return (
     eventDetail && (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-white">
@@ -60,7 +92,7 @@ export default function EventDetails() {
                   <Card className="overflow-hidden border-0 shadow-2xl">
                     <div className="relative h-80">
                       <Image
-                        src={eventDetail.images[0] || "/placeholder.svg"}
+                        src={eventDetail.image || "/placeholder.svg"}
                         alt={eventDetail.title}
                         fill
                         className="object-cover"
@@ -77,7 +109,7 @@ export default function EventDetails() {
                           <h2 className="text-xl font-bold text-gray-900 mb-2">{eventDetail.title}</h2>
                           <div className="flex items-center text-blue-600 font-semibold">
                             <Calendar className="w-4 h-4 mr-2" />
-                            {eventDetail.date} • {eventDetail.time}
+                            {eventDetail.date.toLocaleDateString()} • {eventDetail.time}
                           </div>
                         </div>
                       </div>
@@ -153,7 +185,7 @@ export default function EventDetails() {
                           <div className="flex items-start">
                             <Calendar className="w-6 h-6 text-blue-600 mr-4 mt-1" />
                             <div>
-                              <div className="font-semibold text-gray-900 text-lg">{eventDetail.date}</div>
+                              <div className="font-semibold text-gray-900 text-lg">{eventDetail.date.toLocaleDateString()}</div>
                               <div className="text-gray-600">{eventDetail.time}</div>
                             </div>
                           </div>

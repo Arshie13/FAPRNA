@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,13 +13,37 @@ import {
   ArrowRight,
 } from "lucide-react";
 import Image from "next/image";
-import { newEvent, eventDetails } from "@/mock_data/index";
 import React, { useRef, useState } from "react";
+import { getLatestEvent, getNotLatestEvents } from "@/lib/actions/event-actions";
+import { IEvent } from "@/lib/interfaces";
 
 export default function EventRegistration() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [events, setEvents] = useState<IEvent[]>([])
+  const [latestEvent, setLatestEvent] = useState<IEvent | null>(null);
   const [current, setCurrent] = useState(0);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
+
+  useEffect(() => {
+    const fetchLatestEvent = async () => {
+      try {
+        setIsLoading(true);
+        const [events, latest] = await Promise.all([
+          getNotLatestEvents(),
+          getLatestEvent()
+        ])
+        setLatestEvent(latest);
+        setEvents(events);
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchLatestEvent();
+  }, [])
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -30,7 +55,7 @@ export default function EventRegistration() {
     if (touchStartX.current !== null && touchEndX.current !== null) {
       const diff = touchStartX.current - touchEndX.current;
       if (Math.abs(diff) > 50) {
-        if (diff > 0 && current < eventDetails.length - 1) {
+        if (diff > 0 && current < events.length - 1) {
           setCurrent(current + 1);
         } else if (diff < 0 && current > 0) {
           setCurrent(current - 1);
@@ -40,6 +65,14 @@ export default function EventRegistration() {
     touchStartX.current = null;
     touchEndX.current = null;
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-white">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-600 border-opacity-50"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -59,7 +92,7 @@ export default function EventRegistration() {
       </section>
 
       {/* Featured Event */}
-      {newEvent && (
+      {latestEvent && (
         <section className="py-20 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
@@ -68,7 +101,7 @@ export default function EventRegistration() {
                 FEATURED EVENT
               </div>
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                {newEvent.title}
+                {latestEvent.title}
               </h2>
             </div>
 
@@ -76,8 +109,8 @@ export default function EventRegistration() {
               <div className="grid md:grid-cols-2">
                 <div className="relative h-64 md:h-auto">
                   <Image
-                    src={newEvent.images[0] || "/placeholder.svg"}
-                    alt={newEvent.title}
+                    src={latestEvent.image || "/placeholder.svg"}
+                    alt={latestEvent.title}
                     fill
                     className="object-cover rounded-l-lg"
                     priority
@@ -87,29 +120,27 @@ export default function EventRegistration() {
                   <div className="space-y-4 mb-6">
                     <div className="flex items-center text-blue-600">
                       <Calendar className="w-5 h-5 mr-2" />
-                      <span className="font-semibold">{newEvent.date}</span>
+                      <span className="font-semibold">{latestEvent.date.toLocaleDateString()}</span>
                     </div>
                     <div className="flex items-center text-gray-600">
                       <Clock className="w-5 h-5 mr-2" />
-                      <span>{newEvent.time}</span>
+                      <span>{latestEvent.time}</span>
                     </div>
                     <div className="flex items-center text-gray-600">
                       <MapPin className="w-5 h-5 mr-2" />
-                      <span>{newEvent.location}</span>
+                      <span>{latestEvent.location}</span>
                     </div>
                     <div className="flex items-center text-gray-600">
                       <Users className="w-5 h-5 mr-2" />
-                      <span>{newEvent.ceus} CEUs Available</span>
+                      <span>{latestEvent.ceus} CEUs Available</span>
                     </div>
                   </div>
-                  <p className="text-gray-700 mb-6">{newEvent.description}</p>
+                  <p className="text-gray-700 mb-6">{latestEvent.description}</p>
                   <Link
-                    href={`/event-registration/details/${newEvent.title
-                      .split(" ")
-                      .join("")}`}
+                    href={`/event-registration/details/${latestEvent.title}`}
                   >
                     <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 font-semibold">
-                      Register Now
+                      Learn More!
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                   </Link>
@@ -132,7 +163,7 @@ export default function EventRegistration() {
             </p>
           </div>
 
-          {eventDetails && (
+          {events && (
             <>
               {/* Mobile carousel */}
               <div className="block md:hidden">
@@ -146,14 +177,14 @@ export default function EventRegistration() {
                     className="flex transition-transform duration-300"
                     style={{ transform: `translateX(-${current * 100}%)` }}
                   >
-                    {eventDetails.map((event, idx) => (
+                    {events.map((event, idx) => (
                       <div key={idx} className="min-w-full px-2">
                         <Card
                           className="border border-gray-200 shadow-lg hover:shadow-xl transition-shadow bg-white"
                         >
                           <div className="relative h-48">
                             <Image
-                              src={event.images[0] || "/placeholder.svg"}
+                              src={event.image || "/placeholder.svg"}
                               alt={event.title}
                               fill
                               className="object-cover rounded-t-lg"
@@ -167,7 +198,7 @@ export default function EventRegistration() {
                           <CardContent className="p-6">
                             <div className="mb-4">
                               <div className="text-blue-600 font-semibold text-sm mb-2">
-                                {event.date} • {event.time}
+                                {event.date.toLocaleDateString()} • {event.time}
                               </div>
                               <h3 className="text-xl font-bold text-gray-900 mb-2">
                                 {event.title}
@@ -181,7 +212,7 @@ export default function EventRegistration() {
                               </div>
                             </div>
                             <Link
-                              href={`/event-registration/details/${event.title.split(" ").join("")}`}
+                              href={`/event-registration/details/${event.title}`}
                             >
                               <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 font-semibold">
                                 Learn More!
@@ -195,7 +226,7 @@ export default function EventRegistration() {
                   </div>
                   {/* Carousel navigation dots */}
                   <div className="flex justify-center mt-4 gap-2">
-                    {eventDetails.map((_, idx) => (
+                    {events.map((_, idx) => (
                       <button
                         key={idx}
                         className={`h-2 w-2 rounded-full ${
@@ -210,14 +241,14 @@ export default function EventRegistration() {
               </div>
               {/* Desktop/tablet grid */}
               <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                {eventDetails.map((event, index) => (
+                {events.map((event, index) => (
                   <Card
                     key={index}
                     className="border border-gray-200 shadow-lg hover:shadow-xl transition-shadow bg-white"
                   >
                     <div className="relative h-48">
                       <Image
-                        src={event.images[0] || "/placeholder.svg"}
+                        src={event.image || "/placeholder.svg"}
                         alt={event.title}
                         fill
                         className="object-cover rounded-t-lg"
@@ -231,7 +262,7 @@ export default function EventRegistration() {
                     <CardContent className="p-6">
                       <div className="mb-4">
                         <div className="text-blue-600 font-semibold text-sm mb-2">
-                          {event.date} • {event.time}
+                          {event.date.toLocaleDateString()} • {event.time}
                         </div>
                         <h3 className="text-xl font-bold text-gray-900 mb-2">
                           {event.title}
@@ -245,7 +276,7 @@ export default function EventRegistration() {
                         </div>
                       </div>
                       <Link
-                        href={`/event-registration/details/${event.title.split(" ").join("")}`}
+                        href={`/event-registration/details/${event.title}`}
                       >
                         <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 font-semibold">
                           Learn More!

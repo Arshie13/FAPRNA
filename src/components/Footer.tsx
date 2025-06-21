@@ -38,6 +38,11 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="#top" className="text-white/80 hover:text-white">
+                  Back to top
+                </Link>
+              </li>
+              <li>
+                <Link href="/" className="text-white/80 hover:text-white">
                   Home
                 </Link>
               </li>

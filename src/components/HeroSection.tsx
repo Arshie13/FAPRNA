@@ -37,7 +37,7 @@ export default function HeroSection() {
 
               {/* Main Title */}
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-in-up animation-delay-200">
-                <span className="text-red-500 hover:text-red-400 transition-colors duration-300 animate-text-shimmer bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text text-transparent bg-size-200 animate-gradient-x">
+                <span className="text-red-500 hover:text-red-400 transition-colors duration-300 animate-text-shimmer bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text bg-size-200 animate-gradient-x">
                   FAPRNA
                 </span>
                 <span className="text-white hover:text-gray-100 transition-colors duration-300">
