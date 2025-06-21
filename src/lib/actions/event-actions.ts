@@ -19,6 +19,46 @@ export async function getAllEvents() {
   }
 }
 
+export async function getNotLatestEvents() {
+  try {
+    const events = await prisma.event.findMany({
+      where: { isLatest: false },
+      orderBy: {
+        date: "desc",
+      },
+    })
+    return events
+  } catch (error) {
+    console.error("Failed to fetch events:", error)
+    throw new Error("Failed to fetch events")
+  }
+}
+
+export async function getLatestEvent() {
+  try {
+    const latestEvent = await prisma.event.findFirst({
+      where: { isLatest: true },
+    })
+    return latestEvent
+  } catch (error) {
+    console.error("Failed to fetch latest event:", error)
+    throw new Error("Failed to fetch latest event")
+  }
+}
+
+// Get event by title
+export async function getEventByTitle(title: string) {
+  try {
+    const event = await prisma.event.findUnique({
+      where: { title },
+    })
+    return event
+  } catch (error) {
+    console.error(`Failed to fetch event title: ${title}:`, error)
+    throw new Error(`Failed to fetch event title: ${title}`)
+  }
+}
+
 // Get event by ID
 export async function getEventById(id: string) {
   try {

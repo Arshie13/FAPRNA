@@ -10,8 +10,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
+  // directUrl = env("DIRECT_URL")
 }
 
 enum EventType {
@@ -27,7 +28,7 @@ enum MembershipStatus {
 }
 
 model Event {
-  id                 String      @id @default(cuid())
+  id                 String      @id @default(cuid()) @map("_id")
   type               EventType
   title              String      @unique
   time               String
@@ -46,7 +47,7 @@ model Event {
 }
 
 model Member {
-  id                String           @id @default(cuid())
+  id                String           @id @default(cuid()) @map("_id")
   fullName          String
   email             String
   password          String
@@ -61,7 +62,7 @@ model Member {
 }
 
 model EventUser {
-  id        String  @id @default(cuid())
+  id        String  @id @default(cuid()) @map("_id")
   member    Member  @relation(fields: [memberId], references: [id])
   memberId  String
   event     Event   @relation(fields: [eventId], references: [id])
@@ -70,7 +71,7 @@ model EventUser {
 }
 
 model Nomination {
-  id          String   @id @default(cuid())
+  id          String   @id @default(cuid()) @map("_id")
   nominatorId String
   nominee1Id  String
   nominee2Id  String?
@@ -78,7 +79,7 @@ model Nomination {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   category    String
-  reason      String   @db.Text
+  reason      String
   status      String   @default("PENDING") // PENDING, APPROVED, REJECTED
 
   nominator Member  @relation("Nominator", fields: [nominatorId], references: [id])
