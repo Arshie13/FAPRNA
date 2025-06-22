@@ -26,6 +26,7 @@ export default function EventDetails(title: {title: string}) {
         setIsLoading(false)
       } catch (error) {
         console.error("Failed to fetch event details:", error)
+        setEventDetail(null)
         setIsLoading(false)
       }
     }
@@ -39,6 +40,22 @@ export default function EventDetails(title: {title: string}) {
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-600 border-opacity-50"></div>
       </div>
     );
+  }
+
+  if (!eventDetail) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-white">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-800 mb-4">Event Not Found</h1>
+          <p className="text-gray-600 mb-6">The event you are looking for does not exist or has been removed.</p>
+          <Link href="/event-registration">
+            <Button className="bg-blue-600 text-white hover:bg-blue-700 transition-all px-6 py-3 rounded-full">
+              Back to Events
+            </Button>
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   return (

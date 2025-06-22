@@ -1,10 +1,11 @@
-import Link from "next/link";
-// import { useRouter } from "next/navigation";
-// import { Button } from "@/components/ui/button";
+"use client"
+
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
 
-  // const router = useRouter();
+  const router = useRouter();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] text-center gap-8 p-8">
@@ -13,14 +14,11 @@ export default function NotFound() {
       <p className="text-gray-500 max-w-md">
         Sorry, the page you are looking for does not exist or has been moved.
       </p>
-      {/* <Button onClick={() => router.back()}>
-        Go Back
-      </Button> */}
-      <Link href="/" className="inline-block mt-4">
-        <span className="rounded-full bg-blue-600 px-8 py-3 text-white font-bold shadow-lg hover:bg-blue-700 transition-all">
-          Go Home
+      <Button className="rounded-full bg-blue-600 px-8 py-3 text-white font-bold shadow-lg hover:bg-blue-700 transition-all" onClick={() => router.back()}>
+        <span >
+          Go Back
         </span>
-      </Link>
+      </Button>
     </div>
   );
 }
