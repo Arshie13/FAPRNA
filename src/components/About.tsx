@@ -75,21 +75,6 @@ export default function HomePage() {
       role: "MD, MSN, APRN, FNP-BC, MAP (NSBN, Advanced Practice Advisory Committee)",
       image: "/cofounder1.png",
     },
-    {
-      name: "Alona Angosta",
-      role: "PhD, APRN, FNP, NP-C (NSBN, Advanced Practice Advisory Committee)",
-      image: "/cofounder2.png",
-    },
-    {
-      name: "Jennifer Kawi",
-      role: "PhD, MSN, APRN, FNP-BC, CNE",
-      image: "/cofounder3.png",
-    },
-    {
-      name: "Richard Talusan",
-      role: "DNP, MSN, APRN, FNP-BC, NEA-BC",
-      image: "/placeholder.svg?height=200&width=200&text=LB",
-    },
   ];
 
   const pearls = ["P", "E", "A", "R", "L", "S"];
@@ -124,9 +109,9 @@ export default function HomePage() {
               FAPRNA - NV
             </h1>
             <p className="text-lg md:text-3xl text-white mb-4 md:mb-8 leading-relaxed">
-              A non-profit, professional organization dedicated to unify and foster
-              excellence of the Filipino-American Advanced Practice Nurses in
-              Nevada.
+              A non-profit, professional organization dedicated to unify and
+              foster excellence of the Filipino-American Advanced Practice
+              Nurses in Nevada.
             </p>
           </div>
           <div className="flex-1 flex justify-center mt-6 md:mt-0">
@@ -182,15 +167,15 @@ export default function HomePage() {
         className="py-12 md:py-20 bg-white"
       >
         <div className="container mx-auto px-4 md:px-8 max-w-10xl">
-          <h2
-            className={`text-3xl md:text-6xl font-bold text-center mb-8 md:mb-16 text-[#003366] transition-all duration-1000 ${
+          <h1
+            className={`text-4xl md:text-7xl lg:text-8xl font-extrabold text-center mb-10 md:mb-20 text-[#003366] transition-all duration-1000 ${
               isVisible("history")
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-10"
             }`}
           >
             Our History
-          </h2>
+          </h1>
           <div className="flex flex-col lg:flex-row items-center gap-10 md:gap-40">
             <div
               className={`w-full lg:w-1/3 text-center transition-all duration-1000 delay-300 ${
@@ -273,45 +258,91 @@ export default function HomePage() {
                 : "opacity-0 translate-y-10"
             }`}
           >
-            Co-Founders
+            Co-Founder
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-            {coFounders.map((founder, index) => (
-              <div
-                key={index}
-                className={`text-center group transition-all duration-1000 ${
-                  isVisible("team")
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-10"
-                }`}
-                style={{ transitionDelay: `${400 + index * 200}ms` }}
-              >
-                <div className="w-32 h-32 md:w-50 md:h-50 rounded-full overflow-hidden shadow-lg mx-auto mb-4 md:mb-6 border-4 border-white group-hover:border-yellow-400 transition-all duration-300 group-hover:scale-110 transform bg-gray-100 flex items-center justify-center">
-                  {founder.image &&
-                  !founder.image.startsWith("/placeholder.svg") ? (
-                    <Image
-                      src={founder.image}
-                      alt={founder.name}
-                      width={200}
-                      height={200}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-xl md:text-3xl font-bold text-[#003366] w-full text-center">
-                      {founder.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </span>
-                  )}
+          {coFounders.length === 1 ? (
+            <div
+              className={`flex justify-center transition-all duration-1000 ${
+                isVisible("team")
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+            >
+              <Card className="bg-white shadow-2xl transition-all duration-300 w-full max-w-4xl mx-auto">
+                <CardContent className="flex flex-col md:flex-row items-center md:items-stretch p-12 gap-12 md:gap-0">
+                  {/* Image on the left */}
+                  <div className="w-40 h-40 md:w-64 md:h-64 rounded-full overflow-hidden shadow-lg mb-6 md:mb-0 md:mr-12 border-4 border-yellow-400 bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    {coFounders[0].image &&
+                    !coFounders[0].image.startsWith("/placeholder.svg") ? (
+                      <Image
+                        src={coFounders[0].image}
+                        alt={coFounders[0].name}
+                        width={256}
+                        height={256}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-3xl md:text-5xl font-bold text-[#003366] w-full text-center">
+                        {coFounders[0].name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </span>
+                    )}
+                  </div>
+                  {/* Details on the right */}
+                  <div className="flex-1 flex flex-col justify-center items-center md:items-start text-center md:text-left">
+                    <h3 className="font-semibold text-2xl md:text-3xl text-[#003366] mb-2">
+                      {coFounders[0].name}
+                    </h3>
+                    <p className="text-lg md:text-xl text-[#003366] ">
+                      {coFounders[0].role}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+              {coFounders.map((founder, index) => (
+                <div
+                  key={index}
+                  className={`text-center group transition-all duration-1000 ${
+                    isVisible("team")
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-10"
+                  }`}
+                  style={{ transitionDelay: `${400 + index * 200}ms` }}
+                >
+                  <div className="w-32 h-32 md:w-50 md:h-50 rounded-full overflow-hidden shadow-lg mx-auto mb-4 md:mb-6 border-4 border-white group-hover:border-yellow-400 transition-all duration-300 group-hover:scale-110 transform bg-gray-100 flex items-center justify-center">
+                    {founder.image &&
+                    !founder.image.startsWith("/placeholder.svg") ? (
+                      <Image
+                        src={founder.image}
+                        alt={founder.name}
+                        width={200}
+                        height={200}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-xl md:text-3xl font-bold text-[#003366] w-full text-center">
+                        {founder.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="font-semibold text-lg md:text-2xl text-white mb-1 md:mb-2">
+                    {founder.name}
+                  </h3>
+                  <p className="text-base md:text-xl text-blue-200">
+                    {founder.role}
+                  </p>
                 </div>
-                <h3 className="font-semibold text-lg md:text-2xl text-white mb-1 md:mb-2">
-                  {founder.name}
-                </h3>
-                <p className="text-base md:text-xl text-blue-200">{founder.role}</p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -488,7 +519,7 @@ export default function HomePage() {
                           Give us a Text
                         </p>
                         <p className="text-lg md:text-2xl text-[#ffffff] tracking-wide">
-                          (702) 875-3369
+                          (702) 417-3865
                         </p>
                       </div>
                     </div>
@@ -507,7 +538,7 @@ export default function HomePage() {
                           Send us an Email
                         </p>
                         <p className="text-lg md:text-2xl text-[#ffffff] tracking-wide">
-                          info@FAPRNA.org
+                          faprnanv702@gmail.com
                         </p>
                       </div>
                     </div>
