@@ -19,7 +19,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { updateMemberStatus } from "@/lib/actions/members-actions"
 
 type MembershipStatus = "APPROVED" | "DENIED" | "PENDING"
@@ -30,7 +30,6 @@ interface MemberDetailsProps {
     fullName: string
     email: string
     membershipStatus: MembershipStatus
-    image: string
     nominationsMade: Array<{
       id: string
       category: string
@@ -128,7 +127,6 @@ export default function MemberDetails({ member }: MemberDetailsProps) {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <Avatar className="h-16 w-16">
-                    <AvatarImage src={member.image || "/placeholder.svg"} alt={member.fullName} />
                     <AvatarFallback className="text-lg">{getInitials(member.fullName)}</AvatarFallback>
                   </Avatar>
                   <div>
