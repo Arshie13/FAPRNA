@@ -137,9 +137,8 @@ export async function deleteMember(id: string) {
 export async function createMember(data: {
   fullName: string
   email: string
-  password: string
   membershipStatus: "APPROVED" | "DENIED" | "PENDING"
-  image: string
+  phoneNumber: string | null
 }) {
   try {
     // Check if email already exists
@@ -157,9 +156,8 @@ export async function createMember(data: {
       data: {
         fullName: data.fullName,
         email: data.email,
-        password: data.password, // In production, hash this password
         membershipStatus: data.membershipStatus,
-        image: data.image,
+        phoneNumber: data.phoneNumber || null,
       },
     })
 

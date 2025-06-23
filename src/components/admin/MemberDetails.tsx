@@ -254,6 +254,25 @@ export default function MemberDetails({ member }: MemberDetailsProps) {
                   <label className="text-sm font-medium text-gray-500">Membership Status</label>
                   <div className="mt-1">{getStatusBadge(member.membershipStatus)}</div>
                 </div>
+                {/* Status Change Dropdown */}
+                <div>
+                  <label className="text-sm font-medium text-gray-500">Change Status</label>
+                  <select
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-gray-900"
+                    value={member.membershipStatus}
+                    onChange={async (e) => {
+                      const newStatus = e.target.value as MembershipStatus
+                      if (newStatus !== member.membershipStatus) {
+                        await handleStatusUpdate(newStatus)
+                      }
+                    }}
+                    disabled={isUpdating}
+                  >
+                    <option value="PENDING">Pending</option>
+                    <option value="APPROVED">Approved</option>
+                    <option value="DENIED">Denied</option>
+                  </select>
+                </div>
               </div>
             </CardContent>
           </Card>

@@ -49,11 +49,9 @@ model Event {
 model Member {
   id                String           @id @default(cuid()) @map("_id")
   fullName          String
-  email             String
-  password          String
-  phoneNumber       String?
+  email             String           @unique
+  phoneNumber       String?          @unique
   membershipStatus  MembershipStatus
-  image             String
   EventUser         EventUser[]
   nominationsMade   Nomination[]     @relation("Nominator")
   firstNominations  Nomination[]     @relation("FirstNominee")
