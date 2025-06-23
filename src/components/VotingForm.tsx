@@ -12,6 +12,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft, Send, Award, Star, Medal, Crown } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { createNomination } from "@/lib/actions/nomination-actions";
+import type { Member } from "@/lib/interfaces";
 
 const categories = [
   {
@@ -87,7 +89,6 @@ export default function VotingForm() {
   const [formData, setFormData] = useState({
     nomineeName: "",
     nomineeTitle: "",
-    nomineeAddress: "",
     nomineeEmail: "",
     nomineePhone: "",
     nominatorName: "",
@@ -97,12 +98,29 @@ export default function VotingForm() {
     agreeTerms: false,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const nominee: Member = {
+    fullName: formData.nomineeName,
+    email: formData.nomineeEmail,
+    phone: formData.nomineePhone,
+  }
+
+  const nominator: Member = {
+    fullName: formData.nominatorName,
+    email: formData.nominatorEmail,
+    phone: formData.nominatorPhone,
+  }
+
+  const nominationData = {
+    nominator,
+    nominee,
+    reason: formData.reason,
+    category: selectedCategory,
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", { selectedCategory, ...formData });
-    alert(
-      "Thank you for your nomination! Your submission has been received and will be reviewed by our awards committee."
-    );
+
+    await createNomination(nominationData)
   };
 
   const handleInputChange = (field: string, value: string | boolean) => {
@@ -474,25 +492,6 @@ export default function VotingForm() {
                         />
                       </div>
                     </div>
-
-                    <div>
-                      <Label
-                        htmlFor="nomineeAddress"
-                        className="text-gray-300 text-sm"
-                      >
-                        Address
-                      </Label>
-                      <Input
-                        id="nomineeAddress"
-                        value={formData.nomineeAddress}
-                        onChange={(e) =>
-                          handleInputChange("nomineeAddress", e.target.value)
-                        }
-                        className="bg-transparent border-gray-700 text-white focus:border-[#D4AF37] focus:ring-[#D4AF37]/20"
-                        required
-                      />
-                    </div>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <Label

@@ -10,20 +10,27 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
+  // directUrl = env("DIRECT_URL")
 }
 
-enum NewsType {
+enum EventType {
   EVENT
   RECOGNITION
   TEAM
 }
 
-model News {
-  id                 String   @id @default(cuid())
-  type               NewsType
-  title              String   @unique
+enum MembershipStatus {
+  APPROVED
+  DENIED
+  PENDING
+}
+
+model Event {
+  id                 String      @id @default(cuid()) @map("_id")
+  type               EventType
+  title              String      @unique
   time               String
   date               DateTime
   location           String
@@ -32,8 +39,56 @@ model News {
   ceus               Int
   image              String
   expected_attendees Int
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  isFinished         Boolean  @default(false)
-  isLatest           Boolean  @default(false)
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+  isFinished         Boolean     @default(false)
+  isLatest           Boolean     @default(false)
+  EventUser          EventUser[]
+}
+
+model Member {
+  id                String           @id @default(cuid()) @map("_id")
+  fullName          String
+  email             String
+  password          String
+  phoneNumber       String?
+  membershipStatus  MembershipStatus
+  image             String
+  EventUser         EventUser[]
+  nominationsMade   Nomination[]     @relation("Nominator")
+  firstNominations  Nomination[]     @relation("FirstNominee")
+  secondNominations Nomination[]     @relation("SecondNominee")
+  thirdNominations  Nomination[]     @relation("ThirdNominee")
+}
+
+model EventUser {
+  id        String  @id @default(cuid()) @map("_id")
+  member    Member  @relation(fields: [memberId], references: [id])
+  memberId  String
+  event     Event   @relation(fields: [eventId], references: [id])
+  eventId   String
+  isPending Boolean @default(false)
+}
+
+model Nomination {
+  id          String   @id @default(cuid()) @map("_id")
+  nominatorId String
+  nominee1Id  String
+  nominee2Id  String?
+  nominee3Id  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  category    String
+  reason      String
+  status      String   @default("PENDING") // PENDING, APPROVED, REJECTED
+
+  nominator Member  @relation("Nominator", fields: [nominatorId], references: [id])
+  nominee1  Member  @relation("FirstNominee", fields: [nominee1Id], references: [id])
+  nominee2  Member? @relation("SecondNominee", fields: [nominee2Id], references: [id])
+  nominee3  Member? @relation("ThirdNominee", fields: [nominee3Id], references: [id])
+
+  @@index([nominatorId])
+  @@index([nominee1Id])
+  @@index([nominee2Id])
+  @@index([nominee3Id])
 }

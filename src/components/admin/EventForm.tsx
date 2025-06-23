@@ -16,9 +16,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Switch } from "@/components/ui/switch"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
+import { createEvent, updateEvent } from "@/lib/actions/event-actions"
 import { EventType } from "@/generated/prisma"
 import { IEvent } from "@/lib/interfaces"
-import { createEvent, updateEvent } from "@/lib/actions/event-actions"
 
 interface Event {
   id: string
@@ -82,7 +82,7 @@ export default function EventForm({ event }: EventFormProps) {
         await createEvent(formattedValues)
         toast.success("Event item created successfully");
       }
-      router.push("/admin/news")
+      router.push("/admin/events")
       router.refresh()
     } catch {
       toast(isEditing ? "Failed to update event item" : "Failed to create event item")
@@ -115,7 +115,7 @@ export default function EventForm({ event }: EventFormProps) {
                 <FormField
                   control={form.control}
                   name="type"
-                  rules={{ required: "Please select an event type" }}
+                  rules={{ required: "Please select a event type" }}
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Event Type</FormLabel>
@@ -298,7 +298,7 @@ export default function EventForm({ event }: EventFormProps) {
                       <FormControl>
                         <Input placeholder="Enter image URL" {...field} />
                       </FormControl>
-                      <FormDescription>URL to the image for this news item.</FormDescription>
+                      <FormDescription>URL to the image for this event item.</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -318,7 +318,7 @@ export default function EventForm({ event }: EventFormProps) {
                       <FormControl>
                         <Textarea placeholder="Enter a detailed description" className="min-h-32" {...field} />
                       </FormControl>
-                      <FormDescription>Detailed description of the news item.</FormDescription>
+                      <FormDescription>Detailed description of the event item.</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -348,8 +348,8 @@ export default function EventForm({ event }: EventFormProps) {
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
-                        <FormLabel className="text-base">Latest News</FormLabel>
-                        <FormDescription>Feature this as the latest news item on the homepage.</FormDescription>
+                        <FormLabel className="text-base">Latest Event</FormLabel>
+                        <FormDescription>Feature this as the latest event item on the homepage.</FormDescription>
                       </div>
                       <FormControl>
                         <Switch checked={field.value} onCheckedChange={field.onChange} />
@@ -360,12 +360,12 @@ export default function EventForm({ event }: EventFormProps) {
               </div>
             </CardContent>
             <CardFooter className="flex justify-between">
-              <Button type="button" variant="outline" onClick={() => router.push("/admin/news")}>
+              <Button type="button" variant="outline" onClick={() => router.push("/admin/events")}>
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {isEditing ? "Update News" : "Create News"}
+                {isEditing ? "Update Event" : "Create Event"}
               </Button>
             </CardFooter>
           </form>
