@@ -29,7 +29,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { getAllMembers, updateMemberStatus, getMemberStats } from "@/lib/actions/members-actions"
 
 type MembershipStatus = "APPROVED" | "DENIED" | "PENDING"
@@ -39,7 +39,6 @@ interface Member {
   fullName: string
   email: string
   membershipStatus: MembershipStatus
-  image: string
   _count: {
     nominationsMade: number
     EventUser: number
@@ -280,7 +279,6 @@ export default function MembersAdminDashboard() {
                           <TableCell>
                             <div className="flex items-center gap-3">
                               <Avatar className="h-10 w-10">
-                                <AvatarImage src={member.image || "/placeholder.svg"} alt={member.fullName} />
                                 <AvatarFallback>{getInitials(member.fullName)}</AvatarFallback>
                               </Avatar>
                               <div>

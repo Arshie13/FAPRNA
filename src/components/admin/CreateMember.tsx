@@ -2,7 +2,7 @@
 
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, Loader2, User, Mail, Lock, ImageIcon } from 'lucide-react'
+import { ArrowLeft, Loader2, User, Mail } from 'lucide-react'
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,79 +10,35 @@ import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from "sonner"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { createMember } from "@/lib/actions/members-actions"
 
 interface FormValues {
   fullName: string
   email: string
-  password: string
-  confirmPassword: string
   membershipStatus: "APPROVED" | "DENIED" | "PENDING"
-  image: string
+  phoneNumber?: string
 }
 
 export default function CreateMemberForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [imagePreview, setImagePreview] = useState<string>("")
   const router = useRouter()
 
   const form = useForm<FormValues>({
     defaultValues: {
       fullName: "",
       email: "",
-      password: "",
-      confirmPassword: "",
       membershipStatus: "PENDING",
-      image: "",
     },
   })
 
-  const watchedImage = form.watch("image")
-  const watchedFullName = form.watch("fullName")
-
-  // Update image preview when image URL changes
-  React.useEffect(() => {
-    setImagePreview(watchedImage)
-  }, [watchedImage])
-
-  const getInitials = (name: string) => {
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-  }
-
-  const generatePassword = () => {
-    const length = 12
-    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*"
-    let password = ""
-    for (let i = 0; i < length; i++) {
-      password += charset.charAt(Math.floor(Math.random() * charset.length))
-    }
-    form.setValue("password", password)
-    form.setValue("confirmPassword", password)
-    toast("A secure password has been generated. Make sure to share it with the member.")
-  }
-
   const onSubmit = async (values: FormValues) => {
-    if (values.password !== values.confirmPassword) {
-      form.setError("confirmPassword", {
-        type: "manual",
-        message: "Passwords do not match",
-      })
-      return
-    }
-
     setIsSubmitting(true)
     try {
       await createMember({
         fullName: values.fullName,
         email: values.email,
-        password: values.password,
         membershipStatus: values.membershipStatus,
-        image: values.image || "/placeholder.svg?height=400&width=300",
+        phoneNumber: values.phoneNumber || null,
       })
       
       toast("Member created successfully")
@@ -194,77 +150,6 @@ export default function CreateMemberForm() {
                         </FormItem>
                       )}
                     />
-
-                    {/* Password */}
-                    <FormField
-                      control={form.control}
-                      name="password"
-                      rules={{
-                        required: "Password is required",
-                        minLength: { value: 8, message: "Password must be at least 8 characters" },
-                      }}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Password</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                              <Input type="password" placeholder="Enter password" className="pl-10" {...field} />
-                            </div>
-                          </FormControl>
-                          <div className="flex items-center justify-between">
-                            <FormDescription>Minimum 8 characters required.</FormDescription>
-                            <Button type="button" variant="outline" size="sm" onClick={generatePassword}>
-                              Generate
-                            </Button>
-                          </div>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    {/* Confirm Password */}
-                    <FormField
-                      control={form.control}
-                      name="confirmPassword"
-                      rules={{
-                        required: "Please confirm the password",
-                      }}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Confirm Password</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                              <Input type="password" placeholder="Confirm password" className="pl-10" {...field} />
-                            </div>
-                          </FormControl>
-                          <FormDescription>Re-enter the password to confirm.</FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    {/* Profile Image URL */}
-                    <FormField
-                      control={form.control}
-                      name="image"
-                      render={({ field }) => (
-                        <FormItem className="md:col-span-2">
-                          <FormLabel>Profile Image URL (Optional)</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <ImageIcon className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                              <Input placeholder="Enter image URL" className="pl-10" {...field} />
-                            </div>
-                          </FormControl>
-                          <FormDescription>
-                            URL to the member&apos;s profile picture. Leave empty to use default avatar.
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
                   </div>
                 </CardContent>
                 <CardFooter className="flex justify-between">
@@ -290,14 +175,7 @@ export default function CreateMemberForm() {
             </CardHeader>
             <CardContent>
               <div className="flex flex-col items-center space-y-4">
-                <Avatar className="h-20 w-20">
-                  <AvatarImage src={imagePreview || "/placeholder.svg"} alt={watchedFullName || "Member"} />
-                  <AvatarFallback className="text-lg">
-                    {watchedFullName ? getInitials(watchedFullName) : "M"}
-                  </AvatarFallback>
-                </Avatar>
                 <div className="text-center">
-                  <h3 className="font-medium">{watchedFullName || "Member Name"}</h3>
                   <p className="text-sm text-gray-500">{form.watch("email") || "member@example.com"}</p>
                   <div className="mt-2">
                     {form.watch("membershipStatus") === "APPROVED" && (
@@ -332,10 +210,6 @@ export default function CreateMemberForm() {
                 <div className="flex items-start gap-2">
                   <div className="mt-1 h-1.5 w-1.5 rounded-full bg-blue-500" />
                   <p>Email addresses must be unique in the system</p>
-                </div>
-                <div className="flex items-start gap-2">
-                  <div className="mt-1 h-1.5 w-1.5 rounded-full bg-blue-500" />
-                  <p>Generated passwords are secure and should be shared with the member</p>
                 </div>
                 <div className="flex items-start gap-2">
                   <div className="mt-1 h-1.5 w-1.5 rounded-full bg-blue-500" />

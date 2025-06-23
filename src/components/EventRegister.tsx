@@ -35,9 +35,9 @@ export default function EventRegistration() {
         ])
         setLatestEvent(latest);
         setEvents(events);
+        setIsLoading(false);
       } catch (error) {
         console.error("Failed to fetch events:", error);
-      } finally {
         setIsLoading(false);
       }
     }

@@ -10,6 +10,8 @@ import { ExternalLink, Check, Users, Award, Clock, QrCode, Mail, Phone, User, Ar
 import type React from "react"
 import { useRef, useState } from "react"
 import Image from "next/image"
+import { toast } from "sonner"
+import { createMember } from "@/lib/actions/members-actions"
 
 export default function Component() {
   const membershipUrl =
@@ -133,15 +135,40 @@ export default function Component() {
     }
   }
 
-  const handlePayNow = () => {
-    // Redirect to Zeffy with the selected plan
-    window.open(membershipUrl, "_blank")
-    setIsModalOpen(false)
-    // Reset form
-    setFormData({ name: "", email: "", phone: "", verificationCode: "" })
-    setIsVerificationSent(false)
-    setIsVerified(false)
+  // const handlePayNow = () => {
+  //   // Redirect to Zeffy with the selected plan
+  //   window.open(membershipUrl, "_blank")
+  //   setIsModalOpen(false)
+  //   // Reset form
+  //   setFormData({ name: "", email: "", phone: "", verificationCode: "" })
+  //   setIsVerificationSent(false)
+  //   setIsVerified(false)
+  // }
+
+  const handleRegisterAndPay = async () => {
+  if (!formData.name || !formData.email || !formData.phone || !isVerified || !selectedPlan) {
+    toast.error("Please complete all fields and verify your email.");
+    return;
   }
+  try {
+    await createMember({
+      fullName: formData.name,
+      email: formData.email,
+      membershipStatus: "PENDING",
+      phoneNumber: formData.phone,
+    });
+    toast.success("Registration successful! Redirecting to payment...");
+    // Redirect to Zeffy with the selected plan
+    window.open(membershipUrl, "_blank");
+    setIsModalOpen(false);
+  } catch {
+    toast.error("Failed to register member.");
+  } finally {
+    setFormData({ name: "", email: "", phone: "", verificationCode: "" });
+    setIsVerificationSent(false);
+    setIsVerified(false);
+  }
+};
 
   const JoinNowButton = ({ plan }: { plan: (typeof membershipPlans)[0] }) => (
     <Button
@@ -469,7 +496,7 @@ export default function Component() {
                     </div>
 
                     <Button
-                      onClick={handlePayNow}
+                      onClick={handleRegisterAndPay}
                       disabled={!formData.name || !formData.email || !formData.phone || !isVerified}
                       className={`w-full bg-gradient-to-r ${selectedPlan?.color || "from-blue-500 to-indigo-600"} text-white py-3 text-lg font-semibold`}
                     >
