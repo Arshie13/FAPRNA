@@ -12,63 +12,37 @@ export async function sendVerificationCode(email: string) {
   try {
     // Generate verification code
     const code = generateVerificationCode()
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000) // 10 minutes from now
 
     // Store verification code in database
-    await prisma.verificationCode.create({
-      data: {
-        email,
-        code,
-        expiresAt,
-      },
-    })
+    // await prisma.verificationCode.create({
+    //   data: {
+    //     email,
+    //     code,
+    //     expiresAt,
+    //   },
+    // })
 
     // Send email
     const emailResult = await sendVerificationEmail(email, code)
-    
+
     if (!emailResult.success) {
       throw new Error(emailResult.error)
     }
 
-    return { success: true, message: "Verification code sent successfully" }
+    return { success: true, message: "Verification code sent successfully", code }
   } catch (error) {
     console.error("Failed to send verification code:", error)
     return { success: false, error: "Failed to send verification code" }
   }
 }
 
-export async function verifyCode(email: string, code: string) {
-  try {
-    // Find the verification code
-    const verificationRecord = await prisma.verificationCode.findFirst({
-      where: {
-        email,
-        code,
-        used: false,
-        expiresAt: {
-          gt: new Date(), // Not expired
-        },
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    })
+export async function verifyCode(sentCode: string, codeInput: string) {
 
-    if (!verificationRecord) {
-      return { success: false, error: "Invalid or expired verification code" }
-    }
-
-    // Mark as used
-    await prisma.verificationCode.update({
-      where: { id: verificationRecord.id },
-      data: { used: true },
-    })
-
-    return { success: true, message: "Email verified successfully" }
-  } catch (error) {
-    console.error("Failed to verify code:", error)
-    return { success: false, error: "Failed to verify code" }
+  if (sentCode !== codeInput) {
+    return { success: false, error: "Invalid or expired verification code" }
   }
+
+  return { success: true, message: "Email verified successfully" }
 }
 
 // Clean up expired verification codes (optional, can be run as a cron job)
