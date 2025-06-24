@@ -2,16 +2,10 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { Badge } from "@/components/ui/badge"
-import { ExternalLink, Check, Users, Award, Clock, QrCode, Mail, Phone, User, ArrowRight } from "lucide-react"
+import { ExternalLink, Check, Users, Award, Clock } from "lucide-react"
 import type React from "react"
 import { useRef, useState } from "react"
-import Image from "next/image"
-import { toast } from "sonner"
-import { createMember } from "@/lib/actions/members-actions"
+import RegistrationModal from "./RegistrationModal"
 
 export default function Component() {
   const membershipUrl =
@@ -77,14 +71,6 @@ export default function Component() {
   const [current, setCurrent] = useState(0)
   const [selectedPlan, setSelectedPlan] = useState<(typeof membershipPlans)[0] | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    verificationCode: "",
-  })
-  const [isVerificationSent, setIsVerificationSent] = useState(false)
-  const [isVerified, setIsVerified] = useState(false)
 
   const touchStartX = useRef<number | null>(null)
   const touchEndX = useRef<number | null>(null)
@@ -114,61 +100,6 @@ export default function Component() {
     setSelectedPlan(plan)
     setIsModalOpen(true)
   }
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
-
-  const handleSendVerification = async () => {
-    if (formData.email) {
-      // Simulate sending verification code
-      setIsVerificationSent(true)
-      // In a real app, you would call your email service here
-      console.log("Sending verification code to:", formData.email)
-    }
-  }
-
-  const handleVerifyCode = () => {
-    // Simulate code verification
-    if (formData.verificationCode === "123456" || formData.verificationCode.length >= 4) {
-      setIsVerified(true)
-    }
-  }
-
-  // const handlePayNow = () => {
-  //   // Redirect to Zeffy with the selected plan
-  //   window.open(membershipUrl, "_blank")
-  //   setIsModalOpen(false)
-  //   // Reset form
-  //   setFormData({ name: "", email: "", phone: "", verificationCode: "" })
-  //   setIsVerificationSent(false)
-  //   setIsVerified(false)
-  // }
-
-  const handleRegisterAndPay = async () => {
-  if (!formData.name || !formData.email || !formData.phone || !isVerified || !selectedPlan) {
-    toast.error("Please complete all fields and verify your email.");
-    return;
-  }
-  try {
-    await createMember({
-      fullName: formData.name,
-      email: formData.email,
-      membershipStatus: "PENDING",
-      phoneNumber: formData.phone,
-    });
-    toast.success("Registration successful! Redirecting to payment...");
-    // Redirect to Zeffy with the selected plan
-    window.open(membershipUrl, "_blank");
-    setIsModalOpen(false);
-  } catch {
-    toast.error("Failed to register member.");
-  } finally {
-    setFormData({ name: "", email: "", phone: "", verificationCode: "" });
-    setIsVerificationSent(false);
-    setIsVerified(false);
-  }
-};
 
   const JoinNowButton = ({ plan }: { plan: (typeof membershipPlans)[0] }) => (
     <Button
@@ -315,204 +246,12 @@ export default function Component() {
           </div>
 
           {/* Registration Modal */}
-          {isModalOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center">
-              {/* Backdrop */}
-              <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
-
-              {/* Modal Content */}
-              <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
-                {/* Header */}
-                <div className="sticky top-0 bg-white border-b px-6 py-4 rounded-t-lg">
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-bold">Complete Your Registration</h2>
-                    <button
-                      onClick={() => setIsModalOpen(false)}
-                      className="text-gray-400 hover:text-gray-600 transition-colors"
-                    >
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                  </div>
-                  {selectedPlan && (
-                    <div className="mt-2">
-                      <Badge className={`bg-gradient-to-r ${selectedPlan.color} text-white`}>
-                        {selectedPlan.name} - {selectedPlan.price}
-                      </Badge>
-                    </div>
-                  )}
-                </div>
-
-                {/* Modal Body */}
-                <div className="px-6 py-4 space-y-6">
-                  {/* Registration Form */}
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="name" className="flex items-center gap-2">
-                        <User className="w-4 h-4" />
-                        Full Name
-                      </Label>
-                      <Input
-                        id="name"
-                        value={formData.name}
-                        onChange={(e) => handleInputChange("name", e.target.value)}
-                        placeholder="Enter your full name"
-                        required
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="email" className="flex items-center gap-2">
-                        <Mail className="w-4 h-4" />
-                        Email Address
-                      </Label>
-                      <div className="flex gap-2">
-                        <Input
-                          id="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={(e) => handleInputChange("email", e.target.value)}
-                          placeholder="Enter your email"
-                          required
-                          className="flex-1"
-                        />
-                        {!isVerificationSent && (
-                          <Button
-                            onClick={handleSendVerification}
-                            disabled={!formData.email}
-                            size="sm"
-                            variant="outline"
-                          >
-                            Send Code
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-
-                    {isVerificationSent && !isVerified && (
-                      <div className="space-y-2">
-                        <Label htmlFor="verification" className="flex items-center gap-2">
-                          <Mail className="w-4 h-4" />
-                          Email Verification Code
-                        </Label>
-                        <div className="flex gap-2">
-                          <Input
-                            id="verification"
-                            value={formData.verificationCode}
-                            onChange={(e) => handleInputChange("verificationCode", e.target.value)}
-                            placeholder="Enter verification code"
-                            className="flex-1"
-                          />
-                          <Button onClick={handleVerifyCode} disabled={!formData.verificationCode} size="sm">
-                            Verify
-                          </Button>
-                        </div>
-                        <p className="text-sm text-gray-500">Check your email for the verification code</p>
-                      </div>
-                    )}
-
-                    {isVerified && (
-                      <div className="flex items-center gap-2 text-green-600 text-sm">
-                        <Check className="w-4 h-4" />
-                        Email verified successfully!
-                      </div>
-                    )}
-
-                    <div className="space-y-2">
-                      <Label htmlFor="phone" className="flex items-center gap-2">
-                        <Phone className="w-4 h-4" />
-                        Phone Number
-                      </Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        value={formData.phone}
-                        onChange={(e) => handleInputChange("phone", e.target.value)}
-                        placeholder="Enter your phone number"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <Separator />
-
-                  {/* QR Code Section */}
-                  <div className="space-y-4">
-                    <div className="text-center">
-                      <h3 className="font-semibold mb-2 flex items-center justify-center gap-2">
-                        <QrCode className="w-5 h-5" />
-                        FAPRNA Membership QR Code
-                      </h3>
-                      <div className="flex justify-center mb-4">
-                        <div className="bg-white p-4 rounded-lg shadow-md">
-                          <Image
-                            src="/faprna-reg.jpg"
-                            alt="FAPRNA Membership QR Code"
-                            width={200}
-                            height={200}
-                            className="mx-auto"
-                          />
-                        </div>
-                      </div>
-                      <p className="text-sm text-gray-600 mb-4">
-                        Scan this QR code for quick access to membership information
-                      </p>
-                    </div>
-                  </div>
-
-                  <Separator />
-
-                  {/* Payment Instructions */}
-                  <div className="space-y-4">
-                    <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                      <h3 className="font-semibold text-blue-900 mb-2">Next Steps:</h3>
-                      <ol className="text-sm text-blue-800 space-y-2">
-                        <li className="flex items-start gap-2">
-                          <span className="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
-                            1
-                          </span>
-                          Complete this registration form
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
-                            2
-                          </span>
-                          Click &quot;Pay Now to go to Zeffy&quot;
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
-                            3
-                          </span>
-                          Select the <strong>{selectedPlan?.name}</strong> plan on Zeffy
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
-                            4
-                          </span>
-                          Complete your payment to finalize registration
-                        </li>
-                      </ol>
-                    </div>
-
-                    <Button
-                      onClick={handleRegisterAndPay}
-                      disabled={!formData.name || !formData.email || !formData.phone || !isVerified}
-                      className={`w-full bg-gradient-to-r ${selectedPlan?.color || "from-blue-500 to-indigo-600"} text-white py-3 text-lg font-semibold`}
-                    >
-                      <ArrowRight className="w-5 h-5 mr-2" />
-                      Pay Now on Zeffy
-                    </Button>
-
-                    <p className="text-xs text-gray-500 text-center">
-                      You will be redirected to Zeffy to complete your payment. Make sure to select the same membership
-                      plan you chose here.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          <RegistrationModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            selectedPlan={selectedPlan}
+            membershipUrl={membershipUrl}
+          />
 
           {/* Additional Info */}
           <div className="bg-white rounded-lg shadow-lg p-8 border-l-4 border-blue-500">
