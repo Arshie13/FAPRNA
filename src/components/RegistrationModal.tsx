@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import { Check, QrCode, Mail, Phone, User, ArrowRight } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import { toast } from "sonner"
 import { createMember } from "@/lib/actions/members-actions"
@@ -43,6 +43,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedPlan, membe
   })
   const [isVerificationSent, setIsVerificationSent] = useState(false)
   const [isVerified, setIsVerified] = useState(false)
+  const [code, setCode] = useState<string>("")
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -50,45 +51,65 @@ export default function RegistrationModal({ isOpen, onClose, selectedPlan, membe
 
   const handleSendVerification = async () => {
     if (!formData.email) {
-      toast.error("Please enter your email address")
-      return
+      toast.error("Please enter your email address");
+      return;
     }
 
-    setIsSendingCode(true)
+    setIsSendingCode(true);
     try {
-      const result = await sendVerificationCode(formData.email)
-      
-      if (result.success) {
-        setIsVerificationSent(true)
-        toast.success("Verification code sent to your email")
-      } else {
-        toast.error(result.error || "Failed to send verification code")
-      }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      toast.error("Failed to send verification code")
-    } finally {
-      setIsSendingCode(false)
-    }
-  }
+      const { code, error } = await sendVerificationCode(formData.email);
 
+      if (error || !code) {
+        toast.error(error);
+        return;
+      }
+
+      setCode(code);
+      setIsVerificationSent(true);
+      toast.success("Verification code sent! Please check your email.");
+    } catch (error) {
+      console.error("Failed to send verification code:", error);
+      toast.error("Failed to send verification code");
+    } finally {
+      setIsSendingCode(false);
+    }
+  };
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    if (isVerificationSent) {
+      timer = setTimeout(() => {
+        toast.error("Verification code has expired. Please request a new code.");
+        setIsVerificationSent(false);
+        setFormData((prev) => ({ ...prev, verificationCode: "" }));
+      }, 30 * 1000); // 10 minutes
+    }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isVerificationSent]); // Only re-run when isVerificationSent changes
+
+
+  // might not reset the verification code timer and could cause issues later.
   const handleVerifyCode = async () => {
     if (!formData.verificationCode) {
       toast.error("Please enter the verification code")
       return
     }
 
-    setIsVerifying(true)
     try {
-      const result = await verifyCode(formData.email, formData.verificationCode)
-      
+      setIsVerifying(true)
+      const result = await verifyCode(code, formData.verificationCode)
+
       if (result.success) {
         setIsVerified(true)
         toast.success("Email verified successfully!")
       } else {
         toast.error(result.error || "Invalid verification code. Please check and try again.")
       }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Failed to verify code. Please try again.")
     } finally {
@@ -156,7 +177,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedPlan, membe
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={handleClose} />
-      
+
       <div className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-white border-b px-6 py-4 rounded-t-lg">
           <div className="flex items-center justify-between">
@@ -237,9 +258,9 @@ export default function RegistrationModal({ isOpen, onClose, selectedPlan, membe
                     placeholder="Enter verification code"
                     className="flex-1"
                   />
-                  <Button 
-                    onClick={handleVerifyCode} 
-                    disabled={!formData.verificationCode || isVerifying} 
+                  <Button
+                    onClick={handleVerifyCode}
+                    disabled={!formData.verificationCode || isVerifying}
                     size="sm"
                   >
                     {isVerifying ? "Verifying..." : "Verify"}
