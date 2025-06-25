@@ -38,6 +38,7 @@ model Event {
   description        String
   ceus               Int
   image              String
+  ytLink             String?
   expected_attendees Int
   createdAt          DateTime    @default(now())
   updatedAt          DateTime    @updatedAt
@@ -49,16 +50,25 @@ model Event {
 model Member {
   id                String           @id @default(cuid()) @map("_id")
   fullName          String
-  email             String
-  password          String
-  phoneNumber       String?
+  email             String           @unique
+  phoneNumber       String?          @unique
   membershipStatus  MembershipStatus
-  image             String
   EventUser         EventUser[]
   nominationsMade   Nomination[]     @relation("Nominator")
   firstNominations  Nomination[]     @relation("FirstNominee")
   secondNominations Nomination[]     @relation("SecondNominee")
   thirdNominations  Nomination[]     @relation("ThirdNominee")
+}
+
+model VerificationCode {
+  id        String   @id @default(cuid()) @map("_id")
+  email     String
+  code      String
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
 }
 
 model EventUser {

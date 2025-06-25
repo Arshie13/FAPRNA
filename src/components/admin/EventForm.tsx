@@ -31,6 +31,7 @@ interface Event {
   description: string
   ceus: number
   image: string
+  ytLink?: string
   expected_attendees: number
   createdAt: Date
   updatedAt: Date
@@ -359,6 +360,33 @@ export default function EventForm({ event }: EventFormProps) {
                 />
               </div>
             </CardContent>
+            {/* Show YouTube Link if event is finished */}
+            {form.watch("isFinished") && (
+              <div className="px-6 pb-6">
+                <FormField
+                  control={form.control}
+                  name="ytLink"
+                  rules={{
+                    pattern: {
+                      value: /^$|^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/,
+                      message: "Please enter a valid YouTube URL",
+                    },
+                  }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>YouTube Link</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter YouTube video URL (optional)" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        Add a YouTube link for the event recording (optional, shown only for finished events).
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
             <CardFooter className="flex justify-between">
               <Button type="button" variant="outline" onClick={() => router.push("/admin/events")}>
                 Cancel

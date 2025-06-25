@@ -31,19 +31,23 @@ export default function Navbar() {
           <Link href="/" className="flex items-center">
             <div className="flex flex-col">
               <div className="flex items-center">
-                <Image src="/faprna_logo.png" alt="FAPRNA-NV Logo" width={40} height={40} className="mr-2" />
-                <span className="text-xl font-bold text-[#003366]">FAPRNA-NV</span>
+                <Image src="/faprna_logo.png" alt="FAPRNA-NV Logo" width={60} height={40} className="mr-2" />
+                <span className="text-2xl font-bold text-[#003366]">FAPRNA-NV</span>
+              </div>
+              <div className="hidden flex-col text-sm text-[#003366] md:flex">
+                <span>Filipino-American Advanced Practice</span>
+                <span>Registered Nurses Association</span>
               </div>
             </div>
           </Link>
         </div>
 
-        <nav className="hidden mx-5 md:flex md:items-center md:gap-6">
+        <nav className="hidden mx-5 md:flex md:items-center md:gap-10">
           {mainNavItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium text-[#003366] hover:text-[#003366] relative group transition-all duration-300"
+              className="text-s font-bold text-[#003366] hover:text-[#003366] relative group transition-all duration-300"
             >
               {item.label}
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#003366] transition-all duration-300 group-hover:w-full"></span>
@@ -52,7 +56,7 @@ export default function Navbar() {
 
           {/* Enhanced More dropdown with improved hover effects */}
           <div className="group relative z-50">
-            <button className="flex items-center gap-1 text-sm font-medium text-[#003366] hover:text-[#003366] relative transition-all duration-300">
+            <button className="flex items-center gap-1 text-s font-bold text-[#003366] hover:text-[#003366] relative transition-all duration-300">
               More
               <ChevronRight className="h-4 w-4 transition-transform group-hover:rotate-90 duration-200" />
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#003366] transition-all duration-300 group-hover:w-[calc(100%+1rem)]"></span>
@@ -63,7 +67,7 @@ export default function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="block px-4 py-3 text-sm font-medium text-[#003366] hover:bg-[#003366]/10 transition-all
+                    className="block px-4 py-3 text-sm font-bold text-[#003366] hover:bg-[#003366]/10 transition-all
                                hover:pl-6 duration-300 border-b border-gray-100 last:border-b-0 relative
                                before:content-[''] before:absolute before:left-2 before:top-1/2 
                                before:-translate-y-1/2 before:w-1 before:h-1 before:rounded-full 

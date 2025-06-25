@@ -3,8 +3,9 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ExternalLink, Check, Users, Award, Clock } from "lucide-react"
-import React, { useRef, useState } from "react"
-
+import type React from "react"
+import { useRef, useState } from "react"
+import RegistrationModal from "./RegistrationModal"
 
 export default function Component() {
   const membershipUrl =
@@ -26,7 +27,7 @@ export default function Component() {
       ],
       icon: <Clock className="w-6 h-6" />,
       popular: false,
-      color: "from-emerald-500 to-teal-600",
+      color: "from-yellow-300 to-yellow-500",
     },
     {
       id: "1year",
@@ -63,11 +64,14 @@ export default function Component() {
       ],
       icon: <Award className="w-6 h-6" />,
       popular: false,
-      color: "from-purple-500 to-violet-600",
+      color: "from-rose-500 to-rose-600",
     },
   ]
 
   const [current, setCurrent] = useState(0)
+  const [selectedPlan, setSelectedPlan] = useState<(typeof membershipPlans)[0] | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const touchStartX = useRef<number | null>(null)
   const touchEndX = useRef<number | null>(null)
 
@@ -92,10 +96,23 @@ export default function Component() {
     touchEndX.current = null
   }
 
+  const handleJoinNow = (plan: (typeof membershipPlans)[0]) => {
+    setSelectedPlan(plan)
+    setIsModalOpen(true)
+  }
+
+  const JoinNowButton = ({ plan }: { plan: (typeof membershipPlans)[0] }) => (
+    <Button
+      onClick={() => handleJoinNow(plan)}
+      className={`w-full bg-gradient-to-r ${plan.color} text-white py-3 px-6 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300`}
+    >
+      <ExternalLink className="w-5 h-5 mr-2" />
+      Join Now
+    </Button>
+  )
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-red-50">
-
-
       {/* Main Content */}
       <main className="py-16 px-4 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-100/20 via-transparent to-red-100/20 pointer-events-none"></div>
@@ -130,7 +147,6 @@ export default function Component() {
               >
                 {membershipPlans.map((plan) => (
                   <div key={plan.id} className="min-w-full px-2">
-                    {/* Card content (copy from below) */}
                     <Card
                       className={`relative overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 ${
                         plan.popular ? "ring-4 ring-blue-500 ring-opacity-50" : ""
@@ -138,10 +154,14 @@ export default function Component() {
                     >
                       {plan.popular && (
                         <div className="absolute top-0 left-0 right-0">
-                          <div className="bg-blue-500 text-white text-center py-2 text-sm font-semibold">Most Popular</div>
+                          <div className="bg-blue-500 text-white text-center py-2 text-sm font-semibold">
+                            Most Popular
+                          </div>
                         </div>
                       )}
-                      <CardHeader className={`bg-gradient-to-r ${plan.color} text-white ${plan.popular ? "pt-12" : "pt-6"}`}>
+                      <CardHeader
+                        className={`bg-gradient-to-r ${plan.color} text-white ${plan.popular ? "pt-12" : "pt-6"}`}
+                      >
                         <div className="flex items-center justify-center mb-4">
                           <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
                             {plan.icon}
@@ -163,15 +183,7 @@ export default function Component() {
                             </li>
                           ))}
                         </ul>
-                        <Button
-                          asChild
-                          className={`w-full bg-gradient-to-r ${plan.color} text-white py-3 px-6 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300`}
-                        >
-                          <a href={membershipUrl} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="w-5 h-5 mr-2" />
-                            Join Now
-                          </a>
-                        </Button>
+                        <JoinNowButton plan={plan} />
                       </CardContent>
                     </Card>
                   </div>
@@ -227,19 +239,19 @@ export default function Component() {
                       </li>
                     ))}
                   </ul>
-                  <Button
-                    asChild
-                    className={`w-full bg-gradient-to-r ${plan.color} text-white py-3 px-6 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300`}
-                  >
-                    <a href={membershipUrl} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="w-5 h-5 mr-2" />
-                      Join Now
-                    </a>
-                  </Button>
+                  <JoinNowButton plan={plan} />
                 </CardContent>
               </Card>
             ))}
           </div>
+
+          {/* Registration Modal */}
+          <RegistrationModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            selectedPlan={selectedPlan}
+            membershipUrl={membershipUrl}
+          />
 
           {/* Additional Info */}
           <div className="bg-white rounded-lg shadow-lg p-8 border-l-4 border-blue-500">
@@ -259,7 +271,6 @@ export default function Component() {
           </div>
         </div>
       </main>
-
     </div>
   )
 }
