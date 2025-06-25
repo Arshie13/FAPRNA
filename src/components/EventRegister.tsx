@@ -33,8 +33,17 @@ export default function EventRegistration() {
           getNotLatestEvents(),
           getLatestEvent()
         ])
-        setLatestEvent(latest);
-        setEvents(events);
+        setLatestEvent(
+          latest
+            ? { ...latest, ytLink: latest.ytLink === null ? undefined : latest.ytLink }
+            : null
+        );
+        setEvents(
+          events.map(event => ({
+            ...event,
+            ytLink: event.ytLink === null ? undefined : event.ytLink
+          }))
+        );
         setIsLoading(false);
       } catch (error) {
         console.error("Failed to fetch events:", error);

@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import EventForm from "@/components/admin/EventForm"
 import { getEventById } from "@/lib/actions/event-actions"
 import { notFound } from "next/navigation"
+import { IEvent } from "@/lib/interfaces"
 
 type Props = Promise<{
   id: string
@@ -27,7 +28,7 @@ export async function generateMetadata(props: { params: Props }): Promise<Metada
 export default async function EditEventPage(props: { params: Props }) {
   const params = await props.params;
   const id = await params.id
-  const event = await getEventById(id)
+  const event = await getEventById(id) as IEvent
 
   if (!event) {
     notFound()

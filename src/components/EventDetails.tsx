@@ -22,7 +22,11 @@ export default function EventDetails(title: {title: string}) {
         setIsLoading(true)
         // const processedTitle = title.replace(/-/g, " ") // Convert URL-friendly title to normal title
         const event = await getEventByTitle(title.title.replace(/%20/g, " "))
-        setEventDetail(event)
+        if (event) {
+          setEventDetail({ ...event, ytLink: event.ytLink ?? undefined })
+        } else {
+          setEventDetail(null)
+        }
         setIsLoading(false)
       } catch (error) {
         console.error("Failed to fetch event details:", error)
@@ -235,6 +239,24 @@ export default function EventDetails(title: {title: string}) {
                         </div>
                       </div>
 
+                      {/* YouTube Link Box */}
+                      {eventDetail.ytLink && (
+                        <Button
+                          className="w-full bg-red-600 hover:bg-red-700 text-white py-3 text-base font-semibold rounded-lg mt-6 flex items-center justify-center gap-2"
+                          asChild
+                        >
+                          <a
+                            href={eventDetail.ytLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M21.8 8.001a2.75 2.75 0 0 0-1.94-1.946C18.2 5.5 12 5.5 12 5.5s-6.2 0-7.86.555A2.75 2.75 0 0 0 2.2 8.001 28.6 28.6 0 0 0 1.5 12a28.6 28.6 0 0 0 .7 3.999 2.75 2.75 0 0 0 1.94 1.946C5.8 18.5 12 18.5 12 18.5s6.2 0 7.86-.555a2.75 2.75 0 0 0 1.94-1.946A28.6 28.6 0 0 0 22.5 12a28.6 28.6 0 0 0-.7-3.999zM10 15.5v-7l6 3.5-6 3.5z"/>
+                            </svg>
+                            Watch Event Recording
+                          </a>
+                        </Button>
+                      )}
                       <div className="mt-8 pt-6 border-t border-gray-200">
                         <Button className="w-full bg-gradient-to-r from-blue-600 to-red-600 hover:from-blue-700 hover:to-red-700 text-white py-4 text-lg font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl mb-4">
                           Register Now
