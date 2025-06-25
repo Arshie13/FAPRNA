@@ -1,20 +1,47 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function HeroSection() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const images = [
+    "/heropage.jpeg",
+    "/heropage2.jpg",
+    "/heropage3.jpg",
+    "/heropage4.jpg",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   return (
     <section className="relative w-full overflow-hidden h-[600px] md:h-[700px]">
-      {/* Hero background image */}
+      {/* Hero background slideshow */}
       <div className="absolute inset-0">
-        <Image
-          src="/heropage.jpeg"
-          alt="FAPRNA-NV Healthcare Professionals"
-          fill
-          className="object-cover object-center"
-          priority
-        />
+        {images.map((src, index) => (
+          <Image
+            key={index}
+            src={src || "/placeholder.svg"}
+            alt="FAPRNA-NV Healthcare Professionals"
+            fill
+            className={`object-cover object-center transition-opacity duration-1000 ${
+              index === currentImageIndex ? "opacity-100" : "opacity-0"
+            }`}
+            priority={index === 0}
+          />
+        ))}
         {/* Blue overlay */}
         <div className="absolute inset-0 bg-blue-900/70"></div>
       </div>
@@ -29,7 +56,8 @@ export default function HeroSection() {
               {/* <div className="inline-block mb-6 animate-fade-in-up animation-delay-100">
                 <span
                   className="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide \
-                               hover:bg-red-700 transition-all duration-300 hover:scale-105 hover:shadow-lg\n                               animate-pulse-subtle"
+                               hover:bg-red-700 transition-all duration-300 hover:scale-105 hover:shadow-lg
+                               animate-pulse-subtle"
                 >
                   Non Profit Organization
                 </span>
@@ -46,20 +74,23 @@ export default function HeroSection() {
               </h1>
 
               {/* Description */}
-              <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed max-w-2xl animate-fade-in-up animation-delay-300\n                           hover:text-white transition-colors duration-300">
-                A non-profit, professional organization dedicated to unify and
-                foster excellence of the Filipino-American Advanced Practice
-                Nurses in Nevada.
+              <p
+                className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed max-w-2xl animate-fade-in-up animation-delay-300
+                           hover:text-white transition-colors duration-300"
+              >
+                Filipino-American Advanced Practice Registered Nurses
+                Association
               </p>
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-400">
                 <Link href="/event-registration">
                   <Button
-                    className="group rounded-full bg-red-600 px-6 py-6 text-base font-semibold hover:bg-red-700 \
-                                 transition-all duration-300 hover:scale-105 hover:shadow-xl \
-                                 hover:shadow-red-500/25 transform-gpu\n                                 before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-r \
-                                 before:from-red-400 before:to-red-600 before:opacity-0 before:transition-opacity \
+                    className="group rounded-full bg-red-600 px-6 py-6 text-base font-semibold hover:bg-red-700 
+                                 transition-all duration-300 hover:scale-105 hover:shadow-xl 
+                                 hover:shadow-red-500/25 transform-gpu
+                                 before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-r 
+                                 before:from-red-400 before:to-red-600 before:opacity-0 before:transition-opacity 
                                  before:duration-300 hover:before:opacity-20 relative overflow-hidden"
                   >
                     <span className="relative z-10">Upcoming Events</span>
@@ -69,9 +100,10 @@ export default function HeroSection() {
                 <Link href="/about">
                   <Button
                     variant="outline"
-                    className="rounded-full border-white bg-transparent px-6 py-6 text-base font-semibold text-white \
-                           hover:bg-white/10 transition-all duration-300 hover:scale-105 hover:shadow-xl \
-                           hover:shadow-white/25 hover:border-gray-200 transform-gpu\n                           backdrop-blur-sm hover:backdrop-blur-md"
+                    className="rounded-full border-white bg-transparent px-6 py-6 text-base font-semibold text-white 
+                           hover:bg-white/10 transition-all duration-300 hover:scale-105 hover:shadow-xl 
+                           hover:shadow-white/25 hover:border-gray-200 transform-gpu
+                           backdrop-blur-sm hover:backdrop-blur-md"
                   >
                     <span>Learn More</span>
                     <svg
