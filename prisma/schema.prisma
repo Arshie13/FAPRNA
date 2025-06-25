@@ -38,6 +38,7 @@ model Event {
   description        String
   ceus               Int
   image              String
+  ytLink             String?
   expected_attendees Int
   createdAt          DateTime    @default(now())
   updatedAt          DateTime    @updatedAt
@@ -66,7 +67,7 @@ model VerificationCode {
   expiresAt DateTime
   used      Boolean  @default(false)
   createdAt DateTime @default(now())
-  
+
   @@index([email])
 }
 
