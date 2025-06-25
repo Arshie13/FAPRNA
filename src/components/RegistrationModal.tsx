@@ -63,7 +63,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedPlan, membe
       const { code, error } = await sendVerificationCode(formData.email);
 
       if (error || !code) {
-        console.log("error sending code")
+        console.log("error sending code", error)
         toast.error(error);
         return;
       }
