@@ -50,6 +50,8 @@ export default function RegistrationModal({ isOpen, onClose, selectedPlan, membe
   }
 
   const handleSendVerification = async () => {
+    console.log("Sending verification code for email:", formData.email, "Plan:", selectedPlan?.name)
+
     if (!formData.email) {
       toast.error("Please enter your email address");
       return;
@@ -57,13 +59,16 @@ export default function RegistrationModal({ isOpen, onClose, selectedPlan, membe
 
     setIsSendingCode(true);
     try {
+      console.log("sending code")
       const { code, error } = await sendVerificationCode(formData.email);
 
       if (error || !code) {
+        console.log("error sending code")
         toast.error(error);
         return;
       }
 
+      console.log("code sent")
       setCode(code);
       setIsVerificationSent(true);
       toast.success("Verification code sent! Please check your email.");
