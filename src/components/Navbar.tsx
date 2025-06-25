@@ -34,10 +34,6 @@ export default function Navbar() {
                 <Image src="/faprna_logo.png" alt="FAPRNA-NV Logo" width={40} height={40} className="mr-2" />
                 <span className="text-xl font-bold text-[#003366]">FAPRNA-NV</span>
               </div>
-              <div className="hidden flex-col text-xs text-[#003366] md:flex">
-                <span>Filipino-American Advanced Practice</span>
-                <span>Registered Nurses Association</span>
-              </div>
             </div>
           </Link>
         </div>
