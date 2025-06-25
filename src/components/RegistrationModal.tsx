@@ -83,7 +83,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedPlan, membe
         toast.error("Verification code has expired. Please request a new code.");
         setIsVerificationSent(false);
         setFormData((prev) => ({ ...prev, verificationCode: "" }));
-      }, 2 * 60 * 1000); // 2 minutes
+      }, 2 * 60 * 1000); // 2 minutes`
     }
 
     return () => {
