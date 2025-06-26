@@ -62,15 +62,11 @@ export default function Footer() {
             {/* Links list - always visible on desktop, dropdown on mobile */}
             <ul 
               id="quick-links-mobile"
-              className={`space-y-2 text-sm transition-all duration-300 ease-in-out ${
-                isQuickLinksOpen ? 'block' : 'hidden'
-              } md:block`}
+              className={`grid grid-cols-2 gap-x-4 gap-y-2 text-sm transition-all duration-300 ease-in-out ${
+                isQuickLinksOpen ? 'grid' : 'hidden'
+              } md:grid`}
             >
-              <li>
-                <Link href="#top" className="text-white/80 hover:text-white">
-                  Back to top
-                </Link>
-              </li>
+
               <li>
                 <Link href="/" className="text-white/80 hover:text-white">
                   Home
@@ -105,6 +101,11 @@ export default function Footer() {
               <li>
                 <Link href="/bylaws" className="text-white/80 hover:text-white">
                   By Laws
+                </Link>
+              </li>
+              <li>
+                <Link href="/admin" className="text-red-500 hover:text-white">
+                  Admin
                 </Link>
               </li>
             </ul>

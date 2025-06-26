@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Calendar, MapPin, Users, DollarSign, Award, CheckCircle, Star } from "lucide-react"
+import { ArrowLeft, Calendar, MapPin, Users, DollarSign, Award, Star } from "lucide-react"
 import Link from "next/link"
 import { getEventByTitle } from "@/lib/actions/event-actions"
 import { IEvent } from "@/lib/interfaces"
@@ -136,7 +136,7 @@ export default function EventDetails(title: {title: string}) {
                       </div>
 
                       {/* Event Highlights */}
-                      <div className="grid md:grid-cols-2 gap-6">
+                      {/* <div className="grid md:grid-cols-2 gap-6">
                         <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-6 border border-green-200">
                           <div className="flex items-center mb-3">
                             <CheckCircle className="w-6 h-6 text-green-600 mr-2" />
@@ -167,7 +167,7 @@ export default function EventDetails(title: {title: string}) {
                           </div>
                           <p className="text-blue-700 text-sm">Learn from industry-leading professionals</p>
                         </div>
-                      </div>
+                      </div> */}
                     </CardContent>
                   </Card>
                 </div>

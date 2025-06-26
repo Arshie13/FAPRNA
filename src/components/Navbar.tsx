@@ -20,7 +20,7 @@ export default function Navbar() {
 
   const moreNavItems = [
     { href: "/about", label: "About Us" },
-    { href: "/board", label: "Board Members" },
+    { href: "/board", label: "Executive Board Members" },
     { href: "/bylaws", label: "By Laws & Policies" },
   ]
 
@@ -34,10 +34,10 @@ export default function Navbar() {
                 <Image src="/faprna_logo.png" alt="FAPRNA-NV Logo" width={60} height={40} className="mr-2" />
                 <span className="text-2xl font-bold text-[#003366]">FAPRNA-NV</span>
               </div>
-              <div className="hidden flex-col text-sm text-[#003366] md:flex">
+              {/* <div className="hidden flex-col text-sm text-[#003366] md:flex">
                 <span>Filipino-American Advanced Practice</span>
                 <span>Registered Nurses Association</span>
-              </div>
+              </div> */}
             </div>
           </Link>
         </div>
