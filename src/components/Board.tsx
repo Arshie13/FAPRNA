@@ -1,28 +1,28 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState, useEffect, useRef, useCallback } from "react"
-import Image from "next/image"
-import { Mail, Phone } from "lucide-react"
+import type React from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
+import { Mail, Phone } from "lucide-react";
 
 // SVG icons from simpleicons.org for Facebook, Instagram, Twitter
 const FacebookIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="currentColor">
     <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073c0 6.019 4.388 10.995 10.125 11.854v-8.385H7.078v-3.47h3.047V9.413c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.513c-1.491 0-1.953.926-1.953 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.068 24 18.092 24 12.073z" />
   </svg>
-)
+);
 
 const InstagramIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="currentColor">
     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.31.974.976 1.247 2.243 1.31 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.063 1.366-.336 2.633-1.31 3.608-.975.976-2.242 1.248-3.608 1.31-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.31-.974-.975-1.247-2.242-1.31-3.608C2.175 15.647 2.163 15.267 2.163 12s.012-3.584.07-4.85c.063-1.366.336-2.633 1.31-3.608.975-.976 2.242-1.248 3.608-1.31C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.013 7.052.072 5.775.13 4.602.388 3.635 1.355 2.668 2.322 2.41 3.495 2.352 4.772.013 8.332 0 8.741 0 12c0 3.259.013 3.668.072 4.948.058 1.277.316 2.45 1.283 3.417.967.967 2.14 1.225 3.417 1.283C8.332 23.987 8.741 24 12 24s3.668-.013 4.948-.072c1.277-.058 2.45-.316 3.417-1.283.967-.967 2.14-1.225 3.417-1.283C15.668.013 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z" />
   </svg>
-)
+);
 
 const TwitterIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="currentColor">
     <path d="M24 4.557a9.83 9.83 0 0 1-2.828.775 4.932 4.932 0 0 0 2.165-2.724c-.951.564-2.005.974-3.127 1.195a4.916 4.916 0 0 0-8.38 4.482C7.691 8.095 4.066 6.13 1.64 3.161c-.542.93-.856 2.011-.857 3.17 0 2.188 1.115 4.117 2.823 5.254a4.904 4.904 0 0 1-2.229-.616c-.054 2.281 1.581 4.415 3.949 4.89a4.936 4.936 0 0 1-2.224.084c.627 1.956 2.444 3.377 4.6 3.418A9.867 9.867 0 0 1 0 21.543a13.94 13.94 0 0 0 7.548 2.209c9.058 0 14.009-7.496 14.009-13.986 0-.21-.005-.423-.015-.634A10.012 10.012 0 0 0 24 4.557z" />
   </svg>
-)
+);
 
 const allMembers = [
   {
@@ -145,142 +145,144 @@ const allMembers = [
     twitter: "https://x.com/vianne_calipusan",
     image: "adviser4.jpg",
   },
-]
+];
 
 export default function BoardOrgChart() {
-  const [currentMember, setCurrentMember] = useState(0)
-  const [isVisible, setIsVisible] = useState(false)
-  const [isChanging, setIsChanging] = useState(false)
-  const [isDragging, setIsDragging] = useState(false)
+  const [currentMember, setCurrentMember] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isChanging, setIsChanging] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({
     x: 0,
     y: 0,
     scrollLeft: 0,
     time: 0,
-  })
-  const [hasMoved, setHasMoved] = useState(false)
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  });
+  const [hasMoved, setHasMoved] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setIsVisible(true)
-  }, [])
+    setIsVisible(true);
+  }, []);
 
   // Enhanced member change effect with smoother transitions
   useEffect(() => {
     if (scrollContainerRef.current) {
-      const scrollContainer = scrollContainerRef.current
-      const selectedElement = scrollContainer.children[currentMember] as HTMLElement
+      const scrollContainer = scrollContainerRef.current;
+      const selectedElement = scrollContainer.children[
+        currentMember
+      ] as HTMLElement;
 
       if (selectedElement) {
-        const containerWidth = scrollContainer.offsetWidth
-        const elementLeft = selectedElement.offsetLeft
-        const elementWidth = selectedElement.offsetWidth
+        const containerWidth = scrollContainer.offsetWidth;
+        const elementLeft = selectedElement.offsetLeft;
+        const elementWidth = selectedElement.offsetWidth;
 
         // Smooth scroll to center the selected member
         scrollContainer.scrollTo({
           left: elementLeft - containerWidth / 2 + elementWidth / 2,
           behavior: "smooth",
-        })
+        });
       }
     }
 
     // Enhanced fade transition with stagger effect
-    setIsChanging(true)
-    const timer = setTimeout(() => setIsChanging(false), 400)
-    return () => clearTimeout(timer)
-  }, [currentMember])
+    setIsChanging(true);
+    const timer = setTimeout(() => setIsChanging(false), 400);
+    return () => clearTimeout(timer);
+  }, [currentMember]);
 
   // Improved drag functionality with better click detection
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    if (!scrollContainerRef.current) return
+    if (!scrollContainerRef.current) return;
 
-    e.preventDefault()
-    setIsDragging(true)
-    setHasMoved(false)
+    e.preventDefault();
+    setIsDragging(true);
+    setHasMoved(false);
 
     setDragStart({
       x: e.clientX,
       y: e.clientY,
       scrollLeft: scrollContainerRef.current.scrollLeft,
       time: Date.now(),
-    })
+    });
 
     // Capture pointer for better tracking
-    ;(e.target as Element).setPointerCapture?.(e.pointerId)
-  }, [])
+    (e.target as Element).setPointerCapture?.(e.pointerId);
+  }, []);
 
   const handlePointerMove = useCallback(
     (e: React.PointerEvent) => {
-      if (!isDragging || !scrollContainerRef.current) return
+      if (!isDragging || !scrollContainerRef.current) return;
 
-      const deltaX = Math.abs(e.clientX - dragStart.x)
-      const deltaY = Math.abs(e.clientY - dragStart.y)
+      const deltaX = Math.abs(e.clientX - dragStart.x);
+      const deltaY = Math.abs(e.clientY - dragStart.y);
 
       // Only start scrolling if moved more than threshold
       if (deltaX > 5 || deltaY > 5) {
-        setHasMoved(true)
+        setHasMoved(true);
       }
 
       if (hasMoved) {
-        e.preventDefault()
-        const walk = (e.clientX - dragStart.x) * 1.5
-        scrollContainerRef.current.scrollLeft = dragStart.scrollLeft - walk
+        e.preventDefault();
+        const walk = (e.clientX - dragStart.x) * 1.5;
+        scrollContainerRef.current.scrollLeft = dragStart.scrollLeft - walk;
       }
     },
-    [isDragging, dragStart, hasMoved],
-  )
+    [isDragging, dragStart, hasMoved]
+  );
 
   const handlePointerUp = useCallback(
     (e: React.PointerEvent) => {
       if (isDragging) {
-        setIsDragging(false)
+        setIsDragging(false);
 
         // Release pointer capture
-        ;(e.target as Element).releasePointerCapture?.(e.pointerId)
+        (e.target as Element).releasePointerCapture?.(e.pointerId);
 
         // Small delay to prevent immediate click after drag
         if (hasMoved) {
-          setTimeout(() => setHasMoved(false), 100)
+          setTimeout(() => setHasMoved(false), 100);
         }
       }
     },
-    [isDragging, hasMoved],
-  )
+    [isDragging, hasMoved]
+  );
 
   // Improved member click handler
   const handleMemberClick = useCallback(
     (index: number, e: React.MouseEvent | React.KeyboardEvent) => {
       // Prevent click if we just finished dragging
       if (hasMoved || isDragging) {
-        e.preventDefault()
-        return
+        e.preventDefault();
+        return;
       }
 
-      setCurrentMember(index)
+      setCurrentMember(index);
     },
-    [hasMoved, isDragging],
-  )
+    [hasMoved, isDragging]
+  );
 
   // Touch-friendly tap handler
   const handleMemberTap = useCallback(
     (index: number) => {
       if (!hasMoved && !isDragging) {
-        setCurrentMember(index)
+        setCurrentMember(index);
       }
     },
-    [hasMoved, isDragging],
-  )
+    [hasMoved, isDragging]
+  );
 
-  const featured = allMembers[currentMember]
+  const featured = allMembers[currentMember];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-blue-50 to-blue-200 flex flex-col pb-4 sm:pb-6 md:pb-8 relative overflow-hidden">
-      {/* Background Shapes - Optimized for mobile */}
+      {/* Background Shapes - Static, no animation */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-5 left-5 w-20 h-20 sm:w-32 sm:h-32 md:w-48 md:h-48 lg:w-64 lg:h-64 bg-blue-400/40 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-10 right-5 w-24 h-24 sm:w-40 sm:h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 bg-blue-500/30 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/4 w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 bg-blue-300/50 rounded-full blur-2xl animate-pulse delay-500"></div>
-        <div className="absolute top-1/4 right-1/3 w-14 h-14 sm:w-20 sm:h-20 md:w-28 md:h-28 lg:w-36 lg:h-36 bg-white/70 rounded-full blur-2xl animate-pulse delay-700"></div>
+        <div className="absolute top-5 left-5 w-20 h-20 sm:w-32 sm:h-32 md:w-48 md:h-48 lg:w-64 lg:h-64 bg-blue-400/40 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 right-5 w-24 h-24 sm:w-40 sm:h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 bg-blue-500/30 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/4 w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 bg-blue-300/50 rounded-full blur-2xl" />
+        <div className="absolute top-1/4 right-1/3 w-14 h-14 sm:w-20 sm:h-20 md:w-28 md:h-28 lg:w-36 lg:h-36 bg-white/70 rounded-full blur-2xl" />
       </div>
 
       {/* Featured Leader Section */}
@@ -288,41 +290,43 @@ export default function BoardOrgChart() {
         <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 pt-4 sm:pt-6 md:pt-8 lg:pt-12">
           <div
             className={`transform transition-all duration-1000 ease-out ${
-              isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
             }`}
           >
             {/* Main Content */}
             <div className="w-full max-w-5xl mx-auto transition-all duration-500 ease-out transform">
               <div className="rounded-2xl sm:rounded-3xl shadow-lg bg-white/95 backdrop-blur-sm border border-gray-200/50 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col lg:flex-row items-center lg:items-stretch space-y-6 lg:space-y-0 lg:space-x-8 xl:space-x-12 min-h-[280px] sm:min-h-[320px] md:min-h-[360px] relative overflow-hidden">
                 {/* Details - Left on desktop, below on mobile */}
-                <div className="flex-1 flex flex-col justify-center order-2 lg:order-1 w-full relative z-10">
-                  <div className="w-full h-full flex flex-col justify-center space-y-4 sm:space-y-5 md:space-y-6">
+                <div className="flex-1 flex flex-col justify-center items-center order-2 lg:order-1 w-full relative z-10">
+                  <div className="w-full max-w-md flex flex-col justify-center items-center space-y-4 sm:space-y-5 md:space-y-6">
                     {/* Phone Contact */}
-                    <div className="flex items-center gap-3 sm:gap-4 text-sm sm:text-base md:text-lg group">
+                    <div className="flex items-center gap-3 sm:gap-4 text-sm sm:text-base md:text-lg group w-full justify-center">
                       <div className="p-2 sm:p-3 bg-gray-100 rounded-full shadow-sm group-hover:bg-gray-200 transition-all duration-300 flex-shrink-0">
                         <Phone className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-700" />
                       </div>
-                      <span className="font-medium text-blue-800 group-hover:text-gray-900 transition-colors duration-300 break-all">
+                      <span className="font-medium text-blue-800 group-hover:text-gray-900 transition-colors duration-300 break-all text-center">
                         {featured.phone}
                       </span>
                     </div>
 
                     {/* Email Contact */}
-                    <div className="flex items-center gap-3 sm:gap-4 text-sm sm:text-base md:text-lg group">
+                    <div className="flex items-center gap-3 sm:gap-4 text-sm sm:text-base md:text-lg group w-full justify-center">
                       <div className="p-2 sm:p-3 bg-gray-100 rounded-full shadow-sm group-hover:bg-gray-200 transition-all duration-300 flex-shrink-0">
                         <Mail className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-700" />
                       </div>
-                      <span className="font-medium text-blue-800 group-hover:text-gray-900 transition-colors duration-300 break-all">
+                      <span className="font-medium text-blue-800 group-hover:text-gray-900 transition-colors duration-300 break-all text-center">
                         {featured.email}
                       </span>
                     </div>
 
                     {/* Social Media */}
-                    <div className="pt-4 border-t border-gray-200">
+                    <div className="pt-4 border-t border-gray-200 w-full text-center">
                       <p className="text-sm sm:text-base text-blue-700 font-medium mb-3 sm:mb-4">
                         Connect on Social Media:
                       </p>
-                      <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
+                      <div className="flex items-center justify-center gap-3 sm:gap-4 md:gap-6">
                         <a
                           href={featured.facebook}
                           target="_blank"
@@ -358,7 +362,9 @@ export default function BoardOrgChart() {
                     <div className="relative mb-4 sm:mb-6 flex justify-center">
                       <div
                         className={`w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-xl sm:rounded-2xl overflow-hidden shadow-xl border-3 sm:border-4 border-white transition-all duration-500 ease-out ${
-                          isChanging ? "opacity-0 scale-95" : "opacity-100 scale-100"
+                          isChanging
+                            ? "opacity-0 scale-95"
+                            : "opacity-100 scale-100"
                         }`}
                         style={{
                           transitionDelay: isChanging ? "0ms" : "200ms",
@@ -418,7 +424,9 @@ export default function BoardOrgChart() {
                       <div
                         key={member.name}
                         className={`flex-shrink-0 transform transition-all duration-700 ease-out ${
-                          isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+                          isVisible
+                            ? "translate-y-0 opacity-100"
+                            : "translate-y-6 opacity-0"
                         }`}
                         style={{
                           transitionDelay: `${(index + 1) * 60}ms`,
@@ -434,8 +442,8 @@ export default function BoardOrgChart() {
                           aria-label={`View ${member.name}'s profile`}
                           onKeyDown={(e) => {
                             if (e.key === "Enter" || e.key === " ") {
-                              e.preventDefault()
-                              handleMemberClick(index, e)
+                              e.preventDefault();
+                              handleMemberClick(index, e);
                             }
                           }}
                         >
@@ -453,7 +461,9 @@ export default function BoardOrgChart() {
                               width={96}
                               height={96}
                               className={`w-full h-full object-cover rounded-full transition-all duration-500 ease-out ${
-                                currentMember === index ? "opacity-100" : "opacity-90 group-hover:opacity-100"
+                                currentMember === index
+                                  ? "opacity-100"
+                                  : "opacity-90 group-hover:opacity-100"
                               }`}
                               draggable={false}
                             />
@@ -485,7 +495,9 @@ export default function BoardOrgChart() {
                     <div
                       key={index}
                       className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-400 ease-out ${
-                        currentMember === index ? "bg-blue-600 w-6 sm:w-8 shadow-lg" : "bg-gray-300"
+                        currentMember === index
+                          ? "bg-blue-600 w-6 sm:w-8 shadow-lg"
+                          : "bg-gray-300"
                       }`}
                       aria-label={`Member ${index + 1} indicator`}
                     />
