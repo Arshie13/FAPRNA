@@ -299,34 +299,34 @@ export default function BoardOrgChart() {
             <div className="w-full max-w-5xl mx-auto transition-all duration-500 ease-out transform">
               <div className="rounded-2xl sm:rounded-3xl shadow-lg bg-white/95 backdrop-blur-sm border border-gray-200/50 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col lg:flex-row items-center lg:items-stretch space-y-6 lg:space-y-0 lg:space-x-8 xl:space-x-12 min-h-[280px] sm:min-h-[320px] md:min-h-[360px] relative overflow-hidden">
                 {/* Details - Left on desktop, below on mobile */}
-                <div className="flex-1 flex flex-col justify-center order-2 lg:order-1 w-full relative z-10">
-                  <div className="w-full h-full flex flex-col justify-center space-y-4 sm:space-y-5 md:space-y-6">
+                <div className="flex-1 flex flex-col justify-center items-center order-2 lg:order-1 w-full relative z-10">
+                  <div className="w-full max-w-md flex flex-col justify-center items-center space-y-4 sm:space-y-5 md:space-y-6">
                     {/* Phone Contact */}
-                    <div className="flex items-center gap-3 sm:gap-4 text-sm sm:text-base md:text-lg group">
+                    <div className="flex items-center gap-3 sm:gap-4 text-sm sm:text-base md:text-lg group w-full justify-center">
                       <div className="p-2 sm:p-3 bg-gray-100 rounded-full shadow-sm group-hover:bg-gray-200 transition-all duration-300 flex-shrink-0">
                         <Phone className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-700" />
                       </div>
-                      <span className="font-medium text-blue-800 group-hover:text-gray-900 transition-colors duration-300 break-all">
+                      <span className="font-medium text-blue-800 group-hover:text-gray-900 transition-colors duration-300 break-all text-center">
                         {featured.phone}
                       </span>
                     </div>
 
                     {/* Email Contact */}
-                    <div className="flex items-center gap-3 sm:gap-4 text-sm sm:text-base md:text-lg group">
+                    <div className="flex items-center gap-3 sm:gap-4 text-sm sm:text-base md:text-lg group w-full justify-center">
                       <div className="p-2 sm:p-3 bg-gray-100 rounded-full shadow-sm group-hover:bg-gray-200 transition-all duration-300 flex-shrink-0">
                         <Mail className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-700" />
                       </div>
-                      <span className="font-medium text-blue-800 group-hover:text-gray-900 transition-colors duration-300 break-all">
+                      <span className="font-medium text-blue-800 group-hover:text-gray-900 transition-colors duration-300 break-all text-center">
                         {featured.email}
                       </span>
                     </div>
 
                     {/* Social Media */}
-                    <div className="pt-4 border-t border-gray-200">
+                    <div className="pt-4 border-t border-gray-200 w-full text-center">
                       <p className="text-sm sm:text-base text-blue-700 font-medium mb-3 sm:mb-4">
                         Connect on Social Media:
                       </p>
-                      <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
+                      <div className="flex items-center justify-center gap-3 sm:gap-4 md:gap-6">
                         <a
                           href={featured.facebook}
                           target="_blank"
