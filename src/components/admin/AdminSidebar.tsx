@@ -7,14 +7,15 @@ import {
   Newspaper,
   Users,
   Settings,
-  LogOut,
   ChevronRight,
   ChevronLeft,
   Award,
+  Home,
 } from "lucide-react"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { signOut } from "next-auth/react"
 
 export default function AdminSidebar() {
   const pathname = usePathname()
@@ -47,6 +48,12 @@ export default function AdminSidebar() {
       icon: <Settings className="h-5 w-5" />,
     },
   ]
+
+  const handleBackToSite = async () => {
+    await signOut({
+      callbackUrl: "/", // Redirect to home page after logout
+    })
+  }
 
   return (
     <aside>
@@ -91,17 +98,20 @@ export default function AdminSidebar() {
             ))}
           </nav>
         </div>
-        <div className="border-t p-4">
-          <Link
-            href="/"
+        <div className="border-t p-4 space-y-2">
+          {/* Back to Site with Logout */}
+          <Button
+            variant="ghost"
+            onClick={handleBackToSite}
             className={cn(
-              "flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors",
+              "flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors w-full justify-start",
               collapsed && "justify-center px-2",
             )}
           >
-            <LogOut className="h-5 w-5" />
+            <Home className="h-5 w-5" />
             {!collapsed && <span className="ml-3">Back to Site</span>}
-          </Link>
+          </Button>
+          
         </div>
       </div>
     </aside>
