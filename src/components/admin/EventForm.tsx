@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils"
 import { createEvent, updateEvent } from "@/lib/actions/event-actions"
 import { EventType } from "@/generated/prisma"
 import { IEvent } from "@/lib/interfaces"
+import { ImageUploadForm } from "@/components/admin/ImageUpload"
 
 interface Event {
   id: string
@@ -65,6 +66,11 @@ export default function EventForm({ event }: EventFormProps) {
       isLatest: event?.isLatest || false,
     },
   })
+
+  // Helper to set image URL in the form from ImageUploadForm
+  const setImageUrl = (url: string) => {
+    form.setValue("image", url, { shouldValidate: true, shouldDirty: true })
+  }
 
   // Handle form submission
   const onSubmit = async (values: IEvent) => {
@@ -289,7 +295,7 @@ export default function EventForm({ event }: EventFormProps) {
                 />
 
                 {/* Image URL */}
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="image"
                   rules={{ required: "Image URL is required" }}
@@ -303,7 +309,9 @@ export default function EventForm({ event }: EventFormProps) {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
+
+                <ImageUploadForm setImageUrl={setImageUrl} />
 
                 {/* Description */}
                 <FormField

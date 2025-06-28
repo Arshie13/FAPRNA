@@ -195,7 +195,8 @@ export default function EventRegistration() {
                             <Image
                               src={event.image || "/placeholder.svg"}
                               alt={event.title}
-                              fill
+                              width={450}
+                              height={320}
                               className="object-cover rounded-t-lg"
                             />
                             <div className="absolute top-4 right-4">
@@ -238,9 +239,8 @@ export default function EventRegistration() {
                     {events.map((_, idx) => (
                       <button
                         key={idx}
-                        className={`h-2 w-2 rounded-full ${
-                          current === idx ? "bg-[#003366]" : "bg-gray-300"
-                        }`}
+                        className={`h-2 w-2 rounded-full ${current === idx ? "bg-[#003366]" : "bg-gray-300"
+                          }`}
                         onClick={() => setCurrent(idx)}
                         aria-label={`Go to slide ${idx + 1}`}
                       />
@@ -259,7 +259,8 @@ export default function EventRegistration() {
                       <Image
                         src={event.image || "/placeholder.svg"}
                         alt={event.title}
-                        fill
+                        width={450}
+                        height={320}
                         className="object-cover rounded-t-lg"
                       />
                       <div className="absolute top-4 right-4">

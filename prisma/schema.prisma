@@ -16,6 +16,15 @@ datasource db {
   // directUrl = env("DIRECT_URL")
 }
 
+model user{
+  id        String   @id @default(cuid()) @map("_id")
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum EventType {
   EVENT
   RECOGNITION
