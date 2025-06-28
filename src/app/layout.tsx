@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../styles/globals.css";
 import LayoutShell from "@/app/layoutshell";
+import { EdgeStoreProvider } from "@/lib/libstore/libstore-config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <div className="min-h-screen p-0 pb-10 gap-8 sm:gap-16 sm:p-0 font-[family-name:var(--font-geist-sans)]">
-          <LayoutShell>{children}</LayoutShell>
+          <LayoutShell>
+            <EdgeStoreProvider>
+              {children}
+            </EdgeStoreProvider>
+          </LayoutShell>
         </div>
       </body>
     </html>
