@@ -516,5 +516,5 @@ export default function BoardOrgChart() {
         </div>
       </div>
     </div>
-  );
+  )
 }
