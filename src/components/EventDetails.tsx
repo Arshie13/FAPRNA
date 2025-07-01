@@ -96,7 +96,7 @@ export default function EventDetails(title: {title: string}) {
                   <Card className="overflow-hidden border-0 shadow-2xl">
                     <div className="relative h-80">
                       <Image
-                        src={eventDetail.image || "/placeholder.svg"}
+                        src={eventDetail.image || "/window.svg"}
                         alt={eventDetail.title}
                         fill
                         className="object-cover"
