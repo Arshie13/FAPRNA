@@ -22,6 +22,7 @@ interface FormValues {
 export default function DocumentUploadForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [fileUrl, setFileUrl] = useState<string>("")
+  const [fileUploading, setFileUploading] = useState(false) // <-- add state
   const router = useRouter()
 
   const form = useForm<FormValues>({
@@ -34,6 +35,7 @@ export default function DocumentUploadForm() {
   const setPdfUrl = (url: string) => {
     console.log("url: ", url)
     setFileUrl(url)
+    setFileUploading(false) // <-- set to false when upload is done
   }
 
   const onSubmit = async (values: FormValues) => {
@@ -80,7 +82,13 @@ export default function DocumentUploadForm() {
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <CardContent className="space-y-6">
                   {/* File Upload */}
-                  <DocumentUpload setFileUrl={setPdfUrl} />
+                  <DocumentUpload
+                    setFileUrl={(url: string) => {
+                      setPdfUrl(url)
+                      setFileUploading(false)
+                    }}
+                    setUploading={setFileUploading} // <-- pass setter
+                  />
 
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     {/* Title */}
@@ -108,8 +116,8 @@ export default function DocumentUploadForm() {
                   <Button type="button" variant="outline" onClick={() => router.push("/admin/documents")}>
                     Cancel
                   </Button>
-                  <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  <Button type="submit" disabled={isSubmitting || fileUploading}>
+                    {(isSubmitting || fileUploading) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Upload Document
                   </Button>
                 </CardFooter>

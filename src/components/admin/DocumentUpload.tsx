@@ -10,16 +10,18 @@ import * as React from 'react';
 
 interface FileUploadProps {
   setFileUrl: (url: string) => void;
+  setUploading?: (uploading: boolean) => void; // <-- add prop
 }
 
-export function DocumentUpload({ setFileUrl }: FileUploadProps) {
+export function DocumentUpload({ setFileUrl, setUploading }: FileUploadProps) {
   const { edgestore } = useEdgeStore();
   const [fileName, setFileName] = React.useState<string | null>(null);
-  const [uploading, setUploading] = React.useState(false);
+  const [uploading, setUploadingLocal] = React.useState(false);
 
   const uploadFn: UploadFn = React.useCallback(
     async ({ file, onProgressChange, signal }) => {
-      setUploading(true);
+      setUploadingLocal(true);
+      setUploading?.(true); // <-- set uploading true
       try {
         const res = await edgestore.publicFiles.upload({
           file,
@@ -31,10 +33,11 @@ export function DocumentUpload({ setFileUrl }: FileUploadProps) {
         setFileName(file.name);
         return res;
       } finally {
-        setUploading(false);
+        setUploadingLocal(false);
+        setUploading?.(false); // <-- set uploading false
       }
     },
-    [edgestore, setFileUrl],
+    [edgestore, setFileUrl, setUploading],
   );
 
   return (

@@ -42,8 +42,7 @@ export default function DocumentsAdminDashboard() {
   const [isLoading, setIsLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
   const [activeTab, setActiveTab] = useState("all")
-  const { edgestore } = useEdgeStore()
-  // const router = useRouter()
+  const { edgestore } = useEdgeStore();
 
   // Fetch documents data
   const fetchDocuments = async () => {
