@@ -39,9 +39,7 @@ function AuthenticatedAdminLayout({ children }: { children: React.ReactNode }) {
   // Render admin layout for authenticated users
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <div className="h-full overflow-hidden">
-        <AdminSidebar />
-      </div>
+      <AdminSidebar />
       <div className="flex-1 overflow-auto">
         <main className="max-w-full max-h-full">
           {children}

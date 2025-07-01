@@ -90,9 +90,14 @@ export default function AdminSidebar() {
           mobileOpen
             ? "translate-x-0"
             : "-translate-x-full lg:translate-x-0",
-          "lg:translate-x-0"
+          "lg:translate-x-0",
+          "lg:sticky lg:top-0",
+          "lg:h-screen" // <-- ensure full height on desktop
         )}
-        style={{ minWidth: collapsed ? "4rem" : "16rem" }}
+        style={{
+          minWidth: collapsed ? "4rem" : "16rem",
+          position: mobileOpen ? "fixed" : undefined, // always fixed on mobile, sticky on desktop
+        }}
       >
         <div className="flex h-16 items-center justify-between border-b px-4">
           {!collapsed && (
