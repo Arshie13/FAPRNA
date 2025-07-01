@@ -12,7 +12,6 @@ import {
   CheckCircle,
   Plus,
   ArrowRight,
-  BarChart3,
   UserCheck,
   ClockIcon as UserClock,
 } from "lucide-react";
@@ -143,7 +142,7 @@ export default function AdminDashboard() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto py-10">
+      <div className="w-full py-10" style={{ background: "#003366" }}>
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
@@ -155,20 +154,23 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="container mx-auto py-10" style={{ background: "#003366" }}>
+    <div
+      className="w-full py-6 min-h-screen"
+      style={{ background: "#003366" }}
+    >
       {/* Header */}
-      <div className="mb-12">
-        <h1 className="text-7xl font-extrabold text-white drop-shadow-lg">
+      <div className="mb-8 px-4 sm:px-6">
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-white drop-shadow-lg">
           Admin Dashboard
         </h1>
-        <p className="text-3xl text-white mt-4 font-semibold drop-shadow">
+        <p className="text-lg sm:text-2xl text-white mt-2 sm:mt-4 font-semibold drop-shadow">
           Welcome back! Here&apos;s what&apos;s happening with FAPRNA-NV.
         </p>
       </div>
 
       {/* Stats Overview */}
       {stats && (
-        <div className="mb-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mb-8 px-4 sm:px-6 grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {/* Users Stats */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -226,8 +228,8 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      <div className="grid gap-10 lg:grid-cols-3">
-        <div className="lg:col-span-2 space-y-10">
+      <div className="grid gap-8 sm:gap-10 grid-cols-1 lg:grid-cols-3 px-6">
+        <div className="lg:col-span-2 space-y-8 sm:space-y-10 pl-0 sm:pl-6">
           {/* Quick Actions */}
           <Card>
             <CardHeader>
@@ -348,7 +350,7 @@ export default function AdminDashboard() {
           </Card>
         </div>
 
-        <div className="space-y-10">
+        <div className="space-y-8 sm:space-y-10 pr-0 sm:pr-6">
           {/* Pending Items */}
           <Card>
             <CardHeader>

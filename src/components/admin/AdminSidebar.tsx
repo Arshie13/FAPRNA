@@ -12,7 +12,7 @@ import {
   Award,
   Home,
 } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { signOut } from "next-auth/react"
@@ -20,6 +20,12 @@ import { signOut } from "next-auth/react"
 export default function AdminSidebar() {
   const pathname = usePathname()
   const [collapsed, setCollapsed] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  // Close sidebar on route change (for mobile)
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [pathname])
 
   const navItems = [
     {
@@ -56,12 +62,37 @@ export default function AdminSidebar() {
   }
 
   return (
-    <aside>
-      <div
+    <>
+      {/* Mobile sidebar toggle button */}
+      <button
+        className="fixed top-4 left-4 z-40 flex items-center justify-center rounded-md bg-white p-2 shadow-lg lg:hidden"
+        onClick={() => setMobileOpen(true)}
+        aria-label="Open sidebar"
+        style={{ display: mobileOpen ? "none" : undefined }}
+      >
+        <ChevronRight className="h-6 w-6 text-[#003366]" />
+      </button>
+
+      {/* Overlay for mobile */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
         className={cn(
-          "flex h-screen flex-col border-r bg-white transition-all duration-300",
+          "fixed z-50 top-0 left-0 h-screen flex flex-col border-r bg-white transition-all duration-300",
           collapsed ? "w-16" : "w-64",
+          "lg:static lg:z-auto",
+          mobileOpen
+            ? "translate-x-0"
+            : "-translate-x-full lg:translate-x-0",
+          "lg:translate-x-0"
         )}
+        style={{ minWidth: collapsed ? "4rem" : "16rem" }}
       >
         <div className="flex h-16 items-center justify-between border-b px-4">
           {!collapsed && (
@@ -69,14 +100,25 @@ export default function AdminSidebar() {
               <span className="text-xl font-bold text-[#003366]">FAPRNA-NV</span>
             </Link>
           )}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setCollapsed(!collapsed)}
-            className={cn("ml-auto", collapsed && "mx-auto")}
-          >
-            {collapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
-          </Button>
+          <div className="flex items-center gap-2">
+            {/* Mobile close button */}
+            <button
+              className="lg:hidden"
+              onClick={() => setMobileOpen(false)}
+              aria-label="Close sidebar"
+              style={{ display: mobileOpen ? undefined : "none" }}
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setCollapsed(!collapsed)}
+              className={cn("ml-auto", collapsed && "mx-auto")}
+            >
+              {collapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
+            </Button>
+          </div>
         </div>
         <div className="flex-1 overflow-auto py-4">
           <nav className="space-y-1 px-2">
@@ -111,9 +153,8 @@ export default function AdminSidebar() {
             <Home className="h-5 w-5" />
             {!collapsed && <span className="ml-3">Back to Site</span>}
           </Button>
-          
         </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   )
 }
