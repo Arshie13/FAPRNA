@@ -13,6 +13,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { toast } from "sonner"
 import { uploadDocument } from "@/lib/actions/document-actions"
 import { DocumentUpload } from "@/components/admin/DocumentUpload"
+import { useEdgeStore } from "@/lib/libstore/libstore-config"
 
 interface FormValues {
   title: string
@@ -24,6 +25,7 @@ export default function DocumentUploadForm() {
   const [fileUrl, setFileUrl] = useState<string>("")
   const [fileUploading, setFileUploading] = useState(false) // <-- add state
   const router = useRouter()
+  const { edgestore } = useEdgeStore();
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -113,7 +115,13 @@ export default function DocumentUploadForm() {
                   </div>
                 </CardContent>
                 <CardFooter className="flex justify-between">
-                  <Button type="button" variant="outline" onClick={() => router.push("/admin/documents")}>
+                  <Button type="button" variant="outline"
+                    onClick={async () => {
+                      await edgestore.publicFiles.confirmUpload({
+                        url: fileUrl,
+                      });
+                    }}
+                  >
                     Cancel
                   </Button>
                   <Button type="submit" disabled={isSubmitting || fileUploading}>
