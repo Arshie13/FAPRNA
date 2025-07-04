@@ -262,7 +262,7 @@ export default function EventForm({ event }: EventFormProps) {
                               mode="single"
                               selected={field.value}
                               onSelect={field.onChange}
-                              initialFocus
+                              autoFocus
                             />
                           </PopoverContent>
                         </Popover>
@@ -545,6 +545,7 @@ export default function EventForm({ event }: EventFormProps) {
           </form>
         </Form>
       </Card>
+    </div>
     </div>
   )
 }
