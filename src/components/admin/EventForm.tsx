@@ -32,7 +32,7 @@ interface Event {
   description: string
   ceus: number
   image: string
-  ytLink?: string
+  ytLink?: string | undefined | null
   expected_attendees: number
   createdAt: Date
   updatedAt: Date
@@ -384,7 +384,11 @@ export default function EventForm({ event }: EventFormProps) {
                     <FormItem>
                       <FormLabel>YouTube Link</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter YouTube video URL (optional)" {...field} />
+                        <Input
+                          placeholder="Enter YouTube video URL (optional)"
+                          {...field}
+                          value={field.value ?? ""}
+                        />
                       </FormControl>
                       <FormDescription>
                         Add a YouTube link for the event recording (optional, shown only for finished events).
