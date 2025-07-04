@@ -249,7 +249,7 @@ export default function NominationsAdminDashboard() {
         </div>
       )}
 
-      <Card className="p-2 sm:p-3 md:p-4">
+      <Card className="p-2 sm:p-3 md:p-4 m">
         <CardHeader className="pb-4 sm:pb-5 md:pb-6">
           <CardTitle className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">
             Nominations Dashboard

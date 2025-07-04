@@ -11,7 +11,7 @@ import {
   Clock,
   CheckCircle,
   Plus,
-  ArrowRight,
+  // ArrowRight,
   UserCheck,
   ClockIcon as UserClock,
 } from "lucide-react";
@@ -180,18 +180,18 @@ export default function AdminDashboard() {
           {/* Stats Overview */}
           <div className="grid gap-4 sm:gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2">
             {/* Users Stats */}
-            <Card className="p-2 sm:p-3 md:p-4">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3 md:pb-4">
+            <Card className="p-3 sm:p-4 md:p-5 lg:p-6">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 sm:pb-4 md:pb-5 lg:pb-6">
                 <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
                   Total Members
                 </CardTitle>
                 <Users className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-muted-foreground" />
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-0">
                 <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold">
                   {stats!.users.total}
                 </div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm sm:text-base md:text-lg text-muted-foreground mt-2 sm:mt-3 md:mt-4">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm sm:text-base md:text-lg text-muted-foreground mt-3 sm:mt-4 md:mt-5 lg:mt-6">
                   <div className="flex items-center gap-2">
                     <UserCheck className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
                     <span className="text-sm sm:text-base">
@@ -209,18 +209,18 @@ export default function AdminDashboard() {
             </Card>
 
             {/* Events Stats */}
-            <Card className="p-2 sm:p-3 md:p-4">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3 md:pb-4">
+            <Card className="p-3 sm:p-4 md:p-5 lg:p-6">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 sm:pb-4 md:pb-5 lg:pb-6">
                 <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
                   Events
                 </CardTitle>
                 <Calendar className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-muted-foreground" />
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-0">
                 <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold">
                   {stats!.events.total}
                 </div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm sm:text-base md:text-lg text-muted-foreground mt-2 sm:mt-3 md:mt-4">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm sm:text-base md:text-lg text-muted-foreground mt-3 sm:mt-4 md:mt-5 lg:mt-6">
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
                     <span className="text-sm sm:text-base">
@@ -241,8 +241,8 @@ export default function AdminDashboard() {
           {/* Pending Reviews and Nominations */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
             {/* Pending Reviews Card */}
-            <Card className="p-2 sm:p-3 md:p-4">
-              <CardHeader>
+            <Card className="p-3 sm:p-4 md:p-5 lg:p-6">
+              <CardHeader className="pb-4 sm:pb-5 md:pb-6 lg:pb-8">
                 <CardTitle className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">
                   Pending Reviews
                 </CardTitle>
@@ -250,42 +250,42 @@ export default function AdminDashboard() {
                   Items requiring your attention
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-0 pb-4 sm:pb-5 md:pb-6 lg:pb-8">
                 <div className="space-y-3 sm:space-y-4 md:space-y-5">
                   {(stats?.nominations.pending ?? 0) > 0 && (
                     <Link href="/admin/nominations?tab=pending">
-                      <div className="flex items-center justify-between p-3 sm:p-4 md:p-5 rounded-xl border hover:bg-gray-100 transition-colors">
-                        <div className="flex items-center gap-3 sm:gap-4">
-                          <Award className="h-5 w-5 sm:h-6 sm:w-6 text-purple-500" />
-                          <div>
-                            <p className="font-bold text-sm sm:text-base md:text-lg">
-                              Nominations
-                            </p>
-                            <p className="text-xs sm:text-sm md:text-base text-gray-700">
-                              {stats?.nominations.pending ?? 0} pending
-                            </p>
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start gap-3 sm:gap-4 h-auto p-4 sm:p-5 md:p-6 border-[#003366] text-[#003366] text-sm sm:text-base md:text-lg lg:text-xl font-semibold hover:bg-[#a6e3fa] hover:text-[#003366] transition-all duration-300 rounded-xl shadow-lg"
+                      >
+                        <Award className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+                        <div className="text-left">
+                          <div className="font-bold text-sm sm:text-base md:text-lg lg:text-xl">
+                            Nominations
+                          </div>
+                          <div className="text-xs sm:text-sm md:text-base text-gray-700">
+                            {stats?.nominations.pending ?? 0} pending
                           </div>
                         </div>
-                        <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400" />
-                      </div>
+                      </Button>
                     </Link>
                   )}
                   {(stats?.users.pending ?? 0) > 0 && (
                     <Link href="/admin/members?tab=pending">
-                      <div className="flex items-center justify-between p-3 sm:p-4 md:p-5 rounded-xl border hover:bg-gray-100 transition-colors">
-                        <div className="flex items-center gap-3 sm:gap-4">
-                          <Users className="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" />
-                          <div>
-                            <p className="font-bold text-sm sm:text-base md:text-lg">
-                              Member Applications
-                            </p>
-                            <p className="text-xs sm:text-sm md:text-base text-gray-700">
-                              {stats?.users.pending} pending
-                            </p>
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start gap-3 sm:gap-4 h-auto p-4 sm:p-5 md:p-6 border-[#003366] text-[#003366] text-sm sm:text-base md:text-lg lg:text-xl font-semibold hover:bg-[#a6e3fa] hover:text-[#003366] transition-all duration-300 rounded-xl shadow-lg"
+                      >
+                        <Users className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+                        <div className="text-left">
+                          <div className="font-bold text-sm sm:text-base md:text-lg lg:text-xl">
+                            Member Applications
+                          </div>
+                          <div className="text-xs sm:text-sm md:text-base text-gray-700">
+                            {stats?.users.pending} pending
                           </div>
                         </div>
-                        <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400" />
-                      </div>
+                      </Button>
                     </Link>
                   )}
                   {stats?.nominations.pending === 0 &&
@@ -305,18 +305,18 @@ export default function AdminDashboard() {
             </Card>
 
             {/* Nominations Stats Card */}
-            <Card className="p-2 sm:p-3 md:p-4">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3 md:pb-4">
+            <Card className="p-3 sm:p-4 md:p-5 lg:p-6">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 sm:pb-4 md:pb-5 lg:pb-6">
                 <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
                   Nominations
                 </CardTitle>
                 <Award className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-muted-foreground" />
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-0">
                 <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold">
                   {stats?.nominations.total || 0}
                 </div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm sm:text-base md:text-lg text-muted-foreground mt-2 sm:mt-3 md:mt-4">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm sm:text-base md:text-lg text-muted-foreground mt-3 sm:mt-4 md:mt-5 lg:mt-6">
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-600" />
                     <span className="text-sm sm:text-base">
@@ -335,8 +335,8 @@ export default function AdminDashboard() {
           </div>
 
           {/* Quick Actions */}
-          <Card className="p-2 sm:p-3 md:p-4">
-            <CardHeader>
+          <Card className="p-3 sm:p-4 md:p-5 lg:p-6">
+            <CardHeader className="pb-4 sm:pb-5 md:pb-6 lg:pb-8">
               <CardTitle className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">
                 Quick Actions
               </CardTitle>
@@ -344,7 +344,7 @@ export default function AdminDashboard() {
                 Common administrative tasks
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0 pb-4 sm:pb-5 md:pb-6 lg:pb-8">
               <div className="grid gap-3 sm:gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2">
                 <Link href="/admin/events/create">
                   <Button className="w-full justify-start gap-3 sm:gap-4 h-auto p-4 sm:p-5 md:p-6 bg-[#003366] text-white text-sm sm:text-base md:text-lg lg:text-xl font-semibold hover:bg-[#002244] hover:text-white transition-all duration-300 rounded-xl shadow-lg">
@@ -414,8 +414,8 @@ export default function AdminDashboard() {
 
         <div className="space-y-4 sm:space-y-6 md:space-y-8 lg:space-y-10">
           {/* Recent Activity */}
-          <Card className="p-2 sm:p-3 md:p-4">
-            <CardHeader>
+          <Card className="p-3 sm:p-4 md:p-5 lg:p-6">
+            <CardHeader className="pb-4 sm:pb-5 md:pb-6 lg:pb-8">
               <CardTitle className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">
                 Recent Activity
               </CardTitle>
@@ -423,7 +423,7 @@ export default function AdminDashboard() {
                 Latest actions and submissions
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0 pb-4 sm:pb-5 md:pb-6 lg:pb-8">
               {recentActivity.length === 0 ? (
                 <div className="text-center py-8 sm:py-10 md:py-12 lg:py-16 text-gray-300">
                   <Clock className="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 mx-auto mb-3 sm:mb-4 md:mb-6 opacity-50" />
@@ -436,7 +436,7 @@ export default function AdminDashboard() {
                   {recentActivity.slice(0, 8).map((activity) => (
                     <div
                       key={activity.id}
-                      className="flex items-start gap-3 sm:gap-4 md:gap-5 p-3 sm:p-4 md:p-5 rounded-xl hover:bg-[#60a5fa] transition-colors"
+                      className="flex items-start gap-3 sm:gap-4 md:gap-5 p-3 sm:p-4 md:p-5 rounded-xl hover:bg-[#a6e3fa] transition-colors"
                     >
                       <div className="flex-shrink-0 mt-1">
                         {getActivityIcon(activity.type)}

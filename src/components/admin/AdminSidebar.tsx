@@ -138,8 +138,8 @@ export default function AdminSidebar() {
                 className={cn(
                   "flex items-center rounded-xl px-6 py-5 text-lg font-semibold transition-colors",
                   pathname === item.href || pathname.startsWith(`${item.href}/`)
-                    ? "bg-blue-100 text-blue-800"
-                    : "text-gray-700 hover:bg-gray-100",
+                    ? "bg-[#a6e3fa] text-[#003366]"
+                    : "text-gray-700 hover:bg-[#a6e3fa] hover:text-[#003366]",
                   collapsed && "justify-center px-3"
                 )}
               >
@@ -157,7 +157,7 @@ export default function AdminSidebar() {
             variant="ghost"
             onClick={handleBackToSite}
             className={cn(
-              "flex items-center rounded-xl px-6 py-5 text-lg font-semibold text-gray-700 hover:bg-gray-100 transition-colors w-full justify-start",
+              "flex items-center rounded-xl px-6 py-5 text-lg font-semibold text-gray-700 hover:bg-[#a6e3fa] hover:text-[#003366] transition-colors w-full justify-start",
               collapsed && "justify-center px-3"
             )}
           >
