@@ -14,25 +14,31 @@ export default function Navbar() {
     { href: "/", label: "Home" },
     { href: "/membership", label: "Membership" },
     { href: "/event-registration", label: "Events" },
-    { href: "/luminance", label: "Luminance Awards" },
-    { href: "#contact", label: "Contact" },
+    { href: "/luminance", label: "Luminance" },
   ]
 
   const moreNavItems = [
     { href: "/about", label: "About Us" },
+    { href: "#contact", label: "Contact" },
     { href: "/board", label: "Executive Board Members" },
     { href: "/bylaws", label: "By Laws & Policies" },
   ]
 
   return (
-    <header id="top" className="w-full border-b bg-white overflow-x-auto">
-      <div className="flex flex-col md:flex-row h-auto md:h-32 items-center justify-between px-4 sm:px-6 md:px-10">
-        <div className="flex items-center gap-2 mx-0 md:mx-5 py-4 md:py-0">
+    <header className="w-full border-b bg-white">
+      <div className="max-w-screen-xl mx-auto flex h-32 items-center justify-between px-2">
+        <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center">
             <div className="flex flex-col">
               <div className="flex items-center">
-                <Image src="/faprna_logo.png" alt="FAPRNA-NV Logo" width={48} height={32} className="mr-2 sm:w-[60px] sm:h-[40px]" />
-                <span className="text-xl sm:text-2xl font-bold text-[#003366]">FAPRNA-NV</span>
+                <Image
+                  src="/faprna_logo.png"
+                  alt="FAPRNA-NV Logo"
+                  width={60}
+                  height={40}
+                  className="mr-2 max-w-full h-auto"
+                />
+                <span className="text-xl font-bold text-[#003366]">FAPRNA-NV</span>
               </div>
               {/* <div className="hidden flex-col text-sm text-[#003366] md:flex">
                 <span>Filipino-American Advanced Practice</span>
@@ -42,12 +48,12 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <nav className="hidden md:flex md:items-center md:gap-8 lg:gap-10 mx-0 md:mx-5">
+        <nav className="hidden md:flex items-center gap-6 lg:gap-10 flex-wrap">
           {mainNavItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-base sm:text-s font-bold text-[#003366] hover:text-[#003366] relative group transition-all duration-300"
+              className="text-s font-bold text-[#003366] hover:text-[#003366] relative group transition-all duration-300"
             >
               {item.label}
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#003366] transition-all duration-300 group-hover:w-full"></span>
@@ -80,17 +86,17 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-        </nav>
-
-        <div className="flex items-center gap-2 sm:gap-4 w-full md:w-auto justify-end">
           <Link href="/event-registration/details/MaternalandChildHealthEvent" className="hidden md:block">
             <Button
-              className="rounded-full bg-red-600 px-4 sm:px-6 text-white hover:bg-red-700 shadow-sm transition-all 
-                            hover:shadow-md hover:scale-105 duration-300 transform text-sm sm:text-base"
+              className="rounded-full bg-red-600 px-6 text-white hover:bg-red-700 shadow-sm transition-all 
+                            hover:shadow-md hover:scale-105 duration-300 transform"
             >
               Event Registration
             </Button>
           </Link>
+        </nav>
+
+        <div className="flex items-center gap-4">
 
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>

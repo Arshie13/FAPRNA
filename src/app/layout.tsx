@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className="min-h-screen p-0 pb-10 gap-8 sm:gap-16 sm:p-0 font-[family-name:var(--font-geist-sans)]">
+        <div className="min-h-screen p-0 gap-8 sm:gap-16 sm:p-0 font-[family-name:var(--font-geist-sans)]">
           <LayoutShell>
             <EdgeStoreProvider>
               {children}

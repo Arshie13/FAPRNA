@@ -152,10 +152,10 @@ export default function HomePage() {
                 : "opacity-0 -translate-x-10"
             } mt-6 sm:mt-8 md:mt-0 flex flex-col items-center md:items-start justify-center md:justify-start`}
           >
-            <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-bold text-white mb-2 sm:mb-4 md:mb-6 text-center md:text-left w-full">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-2 sm:mb-4 md:mb-6 text-center md:text-left w-full">
               FAPRNA - NV
             </h1>
-            <p className="text-base sm:text-lg md:text-3xl text-white mb-2 sm:mb-4 md:mb-8 leading-relaxed text-center md:text-left w-full">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white mb-2 sm:mb-4 md:mb-8 leading-relaxed text-center md:text-left w-full">
               A non-profit, professional organization dedicated to unify and
               foster excellence of the Filipino-American Advanced Practice
               Nurses in Nevada.
