@@ -19,12 +19,10 @@ export function ImageUploadForm({ setImageUrl }: ImageUploadProps) {
     async ({ file, onProgressChange, signal }) => {
       const res = await edgestore.publicFiles.upload({
         file,
+        input: { type: "image" },
         signal,
         onProgressChange,
       });
-      // you can run some server action or api here
-      // to add the necessary data to your database
-      console.log(res);
       setImageUrl(res.url)
       return res;
     },
@@ -35,7 +33,7 @@ export function ImageUploadForm({ setImageUrl }: ImageUploadProps) {
     <div className="col-span-1 md:col-span-2">
       <label className="block font-medium mb-1">Event Image</label>
       <p className="text-sm text-muted-foreground mb-2">
-        Upload an image for this event item (max 1MB, jpg/png/webp).
+        Upload an image for this event item (max 10 MB, jpg/png/webp).
       </p>
 
       <UploaderProvider uploadFn={uploadFn} autoUpload>

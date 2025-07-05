@@ -118,7 +118,7 @@ export default function EventRegistration() {
               <div className="grid md:grid-cols-2">
                 <div className="relative h-64 md:h-auto">
                   <Image
-                    src={latestEvent.image || "/placeholder.svg"}
+                    src={latestEvent.image || "/window.svg"}
                     alt={latestEvent.title}
                     fill
                     className="object-cover rounded-l-lg"
@@ -193,7 +193,7 @@ export default function EventRegistration() {
                         >
                           <div className="relative h-48">
                             <Image
-                              src={event.image || "/placeholder.svg"}
+                              src={event.image || "/window.svg"}
                               alt={event.title}
                               width={450}
                               height={320}
@@ -257,7 +257,7 @@ export default function EventRegistration() {
                   >
                     <div className="relative h-48">
                       <Image
-                        src={event.image || "/placeholder.svg"}
+                        src={event.image || "/window.svg"}
                         alt={event.title}
                         width={450}
                         height={320}

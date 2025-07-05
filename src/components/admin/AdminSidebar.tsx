@@ -6,7 +6,7 @@ import {
   LayoutDashboard,
   Newspaper,
   Users,
-  Settings,
+  FileText,
   ChevronRight,
   ChevronLeft,
   Award,
@@ -43,9 +43,9 @@ export default function AdminSidebar() {
       icon: <Users className="h-5 w-5" />,
     },
     {
-      title: "Settings",
-      href: "/admin/settings",
-      icon: <Settings className="h-5 w-5" />,
+      title: "Documents",
+      href: "/admin/documents",
+      icon: <FileText className="h-5 w-5" />,
     },
   ]
 

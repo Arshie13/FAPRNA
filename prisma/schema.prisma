@@ -5,9 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-3.0.x", "linux-musl"]
-  output   = "../src/generated/prisma"
+  output        = "../src/generated/prisma"
 }
 
 datasource db {
@@ -16,7 +16,7 @@ datasource db {
   // directUrl = env("DIRECT_URL")
 }
 
-model user{
+model user {
   id        String   @id @default(cuid()) @map("_id")
   email     String   @unique
   name      String
@@ -111,4 +111,12 @@ model Nomination {
   @@index([nominee1Id])
   @@index([nominee2Id])
   @@index([nominee3Id])
+}
+
+model PDFFile {
+  id        String   @id @default(cuid()) @map("_id")
+  name      String
+  fileUrl   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
