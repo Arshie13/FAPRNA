@@ -119,7 +119,7 @@ export default function AdminSidebar() {
               variant="ghost"
               size="icon"
               onClick={() => setCollapsed(!collapsed)}
-              className={cn("ml-auto p-3", collapsed && "mx-auto")}
+              className={cn("ml-auto p-3", collapsed && "mx-auto", "hidden lg:inline-flex")}
             >
               {collapsed ? (
                 <ChevronRight className="h-7 w-7" />
