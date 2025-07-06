@@ -135,6 +135,7 @@ export default function AdminSidebar() {
               <Link
                 key={item.href}
                 href={item.href}
+                title={item.title}
                 className={cn(
                   "flex items-center rounded-xl px-6 py-5 text-lg font-semibold transition-colors",
                   pathname === item.href || pathname.startsWith(`${item.href}/`)

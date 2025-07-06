@@ -147,15 +147,13 @@ export default function AdminDashboard() {
   if (isLoading) {
     return (
       <div
-        className="w-full py-6 sm:py-8 md:py-10"
-        style={{ background: "#003366" }}
+      className="fixed inset-0 w-full h-full flex items-center justify-center z-50"
+      style={{ background: "#003366" }}
       >
-        <div className="flex items-center justify-center h-64">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-500">Loading dashboard...</p>
-          </div>
-        </div>
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+        <p className="text-gray-200">Loading dashboard...</p>
+      </div>
       </div>
     );
   }
