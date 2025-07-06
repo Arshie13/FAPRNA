@@ -143,7 +143,8 @@ export default function HomePage() {
           ))}
         </div>
 
-        <div className="absolute inset-0 flex flex-col md:flex-row items-center justify-between px-4 sm:px-8 md:px-12 lg:px-16 z-10">
+        <div className="absolute inset-0 flex flex-col md:flex-row items-center justify-between px-4 sm:px-8 md:px-12 lg:px-16 z-10 max-w-[120rem] mx-auto w-full">
+          {/* Text Container - No right margin on desktop */}
           <div
             className={`flex-1 max-w-2xl transition-all duration-1000 ${
               isVisible("home")
@@ -151,19 +152,19 @@ export default function HomePage() {
                 : "opacity-0 -translate-x-10"
             } mt-6 sm:mt-8 md:mt-0 flex flex-col items-center md:items-start justify-center md:justify-start`}
           >
-            <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-bold text-white mb-2 sm:mb-4 md:mb-6 text-center md:text-left w-full">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-2 sm:mb-4 md:mb-6 text-center md:text-left w-full">
               FAPRNA - NV
             </h1>
-            <p className="text-base sm:text-lg md:text-3xl text-white mb-2 sm:mb-4 md:mb-8 leading-relaxed text-center md:text-left w-full">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white mb-2 sm:mb-4 md:mb-8 leading-relaxed text-center md:text-left w-full">
               A non-profit, professional organization dedicated to unify and
               foster excellence of the Filipino-American Advanced Practice
               Nurses in Nevada.
             </p>
           </div>
-          {/* Slideshow - Hidden on mobile/tablet, visible on desktop */}
-          <div className="hidden md:flex flex-1 justify-center mt-6 md:mt-0">
+          {/* Slideshow Container - Adjusted left margin on desktop */}
+          <div className="hidden md:flex flex-1 justify-center mt-6 md:mt-0 md:ml-8 lg:ml-12 xl:ml-16">
             <div
-              className={`relative w-full max-w-xs md:max-w-lg h-32 sm:h-48 md:h-96 rounded-lg overflow-hidden shadow-2xl transition-all duration-1000 ${
+              className={`relative w-full max-w-xl md:max-w-2xl h-32 sm:h-48 md:h-96 rounded-lg overflow-hidden shadow-2xl transition-all duration-1000 ${
                 isVisible("home")
                   ? "opacity-100 translate-x-0"
                   : "opacity-0 translate-x-10"
@@ -175,8 +176,8 @@ export default function HomePage() {
                   key={index}
                   src={slide || "/placeholder.svg"}
                   alt={`Slide ${index + 1}`}
-                  width={900}
-                  height={500}
+                  width={1200}
+                  height={600}
                   className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
                     index === currentSlide
                       ? "opacity-100 z-10"
@@ -293,6 +294,7 @@ export default function HomePage() {
           >
             Co-Founder
           </h2>
+          {/* Co-Founders - Card Layout */}
           {coFounders.length === 1 ? (
             <div
               className={`bg-white rounded-2xl shadow-xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 mb-16 transition-all duration-1000 ${
@@ -302,7 +304,7 @@ export default function HomePage() {
               }`}
             >
               {/* Circle Image */}
-              <div className="w-40 h-40 md:w-64 md:h-64 rounded-full overflow-hidden shadow-lg border-4 border-yellow-400 bg-gray-100 flex items-center justify-center transition-all duration-300 hover:border-yellow-500 hover:shadow-yellow-400/60 group mb-6 md:mb-0">
+              <div className="w-40 h-40 md:w-64 md:h-64 rounded-full overflow-hidden shadow-lg border-4 border-yellow-400 bg-gray-100 flex items-center justify-center transition-all duration-300 hover:border-yellow-500 hover:scale-105 hover:shadow-yellow-400/60 mb-6 md:mb-0">
                 {coFounders[0].image &&
                 !coFounders[0].image.startsWith("/placeholder.svg") ? (
                   <Image
@@ -313,7 +315,12 @@ export default function HomePage() {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <></>
+                  <span className="text-2xl md:text-4xl font-bold text-[#003366]">
+                    {coFounders[0].name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </span>
                 )}
               </div>
               {/* Details */}
@@ -338,18 +345,18 @@ export default function HomePage() {
                   }`}
                   style={{ transitionDelay: `${400 + index * 200}ms` }}
                 >
-                  <div className="w-32 h-32 md:w-50 md:h-50 rounded-full overflow-hidden shadow-lg mx-auto mb-4 md:mb-6 border-4 border-white group-hover:border-yellow-400 transition-all duration-300 group-hover:scale-110 transform bg-gray-100 flex items-center justify-center">
+                  <div className="w-40 h-40 md:w-64 md:h-64 rounded-full overflow-hidden shadow-lg mx-auto mb-4 md:mb-6 border-4 border-yellow-400 transition-all duration-300 group-hover:border-yellow-500 group-hover:scale-105 group-hover:shadow-yellow-400/60 bg-gray-100 flex items-center justify-center">
                     {founder.image &&
                     !founder.image.startsWith("/placeholder.svg") ? (
                       <Image
                         src={founder.image || "/placeholder.svg"}
                         alt={founder.name}
-                        width={200}
-                        height={200}
+                        width={256}
+                        height={256}
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <span className="text-xl md:text-3xl font-bold text-[#003366] w-full text-center">
+                      <span className="text-2xl md:text-4xl font-bold text-[#003366] w-full text-center">
                         {founder.name
                           .split(" ")
                           .map((n) => n[0])
@@ -357,10 +364,10 @@ export default function HomePage() {
                       </span>
                     )}
                   </div>
-                  <h3 className="font-semibold text-lg md:text-2xl text-white mb-1 md:mb-2">
+                  <h3 className="font-semibold text-xl md:text-2xl text-[#003366] mb-2">
                     {founder.name}
                   </h3>
-                  <p className="text-base md:text-xl text-blue-200">
+                  <p className="text-base md:text-lg text-blue-800 mb-1">
                     {founder.role}
                   </p>
                 </div>
@@ -368,7 +375,7 @@ export default function HomePage() {
             </div>
           )}
 
-          {/* Founding Members */}
+          {/* Founding Members - White Card Container */}
           <h2
             className={`text-3xl md:text-6xl font-bold text-center mb-8 md:mb-16 text-white transition-all duration-1000 ${
               isVisible("founding-members")
@@ -382,48 +389,56 @@ export default function HomePage() {
           >
             Founding Members
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
-            {foundingMembers.map((member, idx) => (
-              <div
-                key={member.name}
-                className={`text-center group transition-all duration-1000 ${
-                  isVisible("founding-members")
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-10"
-                }`}
-                style={{ transitionDelay: `${400 + idx * 200}ms` }}
-              >
-                <div className="w-40 h-40 md:w-64 md:h-64 rounded-full overflow-hidden shadow-lg mx-auto mb-4 md:mb-6 border-4 border-yellow-400 group-hover:border-yellow-500 transition-all duration-300 group-hover:scale-105 transform bg-gray-100 flex items-center justify-center">
-                  {member.image ? (
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      width={256}
-                      height={256}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-2xl md:text-4xl font-bold text-[#003366]">
-                      {member.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </span>
+          <div
+            className={`bg-white rounded-2xl shadow-xl p-8 md:p-12 transition-all duration-1000 ${
+              isVisible("founding-members")
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10"
+            }`}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+              {foundingMembers.map((member, idx) => (
+                <div
+                  key={member.name}
+                  className={`text-center group transition-all duration-1000 ${
+                    isVisible("founding-members")
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-10"
+                  }`}
+                  style={{ transitionDelay: `${400 + idx * 200}ms` }}
+                >
+                  <div className="w-40 h-40 md:w-64 md:h-64 rounded-full overflow-hidden shadow-lg mx-auto mb-4 md:mb-6 border-4 border-yellow-400 transition-all duration-300 group-hover:border-yellow-500 group-hover:scale-105 group-hover:shadow-yellow-400/60 bg-gray-100 flex items-center justify-center">
+                    {member.image ? (
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        width={256}
+                        height={256}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-2xl md:text-4xl font-bold text-[#003366]">
+                        {member.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="font-semibold text-xl md:text-2xl text-[#003366] mb-2">
+                    {member.name}
+                  </h3>
+                  <p className="text-base md:text-lg text-blue-800 mb-1">
+                    {member.role}
+                  </p>
+                  {member.details && (
+                    <p className="text-sm md:text-base text-blue-800">
+                      {member.details}
+                    </p>
                   )}
                 </div>
-                <h3 className="font-semibold text-xl md:text-2xl text-white mb-2">
-                  {member.name}
-                </h3>
-                <p className="text-base md:text-lg text-white mb-1">
-                  {member.role}
-                </p>
-                {member.details && (
-                  <p className="text-sm md:text-base text-white">
-                    {member.details}
-                  </p>
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>

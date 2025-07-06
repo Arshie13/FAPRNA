@@ -11,7 +11,7 @@ export interface IEvent {
   description: string;
   ceus: number;
   image: string;
-  ytLink?: string;
+  ytLink?: string | null;
   expected_attendees: number;
   createdAt: Date;
   updatedAt: Date

@@ -9,7 +9,8 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
   const hideNavAndFooter =
     pathname.startsWith("/luminance") ||
     pathname.startsWith("/vote") ||
-    pathname.startsWith("/admin");
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/login");
 
   return (
     <>

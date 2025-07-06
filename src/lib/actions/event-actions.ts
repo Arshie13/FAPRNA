@@ -19,7 +19,22 @@ export async function getAllEvents() {
   }
 }
 
-export async function getNotLatestEvents() {
+export async function getFirstTwoEvents(): Promise<IEvent[]> {
+  try {
+    const events = await prisma.event.findMany({
+      where: { isLatest: false },
+      take: 2,
+      orderBy: {
+        date: "desc",
+      },
+    })
+    return events
+  } catch {
+    throw new Error("Failed to fetch events")
+  }
+}
+
+export async function getNotLatestEvents(): Promise<IEvent[]> {
   try {
     const events = await prisma.event.findMany({
       where: { isLatest: false },
@@ -34,11 +49,16 @@ export async function getNotLatestEvents() {
   }
 }
 
-export async function getLatestEvent() {
+export async function getLatestEvent(): Promise<IEvent> {
   try {
     const latestEvent = await prisma.event.findFirst({
       where: { isLatest: true },
     })
+
+    if (latestEvent === null) {
+      throw new Error("no latest events yet")
+    }
+
     return latestEvent
   } catch (error) {
     console.error("Failed to fetch latest event:", error)

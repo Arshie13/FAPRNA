@@ -25,6 +25,9 @@ export function DocumentUpload({ setFileUrl, setUploading }: FileUploadProps) {
       try {
         const res = await edgestore.publicFiles.upload({
           file,
+          options: {
+            temporary: true
+          },
           input: { type: "pdf" },
           signal,
           onProgressChange,

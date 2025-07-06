@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { format } from "date-fns"
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { format } from "date-fns";
 import {
   Users,
   Calendar,
@@ -11,110 +11,138 @@ import {
   Clock,
   CheckCircle,
   Plus,
-  ArrowRight,
-  BarChart3,
+  // ArrowRight,
   UserCheck,
   ClockIcon as UserClock,
-} from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { toast } from "sonner"
-import { getDashboardStats, getRecentActivity } from "@/lib/actions/dashboard-actions"
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
+import {
+  getDashboardStats,
+  getRecentActivity,
+} from "@/lib/actions/dashboard-actions";
 
 interface DashboardStats {
   users: {
-    total: number
-    approved: number
-    pending: number
-    denied: number
-  }
+    total: number;
+    approved: number;
+    pending: number;
+    denied: number;
+  };
   events: {
-    total: number
-    upcoming: number
-    finished: number
-    latest: number
-  }
+    total: number;
+    upcoming: number;
+    finished: number;
+    latest: number;
+  };
   nominations: {
-    total: number
-    pending: number
-    approved: number
-    rejected: number
-  }
+    total: number;
+    pending: number;
+    approved: number;
+    rejected: number;
+  };
 }
 
 interface RecentActivity {
-  id: string
-  type: "USER_REGISTRATION" | "NOMINATION_SUBMITTED" | "EVENT_CREATED" | "NEWS_PUBLISHED"
-  title: string
-  description: string
-  timestamp: Date
-  status?: string
+  id: string;
+  type:
+    | "USER_REGISTRATION"
+    | "NOMINATION_SUBMITTED"
+    | "EVENT_CREATED"
+    | "NEWS_PUBLISHED";
+  title: string;
+  description: string;
+  timestamp: Date;
+  status?: string;
 }
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState<DashboardStats | null>(null)
-  const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
-      setIsLoading(true)
+      setIsLoading(true);
       try {
-        const [statsData, activityData] = await Promise.all([getDashboardStats(), getRecentActivity()])
-        setStats(statsData)
-        setRecentActivity(activityData)
+        const [statsData, activityData] = await Promise.all([
+          getDashboardStats(),
+          getRecentActivity(),
+        ]);
+        setStats(statsData);
+        setRecentActivity(activityData);
       } catch (error) {
-        console.log("Error: ", error)
-        toast("Failed to load dashboard data")
+        console.log("Error: ", error);
+        toast("Failed to load dashboard data");
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
+    };
 
-    fetchDashboardData()
-  }, [])
+    fetchDashboardData();
+  }, []);
 
   const getActivityIcon = (type: string) => {
     switch (type) {
       case "USER_REGISTRATION":
-        return <Users className="h-4 w-4 text-blue-500" />
+        return <Users className="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" />;
       case "NOMINATION_SUBMITTED":
-        return <Award className="h-4 w-4 text-purple-500" />
+        return <Award className="h-5 w-5 sm:h-6 sm:w-6 text-purple-500" />;
       case "EVENT_CREATED":
-        return <Calendar className="h-4 w-4 text-green-500" />
+        return <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-green-500" />;
       case "NEWS_PUBLISHED":
-        return <Newspaper className="h-4 w-4 text-orange-500" />
+        return <Newspaper className="h-5 w-5 sm:h-6 sm:w-6 text-orange-500" />;
       default:
-        return <Clock className="h-4 w-4 text-gray-500" />
+        return <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-gray-500" />;
     }
-  }
+  };
 
   const getActivityBadge = (status?: string) => {
-    if (!status) return null
+    if (!status) return null;
     switch (status) {
       case "PENDING":
         return (
-          <Badge variant="outline" className="bg-yellow-100 text-yellow-800 border-yellow-200">
+          <Badge
+            variant="outline"
+            className="bg-yellow-100 text-yellow-800 border-yellow-200 text-xs sm:text-sm"
+          >
             Pending
           </Badge>
-        )
+        );
       case "APPROVED":
         return (
-          <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
+          <Badge
+            variant="outline"
+            className="bg-green-100 text-green-800 border-green-200 text-xs sm:text-sm"
+          >
             Approved
           </Badge>
-        )
+        );
       case "REJECTED":
         return (
-          <Badge variant="outline" className="bg-red-100 text-red-800 border-red-200">
+          <Badge
+            variant="outline"
+            className="bg-red-100 text-red-800 border-red-200 text-xs sm:text-sm"
+          >
             Rejected
           </Badge>
-        )
+        );
       default:
-        return <Badge variant="outline">{status}</Badge>
+        return (
+          <Badge variant="outline" className="text-xs sm:text-sm">
+            {status}
+          </Badge>
+        );
     }
-  }
+  };
 
   if (isLoading) {
     return (
@@ -126,148 +154,305 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
-    <div className="container mx-auto py-10">
+    <div
+      className="w-full py-4 sm:py-6 md:py-8 lg:py-12 min-h-screen px-4 sm:px-6 md:px-8"
+      style={{ background: "#003366" }}
+    >
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-        <p className="text-gray-500">Welcome back! Here&apos;s what&apos;s happening with FAPRNA-NV.</p>
+      <div className="mb-6 sm:mb-8 md:mb-10 lg:mb-12">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white drop-shadow-lg">
+          Admin Dashboard
+        </h1>
+        <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white mt-2 sm:mt-3 md:mt-4 font-semibold drop-shadow">
+          Welcome back! Here&apos;s what&apos;s happening with FAPRNA-NV.
+        </p>
       </div>
 
-      {/* Stats Overview */}
-      {stats && (
-        <div className="mb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {/* Users Stats */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Members</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stats.users.total}</div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
-                <UserCheck className="h-3 w-3 text-green-600" />
-                <span>{stats.users.approved} approved</span>
-                <UserClock className="h-3 w-3 text-yellow-600" />
-                <span>{stats.users.pending} pending</span>
-              </div>
-            </CardContent>
-          </Card>
+      <div className="grid gap-4 sm:gap-6 md:gap-8 lg:gap-10 grid-cols-1 xl:grid-cols-3">
+        <div className="xl:col-span-2 space-y-4 sm:space-y-6 md:space-y-8 lg:space-y-10">
+          {/* Stats Overview */}
+          <div className="grid gap-4 sm:gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2">
+            {/* Users Stats */}
+            <Card className="p-3 sm:p-4 md:p-5 lg:p-6">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 sm:pb-4 md:pb-5 lg:pb-6">
+                <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
+                  Total Members
+                </CardTitle>
+                <Users className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-muted-foreground" />
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold">
+                  {stats!.users.total}
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm sm:text-base md:text-lg text-muted-foreground mt-3 sm:mt-4 md:mt-5 lg:mt-6">
+                  <div className="flex items-center gap-2">
+                    <UserCheck className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
+                    <span className="text-sm sm:text-base">
+                      {stats!.users.approved} approved
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <UserClock className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-600" />
+                    <span className="text-sm sm:text-base">
+                      {stats!.users.pending} pending
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
-          {/* Events Stats */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Events</CardTitle>
-              <Calendar className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stats.events.total}</div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
-                <Clock className="h-3 w-3 text-blue-600" />
-                <span>{stats.events.upcoming} upcoming</span>
-                <CheckCircle className="h-3 w-3 text-gray-600" />
-                <span>{stats.events.finished} finished</span>
-              </div>
-            </CardContent>
-          </Card>
+            {/* Events Stats */}
+            <Card className="p-3 sm:p-4 md:p-5 lg:p-6">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 sm:pb-4 md:pb-5 lg:pb-6">
+                <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
+                  Events
+                </CardTitle>
+                <Calendar className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-muted-foreground" />
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold">
+                  {stats!.events.total}
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm sm:text-base md:text-lg text-muted-foreground mt-3 sm:mt-4 md:mt-5 lg:mt-6">
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
+                    <span className="text-sm sm:text-base">
+                      {stats!.events.upcoming} upcoming
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
+                    <span className="text-sm sm:text-base">
+                      {stats!.events.finished} finished
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-          {/* Nominations Stats */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Nominations</CardTitle>
-              <Award className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stats.nominations.total}</div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
-                <Clock className="h-3 w-3 text-yellow-600" />
-                <span>{stats.nominations.pending} pending</span>
-                <CheckCircle className="h-3 w-3 text-green-600" />
-                <span>{stats.nominations.approved} approved</span>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+          {/* Pending Reviews and Nominations */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
+            {/* Pending Reviews Card */}
+            <Card className="p-3 sm:p-4 md:p-5 lg:p-6">
+              <CardHeader className="pb-4 sm:pb-5 md:pb-6 lg:pb-8">
+                <CardTitle className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">
+                  Pending Reviews
+                </CardTitle>
+                <CardDescription className="text-sm sm:text-base md:text-lg lg:text-xl">
+                  Items requiring your attention
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0 pb-4 sm:pb-5 md:pb-6 lg:pb-8">
+                <div className="space-y-3 sm:space-y-4 md:space-y-5">
+                  {(stats?.nominations.pending ?? 0) > 0 && (
+                    <Link href="/admin/nominations?tab=pending">
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start gap-3 sm:gap-4 h-auto p-4 sm:p-5 md:p-6 border-[#003366] text-[#003366] text-sm sm:text-base md:text-lg lg:text-xl font-semibold hover:bg-[#a6e3fa] hover:text-[#003366] transition-all duration-300 rounded-xl shadow-lg"
+                      >
+                        <Award className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+                        <div className="text-left">
+                          <div className="font-bold text-sm sm:text-base md:text-lg lg:text-xl">
+                            Nominations
+                          </div>
+                          <div className="text-xs sm:text-sm md:text-base text-gray-700">
+                            {stats?.nominations.pending ?? 0} pending
+                          </div>
+                        </div>
+                      </Button>
+                    </Link>
+                  )}
+                  {(stats?.users.pending ?? 0) > 0 && (
+                    <Link href="/admin/members?tab=pending">
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start gap-3 sm:gap-4 h-auto p-4 sm:p-5 md:p-6 border-[#003366] text-[#003366] text-sm sm:text-base md:text-lg lg:text-xl font-semibold hover:bg-[#a6e3fa] hover:text-[#003366] transition-all duration-300 rounded-xl shadow-lg"
+                      >
+                        <Users className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+                        <div className="text-left">
+                          <div className="font-bold text-sm sm:text-base md:text-lg lg:text-xl">
+                            Member Applications
+                          </div>
+                          <div className="text-xs sm:text-sm md:text-base text-gray-700">
+                            {stats?.users.pending} pending
+                          </div>
+                        </div>
+                      </Button>
+                    </Link>
+                  )}
+                  {stats?.nominations.pending === 0 &&
+                    stats?.users.pending === 0 && (
+                      <div className="text-center py-8 sm:py-10 md:py-12 text-gray-300">
+                        <CheckCircle className="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 mx-auto mb-3 sm:mb-4 md:mb-6 opacity-50" />
+                        <p className="font-bold text-base sm:text-lg md:text-xl">
+                          All caught up!
+                        </p>
+                        <p className="text-sm sm:text-base md:text-lg">
+                          No pending items to review
+                        </p>
+                      </div>
+                    )}
+                </div>
+              </CardContent>
+            </Card>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2 space-y-6">
+            {/* Nominations Stats Card */}
+            <Card className="p-3 sm:p-4 md:p-5 lg:p-6">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 sm:pb-4 md:pb-5 lg:pb-6">
+                <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
+                  Nominations
+                </CardTitle>
+                <Award className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-muted-foreground" />
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold">
+                  {stats?.nominations.total || 0}
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm sm:text-base md:text-lg text-muted-foreground mt-3 sm:mt-4 md:mt-5 lg:mt-6">
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-600" />
+                    <span className="text-sm sm:text-base">
+                      {stats?.nominations.pending || 0} pending
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
+                    <span className="text-sm sm:text-base">
+                      {stats?.nominations.approved || 0} approved
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
           {/* Quick Actions */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-              <CardDescription>Common administrative tasks</CardDescription>
+          <Card className="p-3 sm:p-4 md:p-5 lg:p-6">
+            <CardHeader className="pb-4 sm:pb-5 md:pb-6 lg:pb-8">
+              <CardTitle className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">
+                Quick Actions
+              </CardTitle>
+              <CardDescription className="text-sm sm:text-base md:text-lg lg:text-xl">
+                Common administrative tasks
+              </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="grid gap-4 md:grid-cols-2">
+            <CardContent className="pt-0 pb-4 sm:pb-5 md:pb-6 lg:pb-8">
+              <div className="grid gap-3 sm:gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2">
                 <Link href="/admin/events/create">
-                  <Button className="w-full justify-start gap-2 h-auto p-4">
-                    <Plus className="h-5 w-5" />
+                  <Button className="w-full justify-start gap-3 sm:gap-4 h-auto p-4 sm:p-5 md:p-6 bg-[#003366] text-white text-sm sm:text-base md:text-lg lg:text-xl font-semibold hover:bg-[#002244] hover:text-white transition-all duration-300 rounded-xl shadow-lg">
+                    <Plus className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
                     <div className="text-left">
-                      <div className="font-medium">Create Event</div>
-                      <div className="text-xs text-white/80">Add new event</div>
+                      <div className="font-bold text-sm sm:text-base md:text-lg lg:text-xl">
+                        Create Event
+                      </div>
+                      <div className="text-xs sm:text-sm md:text-base text-white/80">
+                        Add new event
+                      </div>
                     </div>
                   </Button>
                 </Link>
                 <Link href="/admin/nominations">
-                  <Button variant="outline" className="w-full justify-start gap-2 h-auto p-4">
-                    <Award className="h-5 w-5" />
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start gap-3 sm:gap-4 h-auto p-4 sm:p-5 md:p-6 border-[#003366] text-[#003366] text-sm sm:text-base md:text-lg lg:text-xl font-semibold hover:bg-[#a6e3fa] hover:text-[#003366] transition-all duration-300 rounded-xl shadow-lg"
+                  >
+                    <Award className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
                     <div className="text-left">
-                      <div className="font-medium">Review Nominations</div>
-                      <div className="text-xs text-gray-500">{stats?.nominations.pending || 0} pending review</div>
+                      <div className="font-bold text-sm sm:text-base md:text-lg lg:text-xl">
+                        Review Nominations
+                      </div>
+                      <div className="text-xs sm:text-sm md:text-base text-gray-700">
+                        {stats?.nominations.pending || 0} pending review
+                      </div>
                     </div>
                   </Button>
                 </Link>
                 <Link href="/admin/members">
-                  <Button variant="outline" className="w-full justify-start gap-2 h-auto p-4">
-                    <Users className="h-5 w-5" />
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start gap-3 sm:gap-4 h-auto p-4 sm:p-5 md:p-6 border-[#003366] text-[#003366] text-sm sm:text-base md:text-lg lg:text-xl font-semibold hover:bg-[#a6e3fa] hover:text-[#003366] transition-all duration-300 rounded-xl shadow-lg"
+                  >
+                    <Users className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
                     <div className="text-left">
-                      <div className="font-medium">Manage Members</div>
-                      <div className="text-xs text-gray-500">{stats?.users.pending || 0} pending approval</div>
+                      <div className="font-bold text-sm sm:text-base md:text-lg lg:text-xl">
+                        Manage Members
+                      </div>
+                      <div className="text-xs sm:text-sm md:text-base text-gray-700">
+                        {stats?.users.pending || 0} pending approval
+                      </div>
                     </div>
                   </Button>
                 </Link>
                 <Link href="/admin/events">
-                  <Button variant="outline" className="w-full justify-start gap-2 h-auto p-4">
-                    <Calendar className="h-5 w-5" />
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start gap-3 sm:gap-4 h-auto p-4 sm:p-5 md:p-6 border-[#003366] text-[#003366] text-sm sm:text-base md:text-lg lg:text-xl font-semibold hover:bg-[#a6e3fa] hover:text-[#003366] transition-all duration-300 rounded-xl shadow-lg"
+                  >
+                    <Calendar className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
                     <div className="text-left">
-                      <div className="font-medium">Event Management</div>
-                      <div className="text-xs text-gray-500">{stats?.events.upcoming || 0} upcoming events</div>
+                      <div className="font-bold text-sm sm:text-base md:text-lg lg:text-xl">
+                        Event Management
+                      </div>
+                      <div className="text-xs sm:text-sm md:text-base text-gray-700">
+                        {stats?.events.upcoming || 0} upcoming events
+                      </div>
                     </div>
                   </Button>
                 </Link>
               </div>
             </CardContent>
           </Card>
+        </div>
 
+        <div className="space-y-4 sm:space-y-6 md:space-y-8 lg:space-y-10">
           {/* Recent Activity */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
-              <CardDescription>Latest actions and submissions</CardDescription>
+          <Card className="p-3 sm:p-4 md:p-5 lg:p-6">
+            <CardHeader className="pb-4 sm:pb-5 md:pb-6 lg:pb-8">
+              <CardTitle className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">
+                Recent Activity
+              </CardTitle>
+              <CardDescription className="text-sm sm:text-base md:text-lg lg:text-xl">
+                Latest actions and submissions
+              </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0 pb-4 sm:pb-5 md:pb-6 lg:pb-8">
               {recentActivity.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
-                  <Clock className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                  <p>No recent activity</p>
+                <div className="text-center py-8 sm:py-10 md:py-12 lg:py-16 text-gray-300">
+                  <Clock className="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 mx-auto mb-3 sm:mb-4 md:mb-6 opacity-50" />
+                  <p className="text-base sm:text-lg md:text-xl">
+                    No recent activity
+                  </p>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-4 sm:space-y-6 md:space-y-8">
                   {recentActivity.slice(0, 8).map((activity) => (
-                    <div key={activity.id} className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50">
-                      {getActivityIcon(activity.type)}
+                    <div
+                      key={activity.id}
+                      className="flex items-start gap-3 sm:gap-4 md:gap-5 p-3 sm:p-4 md:p-5 rounded-xl hover:bg-[#a6e3fa] transition-colors"
+                    >
+                      <div className="flex-shrink-0 mt-1">
+                        {getActivityIcon(activity.type)}
+                      </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between">
-                          <p className="text-sm font-medium text-gray-900 truncate">{activity.title}</p>
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
+                          <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-900 truncate">
+                            {activity.title}
+                          </p>
                           {getActivityBadge(activity.status)}
                         </div>
-                        <p className="text-sm text-gray-500 truncate">{activity.description}</p>
-                        <p className="text-xs text-gray-400 mt-1">
-                          {format(new Date(activity.timestamp), "MMM d, yyyy 'at' h:mm a")}
+                        <p className="text-xs sm:text-sm md:text-base text-gray-700 truncate mt-1">
+                          {activity.description}
+                        </p>
+                        <p className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">
+                          {format(
+                            new Date(activity.timestamp),
+                            "MMM d, yyyy 'at' h:mm a"
+                          )}
                         </p>
                       </div>
                     </div>
@@ -277,122 +462,7 @@ export default function AdminDashboard() {
             </CardContent>
           </Card>
         </div>
-
-        <div className="space-y-6">
-          {/* Pending Items */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Pending Reviews</CardTitle>
-              <CardDescription>Items requiring your attention</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {(stats?.nominations.pending ?? 0) > 0 && (
-                  <Link href="/admin/nominations?tab=pending">
-                    <div className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors">
-                      <div className="flex items-center gap-3">
-                        <Award className="h-5 w-5 text-purple-500" />
-                        <div>
-                          <p className="text-sm font-medium">Nominations</p>
-                          <p className="text-xs text-gray-500">{stats?.nominations.pending ?? 0} pending</p>
-                        </div>
-                      </div>
-                      <ArrowRight className="h-4 w-4 text-gray-400" />
-                    </div>
-                  </Link>
-                )}
-                {(stats?.users.pending ?? 0) > 0 && (
-                  <Link href="/admin/members?tab=pending">
-                    <div className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors">
-                      <div className="flex items-center gap-3">
-                        <Users className="h-5 w-5 text-blue-500" />
-                        <div>
-                          <p className="text-sm font-medium">Member Applications</p>
-                          <p className="text-xs text-gray-500">{stats?.users.pending} pending</p>
-                        </div>
-                      </div>
-                      <ArrowRight className="h-4 w-4 text-gray-400" />
-                    </div>
-                  </Link>
-                )}
-                {stats?.nominations.pending === 0 && stats?.users.pending === 0 && (
-                  <div className="text-center py-6 text-gray-500">
-                    <CheckCircle className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                    <p className="text-sm">All caught up!</p>
-                    <p className="text-xs">No pending items to review</p>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* System Status */}
-          <Card>
-            <CardHeader>
-              <CardTitle>System Overview</CardTitle>
-              <CardDescription>Current system status</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Database</span>
-                  <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
-                    Online
-                  </Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Last Backup</span>
-                  <span className="text-sm text-gray-500">2 hours ago</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Active Sessions</span>
-                  <span className="text-sm text-gray-500">{stats?.users.approved || 0}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Storage Used</span>
-                  <span className="text-sm text-gray-500">2.4 GB</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Quick Links */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Links</CardTitle>
-              <CardDescription>Frequently accessed pages</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <Link href="/admin/events" className="block">
-                  <Button variant="ghost" className="w-full justify-start gap-2">
-                    <Newspaper className="h-4 w-4" />
-                    Events Management
-                  </Button>
-                </Link>
-                <Link href="/admin/nominations" className="block">
-                  <Button variant="ghost" className="w-full justify-start gap-2">
-                    <Award className="h-4 w-4" />
-                    Nominations
-                  </Button>
-                </Link>
-                <Link href="/admin/members" className="block">
-                  <Button variant="ghost" className="w-full justify-start gap-2">
-                    <Users className="h-4 w-4" />
-                    Members
-                  </Button>
-                </Link>
-                <Link href="/admin/settings" className="block">
-                  <Button variant="ghost" className="w-full justify-start gap-2">
-                    <BarChart3 className="h-4 w-4" />
-                    Analytics
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
       </div>
     </div>
-  )
+  );
 }
