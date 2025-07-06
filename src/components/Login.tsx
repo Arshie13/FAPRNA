@@ -42,12 +42,17 @@ export default function LoginForm() {
         redirect: false,
       })
 
+      console.log("result: ", result)
+
       if (result?.error) {
+        console.log("error")
         setError("Invalid email or password")
         toast.error("Invalid email or password")
       } else {
         // Check if session was created
+        console.log("creating session...")
         const session = await getSession()
+        console.log("session: ", session)
         if (session) {
           toast.success("Login successful!")
           router.push("/admin")
