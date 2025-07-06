@@ -143,7 +143,7 @@ export default function DocumentsAdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-red-500">
-              {documents.filter(doc => doc.name.toLowerCase().endsWith('.pdf')).length}
+              {documents.filter(doc => doc.fileUrl.toLowerCase().endsWith('.pdf')).length}
             </div>
           </CardContent>
         </Card>
@@ -213,7 +213,7 @@ export default function DocumentsAdminDashboard() {
                         <Card key={doc.id} className="p-3">
                           <div className="flex items-start justify-between">
                             <div className="flex items-start gap-3 flex-1">
-                              {getFileIcon(doc.name)}
+                              {getFileIcon(doc.fileUrl)}
                               <div className="flex-1">
                                 <h3 className="font-semibold text-sm">{doc.name}</h3>
                                 <div className="space-y-1 text-xs text-gray-600">

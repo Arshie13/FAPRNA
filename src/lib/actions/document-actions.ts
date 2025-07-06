@@ -12,6 +12,7 @@ export async function getAllDocuments() {
         id: true,
         name: true,
         fileUrl: true,
+        createdAt: true
       }
     })
     return documents

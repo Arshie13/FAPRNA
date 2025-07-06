@@ -8,7 +8,6 @@ import {
   Check,
   X,
   Search,
-  Filter,
   RefreshCw,
   User,
   Mail,
@@ -25,13 +24,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -304,49 +296,6 @@ export default function MembersAdminDashboard() {
                 <RefreshCw className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
                 Refresh
               </Button>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="gap-2 sm:gap-3 h-10 sm:h-11 md:h-12 px-4 sm:px-5 md:px-6 text-sm sm:text-base md:text-lg order-1 sm:order-2"
-                  >
-                    <Filter className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
-                    Filter
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="w-48 sm:w-56 md:w-64"
-                >
-                  <DropdownMenuLabel className="text-sm sm:text-base md:text-lg">
-                    Filter by Status
-                  </DropdownMenuLabel>
-                  <DropdownMenuItem
-                    onClick={() => setActiveTab("all")}
-                    className="text-xs sm:text-sm md:text-base py-2 sm:py-3"
-                  >
-                    All Members
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => setActiveTab("approved")}
-                    className="text-xs sm:text-sm md:text-base py-2 sm:py-3"
-                  >
-                    Approved
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => setActiveTab("pending")}
-                    className="text-xs sm:text-sm md:text-base py-2 sm:py-3"
-                  >
-                    Pending
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => setActiveTab("denied")}
-                    className="text-xs sm:text-sm md:text-base py-2 sm:py-3"
-                  >
-                    Denied
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
           </div>
 

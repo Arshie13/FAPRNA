@@ -11,7 +11,6 @@ import {
   Plus,
   Star,
   StarOff,
-  Filter,
   Search,
   RefreshCw,
 } from "lucide-react";
@@ -24,14 +23,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -206,62 +197,6 @@ export default function EventAdminDashboard() {
                 <RefreshCw className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
                 Refresh
               </Button>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="gap-2 sm:gap-3 h-10 sm:h-11 md:h-12 px-4 sm:px-5 md:px-6 text-sm sm:text-base md:text-lg order-1 sm:order-2"
-                  >
-                    <Filter className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
-                    Filter
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="w-48 sm:w-56 md:w-64"
-                >
-                  <DropdownMenuLabel className="text-sm sm:text-base md:text-lg">
-                    Filter by Type
-                  </DropdownMenuLabel>
-                  <DropdownMenuItem
-                    onClick={() => setActiveTab("all")}
-                    className="text-xs sm:text-sm md:text-base py-2 sm:py-3"
-                  >
-                    All Events
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => setActiveTab("events")}
-                    className="text-xs sm:text-sm md:text-base py-2 sm:py-3"
-                  >
-                    Events
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => setActiveTab("recognition")}
-                    className="text-xs sm:text-sm md:text-base py-2 sm:py-3"
-                  >
-                    Recognition
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => setActiveTab("team")}
-                    className="text-xs sm:text-sm md:text-base py-2 sm:py-3"
-                  >
-                    Team
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() => setActiveTab("latest")}
-                    className="text-xs sm:text-sm md:text-base py-2 sm:py-3"
-                  >
-                    Latest Events
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => setActiveTab("finished")}
-                    className="text-xs sm:text-sm md:text-base py-2 sm:py-3"
-                  >
-                    Finished Events
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
           </div>
 
@@ -270,30 +205,12 @@ export default function EventAdminDashboard() {
             value={activeTab}
             onValueChange={setActiveTab}
           >
-            <TabsList className="mb-6 sm:mb-8 grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 h-10 sm:h-12 md:h-14">
+            <TabsList className="mb-6 sm:mb-8 grid w-full grid-cols-3 h-10 sm:h-12 md:h-14">
               <TabsTrigger
                 value="all"
                 className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold"
               >
                 All
-              </TabsTrigger>
-              <TabsTrigger
-                value="events"
-                className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold"
-              >
-                Events
-              </TabsTrigger>
-              <TabsTrigger
-                value="recognition"
-                className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold hidden sm:block"
-              >
-                Recognition
-              </TabsTrigger>
-              <TabsTrigger
-                value="team"
-                className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold hidden lg:block"
-              >
-                Team
               </TabsTrigger>
               <TabsTrigger
                 value="latest"

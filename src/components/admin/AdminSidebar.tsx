@@ -138,9 +138,13 @@ export default function AdminSidebar() {
                 title={item.title}
                 className={cn(
                   "flex items-center rounded-xl px-6 py-5 text-lg font-semibold transition-colors",
-                  pathname === item.href || pathname.startsWith(`${item.href}/`)
-                    ? "bg-[#a6e3fa] text-[#003366]"
-                    : "text-gray-700 hover:bg-[#a6e3fa] hover:text-[#003366]",
+                  item.href === "/admin"
+                    ? pathname === "/admin"
+                      ? "bg-[#a6e3fa] text-[#003366]"
+                      : "text-gray-700 hover:bg-[#a6e3fa] hover:text-[#003366]"
+                    : pathname === item.href || pathname.startsWith(`${item.href}/`)
+                      ? "bg-[#a6e3fa] text-[#003366]"
+                      : "text-gray-700 hover:bg-[#a6e3fa] hover:text-[#003366]",
                   collapsed && "justify-center px-3"
                 )}
               >
