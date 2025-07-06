@@ -5,7 +5,6 @@ import { SessionProvider, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import AdminSidebar from "@/components/admin/AdminSidebar"
-import AdminHeader from "@/components/admin/AdminHeader"
 
 function AuthenticatedAdminLayout({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession()
@@ -40,12 +39,11 @@ function AuthenticatedAdminLayout({ children }: { children: React.ReactNode }) {
   // Render admin layout for authenticated users
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <div className="h-full overflow-hidden">
-        <AdminSidebar />
-      </div>
+      <AdminSidebar />
       <div className="flex-1 overflow-auto">
-        <AdminHeader />
-        <main className="p-6">{children}</main>
+        <main className="max-w-full max-h-full">
+          {children}
+        </main>
       </div>
     </div>
   )

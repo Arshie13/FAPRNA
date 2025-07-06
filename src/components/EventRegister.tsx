@@ -13,7 +13,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { getLatestEvent, getNotLatestEvents } from "@/lib/actions/event-actions";
 import { IEvent } from "@/lib/interfaces";
 
@@ -21,9 +21,6 @@ export default function EventRegistration() {
   const [isLoading, setIsLoading] = useState(false);
   const [events, setEvents] = useState<IEvent[]>([])
   const [latestEvent, setLatestEvent] = useState<IEvent | null>(null);
-  const [current, setCurrent] = useState(0);
-  const touchStartX = useRef<number | null>(null);
-  const touchEndX = useRef<number | null>(null);
 
   useEffect(() => {
     const fetchLatestEvent = async () => {
@@ -53,27 +50,6 @@ export default function EventRegistration() {
 
     fetchLatestEvent();
   }, [])
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
-  const handleTouchEnd = () => {
-    if (touchStartX.current !== null && touchEndX.current !== null) {
-      const diff = touchStartX.current - touchEndX.current;
-      if (Math.abs(diff) > 50) {
-        if (diff > 0 && current < events.length - 1) {
-          setCurrent(current + 1);
-        } else if (diff < 0 && current > 0) {
-          setCurrent(current - 1);
-        }
-      }
-    }
-    touchStartX.current = null;
-    touchEndX.current = null;
-  };
 
   if (isLoading) {
     return (
@@ -116,7 +92,7 @@ export default function EventRegistration() {
 
             <Card className="max-w-4xl mx-auto border-0 shadow-xl bg-white">
               <div className="grid md:grid-cols-2">
-                <div className="relative h-64 md:h-auto">
+                <div className="relative md:h-auto h-[320px]">
                   <Image
                     src={latestEvent.image || "/window.svg"}
                     alt={latestEvent.title}
@@ -174,93 +150,19 @@ export default function EventRegistration() {
 
           {events && (
             <>
-              {/* Mobile carousel */}
-              <div className="block md:hidden">
-                <div
-                  className="relative w-full overflow-hidden"
-                  onTouchStart={handleTouchStart}
-                  onTouchMove={handleTouchMove}
-                  onTouchEnd={handleTouchEnd}
-                >
-                  <div
-                    className="flex transition-transform duration-300"
-                    style={{ transform: `translateX(-${current * 100}%)` }}
-                  >
-                    {events.map((event, idx) => (
-                      <div key={idx} className="min-w-full px-2">
-                        <Card
-                          className="border border-gray-200 shadow-lg hover:shadow-xl transition-shadow bg-white"
-                        >
-                          <div className="relative h-48">
-                            <Image
-                              src={event.image || "/window.svg"}
-                              alt={event.title}
-                              width={450}
-                              height={320}
-                              className="object-cover rounded-t-lg"
-                            />
-                            <div className="absolute top-4 right-4">
-                              <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                                {event.ceus} CEUs
-                              </span>
-                            </div>
-                          </div>
-                          <CardContent className="p-6">
-                            <div className="mb-4">
-                              <div className="text-blue-600 font-semibold text-sm mb-2">
-                                {event.date.toLocaleDateString()} • {event.time}
-                              </div>
-                              <h3 className="text-xl font-bold text-gray-900 mb-2">
-                                {event.title}
-                              </h3>
-                              <p className="text-gray-600 text-sm mb-3">
-                                {event.description}
-                              </p>
-                              <div className="flex items-center text-gray-500 text-sm">
-                                <MapPin className="w-4 h-4 mr-1" />
-                                {event.location}
-                              </div>
-                            </div>
-                            <Link
-                              href={`/event-registration/details/${event.title}`}
-                            >
-                              <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 font-semibold">
-                                Learn More!
-                                <ArrowRight className="w-4 h-4 ml-2" />
-                              </Button>
-                            </Link>
-                          </CardContent>
-                        </Card>
-                      </div>
-                    ))}
-                  </div>
-                  {/* Carousel navigation dots */}
-                  <div className="flex justify-center mt-4 gap-2">
-                    {events.map((_, idx) => (
-                      <button
-                        key={idx}
-                        className={`h-2 w-2 rounded-full ${current === idx ? "bg-[#003366]" : "bg-gray-300"
-                          }`}
-                        onClick={() => setCurrent(idx)}
-                        aria-label={`Go to slide ${idx + 1}`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              {/* Desktop/tablet grid */}
-              <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {/* Remove Mobile carousel */}
+              {/* Desktop/tablet grid and always show all events */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 {events.map((event, index) => (
                   <Card
                     key={index}
                     className="border border-gray-200 shadow-lg hover:shadow-xl transition-shadow bg-white"
                   >
-                    <div className="relative h-48">
+                    <div className="relative h-[320px]">
                       <Image
                         src={event.image || "/window.svg"}
                         alt={event.title}
-                        width={450}
-                        height={320}
+                        fill
                         className="object-cover rounded-t-lg"
                       />
                       <div className="absolute top-4 right-4">
