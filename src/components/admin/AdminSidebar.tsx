@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   Award,
   Home,
+  Medal,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -52,6 +53,11 @@ export default function AdminSidebar() {
       title: "Documents",
       href: "/admin/documents",
       icon: <FileText className="h-7 w-7" />,
+    },
+    {
+      title: "Luminance",
+      href: "/admin/luminance",
+      icon: <Medal className="h-7 w-7" />,
     },
   ];
 
