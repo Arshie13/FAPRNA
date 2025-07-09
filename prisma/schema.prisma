@@ -70,6 +70,14 @@ model Member {
   thirdNominations  Nomination[]     @relation("ThirdNominee")
 }
 
+model NonMember {
+  id          String      @id @default(cuid()) @map("_id")
+  fullName    String
+  email       String      @unique
+  phoneNumber String?     @unique
+  EventUser   EventUser[]
+}
+
 model VerificationCode {
   id        String   @id @default(cuid()) @map("_id")
   email     String
@@ -82,12 +90,15 @@ model VerificationCode {
 }
 
 model EventUser {
-  id        String  @id @default(cuid()) @map("_id")
-  member    Member  @relation(fields: [memberId], references: [id])
-  memberId  String
-  event     Event   @relation(fields: [eventId], references: [id])
-  eventId   String
-  isPending Boolean @default(false)
+  id          String     @id @default(cuid()) @map("_id")
+  member      Member?    @relation(fields: [memberId], references: [id])
+  memberId    String?
+  nonMember   NonMember? @relation(fields: [nonMemberId], references: [id])
+  nonMemberId String?
+  event       Event      @relation(fields: [eventId], references: [id])
+  eventId     String
+  isPending   Boolean    @default(false)
+  rejected    Boolean    @default(false)
 }
 
 model Nomination {
@@ -119,4 +130,12 @@ model PDFFile {
   fileUrl   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Luminance {
+  id        String   @id @default(cuid()) @map("_id")
+  name      String   @unique
+  fileUrl   String
+  isCurrent Boolean  @default(false)
+  createdAt DateTime @default(now())
 }
