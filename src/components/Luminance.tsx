@@ -5,6 +5,7 @@ import { Trophy, History, Home, StarIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { getCurrentWinners } from "@/lib/actions/luminance-actions";
 
 interface LuminanceAwardsProps {
   onVote: () => void;
@@ -74,15 +75,12 @@ const GoldenBokeh = () => {
             left: orb.left + "%",
             animationDelay: orb.delay + "s",
             animationDuration: orb.duration + "s",
-            background: `radial-gradient(circle, rgba(255, 215, 0, ${
-              orb.opacity
-            }) 0%, rgba(212, 175, 55, ${
-              orb.opacity * 0.8
-            }) 30%, rgba(255, 215, 0, 0) 70%)`,
+            background: `radial-gradient(circle, rgba(255, 215, 0, ${orb.opacity
+              }) 0%, rgba(212, 175, 55, ${orb.opacity * 0.8
+              }) 30%, rgba(255, 215, 0, 0) 70%)`,
             filter: "blur(2px)",
-            boxShadow: `0 0 ${orb.size * 0.5}px rgba(255, 215, 0, ${
-              orb.opacity * 0.6
-            })`,
+            boxShadow: `0 0 ${orb.size * 0.5}px rgba(255, 215, 0, ${orb.opacity * 0.6
+              })`,
           }}
         ></div>
       ))}
@@ -164,10 +162,18 @@ const GoldenSparkles = () => {
 
 export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
   const [showHistory, setShowHistory] = useState(false);
+  const [currentWinner, setCurrentWinner] = useState("")
+
+  useEffect(() => {
+    getCurrentWinners().then((r) => {
+      setCurrentWinner(r[0].fileUrl)
+    })
+  })
+
 
   // Common button style for uniform appearance
   const uniformButtonStyle = {
-    background: "linear-gradient(45deg, #FFD700, #FFA500, #DAA520, #FFD700)",
+    backgroundImage: "linear-gradient(45deg, #FFD700, #FFA500, #DAA520, #FFD700)",
     backgroundSize: "300% 300%",
     animation: "gradient-shift 3s ease infinite",
     color: "black",
@@ -178,7 +184,7 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
 
   // Inactive button style (for toggle states)
   const inactiveButtonStyle = {
-    background:
+    backgroundImage:
       "linear-gradient(45deg, rgba(255, 215, 0, 0.3), rgba(255, 165, 0, 0.3), rgba(218, 165, 32, 0.3), rgba(255, 215, 0, 0.3))",
     backgroundSize: "300% 300%",
     animation: "gradient-shift 3s ease infinite",
@@ -282,18 +288,20 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
                 >
                   <div className="bg-black rounded-xl h-full w-full"></div>
                 </div>
-                <Image
-                  src="/award.jpg"
-                  alt="LUMINANCE AWARDEES 2025 - Dr. Reimund Serafica winners in three categories: Advancement of Intentionality, Advancement in Inquiry, and Advancement with Impact"
-                  width={1200}
-                  height={1600}
-                  className="w-full h-auto rounded-xl shadow-2xl relative z-10"
-                  style={{
-                    boxShadow:
-                      "0 25px 50px -12px rgba(255, 215, 0, 0.5), 0 0 50px rgba(255, 215, 0, 0.3)",
-                  }}
-                  priority
-                />
+                {currentWinner && (
+                  <Image
+                    src={currentWinner}
+                    alt="LUMINANCE AWARDEES 2025 - Dr. Reimund Serafica winners in three categories: Advancement of Intentionality, Advancement in Inquiry, and Advancement with Impact"
+                    width={1200}
+                    height={1600}
+                    className="w-full h-auto rounded-xl shadow-2xl relative z-10"
+                    style={{
+                      boxShadow:
+                        "0 25px 50px -12px rgba(255, 215, 0, 0.5), 0 0 50px rgba(255, 215, 0, 0.3)",
+                    }}
+                    priority
+                  />
+                )}
               </div>
             </div>
 

@@ -120,3 +120,11 @@ model PDFFile {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Luminance {
+  id        String   @id @default(cuid()) @map("_id")
+  name      String   @unique
+  fileUrl   String
+  isCurrent Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
