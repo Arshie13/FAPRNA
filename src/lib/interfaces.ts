@@ -1,4 +1,5 @@
 import { EventType } from "@/generated/prisma";
+import { $Enums } from "@/generated/prisma";
 
 export interface IEvent {
   id: string;
@@ -56,6 +57,39 @@ export interface NominationStats {
   approved: number
   rejected: number
   categories: { [key: string]: number }
+}
+
+export interface EventRegistrationStats {
+  total: number
+  pending: number
+  approved: number
+  rejected: number
+}
+
+export interface EventRegistration {
+  id: string
+  memberId: string | null
+  nonMemberId: string | null
+  eventId: string
+  isPending: boolean
+  rejected: boolean
+  member: RegisterMember | null
+  nonMember: RegisterNonMember | null
+}
+
+export interface RegisterMember {
+  id: string
+  fullName: string
+  email: string
+  phoneNumber: string | null
+  membershipStatus: $Enums.MembershipStatus
+}
+
+export interface RegisterNonMember {
+  id: string
+  fullName: string
+  email: string
+  phoneNumber: string | null
 }
 
 export interface Member {
