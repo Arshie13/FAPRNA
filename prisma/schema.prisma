@@ -98,6 +98,7 @@ model EventUser {
   event       Event      @relation(fields: [eventId], references: [id])
   eventId     String
   isPending   Boolean    @default(false)
+  rejected    Boolean    @default(false)
 }
 
 model Nomination {

@@ -409,12 +409,13 @@ export default function RegisterModal({ isOpen, onClose, event }: EventRegistrat
                     variant="outline"
                     onClick={prevStep}
                     disabled={currentStep === 1 || isSubmitting}
+                    className="bg-gray-400 hover:bg-gray-600"
                   >
                     Previous
                   </Button>
 
                   {currentStep < totalSteps ? (
-                    <Button type="button" onClick={nextStep} disabled={isSubmitting}>
+                    <Button type="button" onClick={nextStep} disabled={isSubmitting} className="bg-blue-800 hover:bg-blue-500">
                       Next Step
                     </Button>
                   ) : (
