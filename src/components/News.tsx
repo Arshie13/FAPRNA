@@ -229,7 +229,7 @@ export default function FaprnaNews() {
 
   const handleEventClick = (event: IEvent) => {
     // Navigate to event details page
-    window.location.href = `/event-registration/details/${event.id}`
+    window.location.href = `/event-registration/details/${event.title}`
   }
 
   if (isLoading) {

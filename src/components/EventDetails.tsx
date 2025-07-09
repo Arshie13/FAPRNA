@@ -4,23 +4,22 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Calendar, MapPin, Users, DollarSign, Award, Star } from "lucide-react"
+import { ArrowLeft, Calendar, MapPin, DollarSign, Award, Star } from "lucide-react"
 import Link from "next/link"
 import { getEventByTitle } from "@/lib/actions/event-actions"
 import { IEvent } from "@/lib/interfaces"
-
-// const eventDetail = eventDetails[0]
+import RegisterModal from "./RegisterModal"
 
 export default function EventDetails(title: {title: string}) {
 
   const [eventDetail, setEventDetail] = useState<IEvent | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false)
 
   useEffect(() => {
     async function fetchEventDetail() {
       try {
         setIsLoading(true)
-        // const processedTitle = title.replace(/-/g, " ") // Convert URL-friendly title to normal title
         const event = await getEventByTitle(title.title.replace(/%20/g, " "))
         if (event) {
           setEventDetail({ ...event, ytLink: event.ytLink ?? undefined })
@@ -36,6 +35,10 @@ export default function EventDetails(title: {title: string}) {
 
     fetchEventDetail()
   }, [title])
+
+  const handleRegisterClick = () => {
+    setIsRegistrationModalOpen(true)
+  }
 
   if (isLoading) {
     return (
@@ -205,16 +208,6 @@ export default function EventDetails(title: {title: string}) {
                           </div>
                         </div>
 
-                        <div className="bg-gray-50 rounded-lg p-4">
-                          <div className="flex items-start">
-                            <Users className="w-6 h-6 text-blue-600 mr-4 mt-1" />
-                            <div>
-                              <div className="font-semibold text-gray-900">Expected Attendance</div>
-                              <div className="text-gray-600">100+ Nursing Professionals</div>
-                            </div>
-                          </div>
-                        </div>
-
                         <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 border border-green-200">
                           <div className="flex items-start">
                             <DollarSign className="w-6 h-6 text-green-600 mr-4 mt-1" />
@@ -258,7 +251,10 @@ export default function EventDetails(title: {title: string}) {
                         </Button>
                       )}
                       <div className="mt-8 pt-6 border-t border-gray-200">
-                        <Button className="w-full bg-gradient-to-r from-blue-600 to-red-600 hover:from-blue-700 hover:to-red-700 text-white py-4 text-lg font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl mb-4">
+                        <Button
+                          onClick={handleRegisterClick}
+                          className="w-full bg-gradient-to-r from-blue-600 to-red-600 hover:from-blue-700 hover:to-red-700 text-white py-4 text-lg font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl mb-4"
+                        >
                           Register Now
                         </Button>
                         <p className="text-center text-sm text-gray-500">
@@ -295,6 +291,11 @@ export default function EventDetails(title: {title: string}) {
             </div>
           </div>
         </section>
+        <RegisterModal
+          isOpen={isRegistrationModalOpen}
+          onClose={() => setIsRegistrationModalOpen(false)}
+          event={eventDetail}
+        />
       </div>
     )
   )
