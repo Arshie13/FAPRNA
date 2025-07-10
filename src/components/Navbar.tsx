@@ -1,14 +1,27 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Menu, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
+import { getLatestEvent } from "@/lib/actions/event-actions"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+
+  const [latestEventTitle, setLatestEventTitle] = useState("");
+
+  useEffect(() => {
+    const fetchLatestEvent = async () => {
+      const result = await getLatestEvent();
+      setLatestEventTitle(result.title)
+    }
+
+    fetchLatestEvent()
+  }, []);
+
 
   const mainNavItems = [
     { href: "/", label: "Home" },
@@ -40,10 +53,6 @@ export default function Navbar() {
                 />
                 <span className="text-xl font-bold text-[#003366]">FAPRNA-NV</span>
               </div>
-              {/* <div className="hidden flex-col text-sm text-[#003366] md:flex">
-                <span>Filipino-American Advanced Practice</span>
-                <span>Registered Nurses Association</span>
-              </div> */}
             </div>
           </Link>
         </div>
@@ -86,7 +95,7 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-          <Link href="/event-registration/details/MaternalandChildHealthEvent" className="hidden md:block">
+          <Link href={`/event-registration/details/${latestEventTitle}`} className="hidden md:block">
             <Button
               className="rounded-full bg-red-600 px-6 text-white hover:bg-red-700 shadow-sm transition-all 
                             hover:shadow-md hover:scale-105 duration-300 transform"
