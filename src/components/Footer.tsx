@@ -82,6 +82,14 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  href="/luminance"
+                  className="text-white/80 hover:text-white"
+                >
+                  Luminance
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/event-registration"
                   className="text-white/80 hover:text-white"
                 >

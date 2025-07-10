@@ -145,24 +145,6 @@ export default function CollaborationSection() {
               />
             ))}
           </div>
-
-          {/* Swipe Instruction removed */}
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="text-center opacity-0 animate-fade-in-up" style={{ animationDelay: "1.2s" }}>
-          <p className="text-gray-600 mb-6">Interested in partnering with us?</p>
-          <button className="inline-flex items-center px-8 py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-all duration-300 hover:shadow-lg hover:scale-105 group">
-            <span>Get in Touch</span>
-            <svg
-              className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </button>
         </div>
       </div>
     </section>
