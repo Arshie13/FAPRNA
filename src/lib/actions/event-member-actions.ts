@@ -99,7 +99,6 @@ export async function getEventRegistrations(id: string): Promise<EventRegistrati
         nonMember: true,
       }
     });
-    console.log("data: ", data)
     return data
   } catch {
     console.log("Error fetching registrations of event")
@@ -108,7 +107,7 @@ export async function getEventRegistrations(id: string): Promise<EventRegistrati
 
 export async function approveEventRegistration(eventUserId: string) {
   try {
-    const result = await prisma.eventUser.update({
+    await prisma.eventUser.update({
       data: {
         isPending: false,
         rejected: false
@@ -117,8 +116,6 @@ export async function approveEventRegistration(eventUserId: string) {
         id: eventUserId
       }
     });
-
-    console.log("result: ", result);
 
     return {
       success: true,

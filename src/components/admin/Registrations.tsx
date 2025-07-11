@@ -58,13 +58,11 @@ export default function RegistrationDashboard() {
   const fetchEventRegistrations = async (eventId: string) => {
     setIsLoadingRegistrations(true)
     try {
-      console.log("event id: ", eventId)
       const registrations = await getEventRegistrations(eventId);
-      console.log("Event registrations: ", registrations)
       if (!registrations || registrations.length === 0) {
-        toast("No registrations found for this event.")
+        toast("No registrations found for this event.");
       } else {
-        setEventRegistrations(registrations)
+        setEventRegistrations(registrations);
       }
     } catch (error) {
       console.error("Error fetching event registrations:", error)
@@ -352,7 +350,7 @@ export default function RegistrationDashboard() {
 
       {/* Registration Details Modal */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="w-[90vw] max-w-6xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="w-[90vw] !max-w-5xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold">{selectedEvent?.title} - Registrations</DialogTitle>
             <DialogDescription>Review and manage registration requests for this event.</DialogDescription>
