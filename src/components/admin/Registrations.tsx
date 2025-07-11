@@ -1,183 +1,146 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
+import { Check, X, Clock, Search, RefreshCw, Award, Newspaper, User, Mail, Calendar, MapPin } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Tabs, TabsContent } from "@/components/ui/tabs"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Badge } from "@/components/ui/badge"
+import { toast } from "sonner"
 import {
-  Check,
-  X,
-  Clock,
-  Search,
-  RefreshCw,
-  Award,
-  User,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  // TableHead,
-  // TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "sonner";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { getEventRegistrationStats, getAllEventRegistrations, approveEventRegistration, rejectEventRegistration } from "@/lib/actions/event-member-actions";
-import { EventRegistrationStats, EventRegistration } from "@/lib/interfaces";
+  getEventRegistrationStats,
+  getEventRegistrations,
+  approveEventRegistration,
+  rejectEventRegistration,
+} from "@/lib/actions/event-member-actions"
+import { getAllEvents } from "@/lib/actions/event-actions"
+import type { EventRegistration, EventRegistrationStats, IEvent } from "@/lib/interfaces"
 
 export default function RegistrationDashboard() {
-  const [registrations, setRegistrations] = useState<EventRegistration[] | undefined>([]);
-  const [stats, setStats] = useState<EventRegistrationStats | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeTab, setActiveTab] = useState("all");
+  const [events, setEvents] = useState<IEvent[]>([])
+  const [stats, setStats] = useState<EventRegistrationStats | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [activeTab, setActiveTab] = useState("all")
 
-  const fetchRegistrations = async () => {
-    setIsLoading(true);
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedEvent, setSelectedEvent] = useState<IEvent | null>(null)
+  const [eventRegistrations, setEventRegistrations] = useState<EventRegistration[]>([])
+  const [isLoadingRegistrations, setIsLoadingRegistrations] = useState(false)
+
+  const fetchStuff = async () => {
+    setIsLoading(true)
     try {
-      const [registrationsData, statsData] = await Promise.all([
-        getAllEventRegistrations(),
-        getEventRegistrationStats(),
-      ]);
-      if (registrationsData && registrationsData.length === 0) {
-        toast("No registrations found");
-        setRegistrations([]);
-        setStats(null);
-        setIsLoading(false);
-        return;
+      const [events, statsData] = await Promise.all([getAllEvents(), getEventRegistrationStats()])
+
+      if (events && events.length === 0) {
+        toast("No events found")
+        setStats(null)
+        setIsLoading(false)
+        return
       } else {
-        console.log("Fetched registrations:", registrationsData);
-        toast("Registrations fetched successfully");
-        setRegistrations(registrationsData);
-        setIsLoading(false);
-        return;
+        setEvents(events)
+        setStats(statsData.data!)
+        toast("Events fetched successfully")
+        setIsLoading(false)
+        return
       }
-      setStats(statsData.data!);
     } catch {
-      console.error("Error fetching registrations");
-      toast("Failed to fetch registrations");
+      console.error("Error fetching Events")
+      toast("Failed to fetch Events")
+    }
+  }
+
+  const fetchEventRegistrations = async (eventId: string) => {
+    setIsLoadingRegistrations(true)
+    try {
+      console.log("event id: ", eventId)
+      const registrations = await getEventRegistrations(eventId);
+      console.log("Event registrations: ", registrations)
+      if (!registrations || registrations.length === 0) {
+        toast("No registrations found for this event.")
+      } else {
+        setEventRegistrations(registrations)
+      }
+    } catch (error) {
+      console.error("Error fetching event registrations:", error)
+      toast("Failed to fetch registrations")
+      setEventRegistrations([])
+    } finally {
+      setIsLoadingRegistrations(false)
+    }
+  }
+
+  const handleEventClick = async (event: IEvent) => {
+    setEventRegistrations([]);
+    setSelectedEvent(event)
+    setIsModalOpen(true)
+    await fetchEventRegistrations(event.id)
+  }
+
+  const handleApproveRegistration = async (registrationId: string) => {
+    try {
+      await approveEventRegistration(registrationId)
+      toast("Registration approved successfully")
+
+      // Refresh the registrations for this event
+      if (selectedEvent) {
+        await fetchEventRegistrations(selectedEvent.id)
+      }
+
+      // Refresh overall stats
+      const statsData = await getEventRegistrationStats()
+      setStats(statsData.data!)
+    } catch (error) {
+      console.error("Error approving registration:", error)
+      toast("Failed to approve registration")
+    }
+  }
+
+  const handleRejectRegistration = async (registrationId: string) => {
+    try {
+      await rejectEventRegistration(registrationId)
+      toast("Registration rejected successfully")
+
+      // Refresh the registrations for this event
+      if (selectedEvent) {
+        await fetchEventRegistrations(selectedEvent.id)
+      }
+
+      // Refresh overall stats
+      const statsData = await getEventRegistrationStats()
+      setStats(statsData.data!)
+    } catch (error) {
+      console.error("Error rejecting registration:", error)
+      toast("Failed to reject registration")
+    }
+  }
+
+  const getStatusBadge = (isPending: boolean, rejected: boolean) => {
+    switch (isPending) {
+      case true:
+        return <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">Pending</Badge>
+      case false:
+        switch (rejected) {
+          case true:
+            return <Badge className="bg-red-100 text-red-800 hover:bg-red-100">Rejected</Badge>
+          case false:
+            return <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Approved</Badge>
+        }
     }
   }
 
   useEffect(() => {
-    fetchRegistrations();
-  }, []);
+    fetchStuff()
+  }, [])
 
-  // Handle status update
-  const handleStatusUpdate = async (id: string, status: string) => {
-    try {
-
-      if (status === "APPROVED") {
-        const response = await approveEventRegistration(id);
-        console.log("Response from approveEventRegistration:", response);
-        if (response.success === false) {
-          toast(response.message);
-          return;
-        }
-
-        toast(`Nomination ${status.toLowerCase()} successfully`);
-        fetchRegistrations();
-      } else {
-        const response = await rejectEventRegistration(id);
-        if (!response.success === false) {
-          toast(response.message);
-          return;
-        }
-
-        toast(`Nomination ${status.toLowerCase()} successfully`);
-        fetchRegistrations();
-      }
-
-    } catch (error) {
-      console.error("Error: ", error);
-      toast("Failed to update nomination status");
-    }
-  };
-
-  // Filter nominations based on search query and active tab
-  const filteredRegistrations = registrations!.filter((registration) => {
-    const matchesSearch =
-      registration.member?.fullName
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase()) ||
-      registration.nonMember?.fullName
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase())
-
-    if (activeTab === "all") return matchesSearch;
-    if (activeTab === "pending")
-      return matchesSearch && registration.isPending && !registration.rejected;
-    if (activeTab === "approved")
-      return matchesSearch && !registration.isPending && !registration.rejected;
-    if (activeTab === "rejected")
-      return matchesSearch && !registration.isPending && registration.rejected;
-
-    return matchesSearch;
-  });
-
-  // Get badge variant based on status
-  const getStatusBadge = (isPending: boolean, rejected: boolean) => {
-    switch (isPending) {
-      case true:
-        return (
-          <Badge
-            variant="outline"
-            className="bg-yellow-100 text-yellow-800 border-yellow-200 text-xs sm:text-sm md:text-base px-2 sm:px-3 py-1"
-          >
-            Pending
-          </Badge>
-        );
-      case false:
-        switch (!rejected) {
-          case true:
-            return (
-              <Badge
-                variant="outline"
-                className="bg-green-100 text-green-800 border-green-200 text-xs sm:text-sm md:text-base px-2 sm:px-3 py-1"
-              >
-                Approved
-              </Badge>
-            );
-          case true:
-            return (
-              <Badge
-                variant="outline"
-                className="bg-red-100 text-red-800 border-red-200 text-xs sm:text-sm md:text-base px-2 sm:px-3 py-1"
-              >
-                Rejected
-              </Badge>
-            );
-        }
-      default:
-        return (
-          <Badge
-            variant="outline"
-            className="text-xs sm:text-sm md:text-base px-2 sm:px-3 py-1"
-          >
-            Unknown
-          </Badge>
-        );
-    }
-  };
+  const filteredEvents = events.filter((event) => {
+    return event.title.toLowerCase().includes(searchQuery.toLowerCase())
+  })
 
   return (
     <div
@@ -211,6 +174,7 @@ export default function RegistrationDashboard() {
               </div>
             </CardContent>
           </Card>
+
           <Card className="p-2 sm:p-3 md:p-4">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3 md:pb-4">
               <CardTitle className="text-xs sm:text-sm md:text-base lg:text-xl font-bold">
@@ -224,11 +188,10 @@ export default function RegistrationDashboard() {
               </div>
             </CardContent>
           </Card>
+
           <Card className="p-2 sm:p-3 md:p-4">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3 md:pb-4">
-              <CardTitle className="text-xs sm:text-sm md:text-base lg:text-xl font-bold">
-                Approved
-              </CardTitle>
+              <CardTitle className="text-xs sm:text-sm md:text-base lg:text-xl font-bold">Approved</CardTitle>
               <Check className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-green-600" />
             </CardHeader>
             <CardContent>
@@ -237,11 +200,10 @@ export default function RegistrationDashboard() {
               </div>
             </CardContent>
           </Card>
+
           <Card className="p-2 sm:p-3 md:p-4">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3 md:pb-4">
-              <CardTitle className="text-xs sm:text-sm md:text-base lg:text-xl font-bold">
-                Rejected
-              </CardTitle>
+              <CardTitle className="text-xs sm:text-sm md:text-base lg:text-xl font-bold">Rejected</CardTitle>
               <X className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-red-600" />
             </CardHeader>
             <CardContent>
@@ -253,14 +215,13 @@ export default function RegistrationDashboard() {
         </div>
       )}
 
-      <Card className="p-2 sm:p-3 md:p-4 m">
+      <Card className="p-2 sm:p-3 md:p-4">
         <CardHeader className="pb-4 sm:pb-5 md:pb-6">
           <CardTitle className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">
             Registrations Dashboard
           </CardTitle>
           <CardDescription className="text-sm sm:text-base md:text-lg lg:text-xl">
-            Review, approve, or reject event registration requests. Click on an item
-            to see details.
+            Review, approve, or reject event registration requests. Click on an event to see registration details.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -268,7 +229,7 @@ export default function RegistrationDashboard() {
             <div className="relative w-full">
               <Search className="absolute left-3 sm:left-4 top-3 sm:top-4 h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-gray-500" />
               <Input
-                placeholder="Search registrations..."
+                placeholder="Search events..."
                 className="pl-10 sm:pl-12 md:pl-14 h-10 sm:h-11 md:h-12 text-sm sm:text-base md:text-lg"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -277,8 +238,8 @@ export default function RegistrationDashboard() {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <Button
                 variant="outline"
-                onClick={fetchRegistrations}
-                className="gap-2 sm:gap-3 h-10 sm:h-11 md:h-12 px-4 sm:px-5 md:px-6 text-sm sm:text-base md:text-lg order-2 sm:order-1"
+                onClick={fetchStuff}
+                className="gap-2 sm:gap-3 h-10 sm:h-11 md:h-12 px-4 sm:px-5 md:px-6 text-sm sm:text-base md:text-lg order-2 sm:order-1 bg-transparent"
               >
                 <RefreshCw className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
                 Refresh
@@ -286,168 +247,61 @@ export default function RegistrationDashboard() {
             </div>
           </div>
 
-          <Tabs
-            defaultValue="all"
-            value={activeTab}
-            onValueChange={setActiveTab}
-          >
-            <TabsList className="mb-6 sm:mb-8 grid w-full grid-cols-2 sm:grid-cols-4 h-10 sm:h-12 md:h-14">
-              <TabsTrigger
-                value="all"
-                className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold"
-              >
-                All
-              </TabsTrigger>
-              <TabsTrigger
-                value="pending"
-                className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold"
-              >
-                Pending
-              </TabsTrigger>
-              <TabsTrigger
-                value="approved"
-                className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold"
-              >
-                Approved
-              </TabsTrigger>
-              <TabsTrigger
-                value="rejected"
-                className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold"
-              >
-                Rejected
-              </TabsTrigger>
-            </TabsList>
-
+          <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
             <TabsContent value={activeTab}>
               <div className="rounded-lg sm:rounded-xl border shadow-sm overflow-hidden">
-                {/* Desktop Table View */}
                 <div className="hidden lg:block">
                   <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="font-semibold">Event</TableHead>
+                        <TableHead className="font-semibold">Date</TableHead>
+                        <TableHead className="font-semibold">Location</TableHead>
+                        <TableHead className="font-semibold">Registrations</TableHead>
+                      </TableRow>
+                    </TableHeader>
                     <TableBody>
                       {isLoading ? (
                         <TableRow>
-                          <TableCell
-                            colSpan={6}
-                            className="h-24 sm:h-32 text-center text-base sm:text-lg md:text-xl"
-                          >
-                            Loading registration list...
+                          <TableCell colSpan={4} className="h-24 sm:h-32 text-center text-base sm:text-lg md:text-xl">
+                            Loading events...
                           </TableCell>
                         </TableRow>
-                      ) : filteredRegistrations.length === 0 ? (
+                      ) : filteredEvents.length === 0 ? (
                         <TableRow>
-                          <TableCell
-                            colSpan={6}
-                            className="h-24 sm:h-32 text-center text-base sm:text-lg md:text-xl"
-                          >
-                            No registrations found.
+                          <TableCell colSpan={4} className="h-24 sm:h-32 text-center text-base sm:text-lg md:text-xl">
+                            No events found.
                           </TableCell>
                         </TableRow>
                       ) : (
-                        filteredRegistrations.map((registration) => (
+                        filteredEvents.map((event) => (
                           <TableRow
-                            key={registration.id}
-                            className="hover:bg-gray-50/50"
+                            key={event.id}
+                            className="hover:bg-gray-50/50 cursor-pointer"
+                            onClick={() => handleEventClick(event)}
                           >
                             <TableCell className="py-3 sm:py-4 md:py-5">
                               <div className="flex items-center gap-2 sm:gap-3">
-                                <User className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-gray-500" />
-                                <div>
-                                  <div className="font-semibold text-sm sm:text-base md:text-lg">
-                                    {registration.member == null ? registration.nonMember!.fullName : registration.member!.fullName}
-                                  </div>
-                                  <div className="text-xs sm:text-sm md:text-base text-gray-500">
-                                    {registration.member == null ? registration.nonMember!.email : registration.member!.email}
-                                  </div>
-                                </div>
+                                <Newspaper className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-gray-500" />
+                                <div className="font-semibold text-sm sm:text-base md:text-lg">{event.title}</div>
                               </div>
                             </TableCell>
                             <TableCell className="py-3 sm:py-4 md:py-5">
-                              {getStatusBadge(registration.isPending, registration.rejected)}
-                            </TableCell>
-                            <TableCell className="text-right py-3 sm:py-4 md:py-5">
-                              <div className="flex justify-end gap-1 sm:gap-2 md:gap-3">
-                                {registration.isPending && (
-                                  <>
-                                    <AlertDialog>
-                                      <AlertDialogTrigger asChild>
-                                        <Button
-                                          variant="ghost"
-                                          size="icon"
-                                          className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12"
-                                        >
-                                          <Check className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-green-600" />
-                                        </Button>
-                                      </AlertDialogTrigger>
-                                      <AlertDialogContent className="max-w-sm sm:max-w-md md:max-w-lg">
-                                        <AlertDialogHeader>
-                                          <AlertDialogTitle className="text-lg sm:text-xl md:text-2xl">
-                                            Approve Registration
-                                          </AlertDialogTitle>
-                                          <AlertDialogDescription className="text-sm sm:text-base md:text-lg">
-                                            Are you sure you want to approve
-                                            this registration of {registration.member === null ? registration.nonMember?.fullName : registration.member.fullName}?
-                                          </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter className="gap-2 sm:gap-3">
-                                          <AlertDialogCancel className="text-sm sm:text-base md:text-lg px-4 sm:px-5 md:px-6 py-2 sm:py-3">
-                                            Cancel
-                                          </AlertDialogCancel>
-                                          <AlertDialogAction
-                                            className="bg-green-600 text-white hover:bg-green-700 text-sm sm:text-base md:text-lg px-4 sm:px-5 md:px-6 py-2 sm:py-3"
-                                            onClick={() =>
-                                              handleStatusUpdate(
-                                                registration.id,
-                                                "APPROVED"
-                                              )
-                                            }
-                                          >
-                                            Approve
-                                          </AlertDialogAction>
-                                        </AlertDialogFooter>
-                                      </AlertDialogContent>
-                                    </AlertDialog>
-                                    <AlertDialog>
-                                      <AlertDialogTrigger asChild>
-                                        <Button
-                                          variant="ghost"
-                                          size="icon"
-                                          className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12"
-                                        >
-                                          <X className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-red-600" />
-                                        </Button>
-                                      </AlertDialogTrigger>
-                                      <AlertDialogContent className="max-w-sm sm:max-w-md md:max-w-lg">
-                                        <AlertDialogHeader>
-                                          <AlertDialogTitle className="text-lg sm:text-xl md:text-2xl">
-                                            Reject Nomination
-                                          </AlertDialogTitle>
-                                          <AlertDialogDescription className="text-sm sm:text-base md:text-lg">
-                                            Are you sure you want to reject this
-                                            registration of {registration.member === null ? registration.nonMember?.fullName : registration.member.fullName}
-                                            ?
-                                          </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter className="gap-2 sm:gap-3">
-                                          <AlertDialogCancel className="text-sm sm:text-base md:text-lg px-4 sm:px-5 md:px-6 py-2 sm:py-3">
-                                            Cancel
-                                          </AlertDialogCancel>
-                                          <AlertDialogAction
-                                            className="bg-red-600 text-white hover:bg-red-700 text-sm sm:text-base md:text-lg px-4 sm:px-5 md:px-6 py-2 sm:py-3"
-                                            onClick={() =>
-                                              handleStatusUpdate(
-                                                registration.id,
-                                                "REJECTED"
-                                              )
-                                            }
-                                          >
-                                            Reject
-                                          </AlertDialogAction>
-                                        </AlertDialogFooter>
-                                      </AlertDialogContent>
-                                    </AlertDialog>
-                                  </>
-                                )}
+                              <div className="flex items-center gap-2">
+                                <Calendar className="h-4 w-4 text-gray-500" />
+                                <span className="text-sm">
+                                  {event.date ? new Date(event.date).toLocaleDateString() : "TBD"}
+                                </span>
                               </div>
+                            </TableCell>
+                            <TableCell className="py-3 sm:py-4 md:py-5">
+                              <div className="flex items-center gap-2">
+                                <MapPin className="h-4 w-4 text-gray-500" />
+                                <span className="text-sm">{event.location || "TBD"}</span>
+                              </div>
+                            </TableCell>
+                            <TableCell className="py-3 sm:py-4 md:py-5">
+                              <Badge variant="secondary">Click to view</Badge>
                             </TableCell>
                           </TableRow>
                         ))
@@ -455,11 +309,148 @@ export default function RegistrationDashboard() {
                     </TableBody>
                   </Table>
                 </div>
+
+                {/* Mobile Card View */}
+                <div className="lg:hidden space-y-4 p-4">
+                  {isLoading ? (
+                    <div className="text-center py-8">Loading events...</div>
+                  ) : filteredEvents.length === 0 ? (
+                    <div className="text-center py-8">No events found.</div>
+                  ) : (
+                    filteredEvents.map((event) => (
+                      <Card
+                        key={event.id}
+                        className="cursor-pointer hover:shadow-md transition-shadow"
+                        onClick={() => handleEventClick(event)}
+                      >
+                        <CardContent className="p-4">
+                          <div className="flex items-start gap-3">
+                            <Newspaper className="h-5 w-5 text-gray-500 mt-1" />
+                            <div className="flex-1">
+                              <h3 className="font-semibold text-base">{event.title}</h3>
+                              <div className="flex items-center gap-2 mt-2 text-sm text-gray-600">
+                                <Calendar className="h-4 w-4" />
+                                <span>{event.date ? new Date(event.date).toLocaleDateString() : "TBD"}</span>
+                              </div>
+                              <div className="flex items-center gap-2 mt-1 text-sm text-gray-600">
+                                <MapPin className="h-4 w-4" />
+                                <span>{event.location || "TBD"}</span>
+                              </div>
+                            </div>
+                            <Badge variant="secondary">View</Badge>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))
+                  )}
+                </div>
               </div>
             </TabsContent>
           </Tabs>
         </CardContent>
       </Card>
+
+      {/* Registration Details Modal */}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="w-[90vw] max-w-6xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold">{selectedEvent?.title} - Registrations</DialogTitle>
+            <DialogDescription>Review and manage registration requests for this event.</DialogDescription>
+          </DialogHeader>
+
+          <div className="mt-4">
+            {isLoadingRegistrations ? (
+              <div className="text-center py-8">
+                <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-4" />
+                Loading registrations...
+              </div>
+            ) : eventRegistrations.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">No registrations found for this event.</div>
+            ) : (
+              <div className="space-y-4">
+                <div className="text-sm text-gray-600 mb-4">Total registrations: {eventRegistrations.length}</div>
+
+                <div className="border rounded-lg overflow-hidden">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Participant</TableHead>
+                        <TableHead>Contact</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Member</TableHead>
+                        <TableHead>Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {eventRegistrations.map((registration) => (
+                        <TableRow key={registration.id}>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              <User className="h-4 w-4 text-gray-500" />
+                              <div>
+                                <div
+                                  className="font-medium"
+                                >
+                                  {registration.member ? registration.member.fullName : registration.nonMember?.fullName}
+                                </div>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="space-y-1">
+                              <div className="flex items-center gap-2 text-sm">
+                                <Mail className="h-3 w-3 text-gray-500" />
+                                <span>
+                                  {registration.member ? registration.member.email : registration.nonMember?.email}
+                                </span>
+                              </div>
+                              {registration.member ?
+                                (<div className="text-sm text-gray-600">{registration.member.phoneNumber}</div>) :
+                                (registration.nonMember?.phoneNumber)
+                              }
+                            </div>
+                          </TableCell>
+                          <TableCell>{getStatusBadge(registration.isPending, registration.rejected)}</TableCell>
+                          <TableCell>{registration.member ? "yes" : "no"}</TableCell>
+                          <TableCell>
+                            {registration.isPending && (
+                              <div className="flex gap-2">
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="text-green-600 border-green-600 hover:bg-green-50 bg-transparent"
+                                  onClick={() => handleApproveRegistration(registration.id)}
+                                >
+                                  <Check className="h-4 w-4" />
+                                  Approve
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="text-red-600 border-red-600 hover:bg-red-50 bg-transparent"
+                                  onClick={() => handleRejectRegistration(registration.id)}
+                                >
+                                  <X className="h-4 w-4" />
+                                  Reject
+                                </Button>
+                              </div>
+                            )}
+                            {registration.isPending && (
+                              <span className="text-sm text-gray-500">
+                                {registration.isPending ? "Approved" : "Rejected"}
+                              </span>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
-  );
+  )
 }

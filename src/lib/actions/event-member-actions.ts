@@ -90,6 +90,22 @@ export async function getAllEventRegistrations(): Promise<EventRegistration[] | 
   }
 }
 
+export async function getEventRegistrations(id: string): Promise<EventRegistration[] | undefined> {
+  try {
+    const data = await prisma.eventUser.findMany({
+      where: { eventId: id },
+      include: {
+        member: true,
+        nonMember: true,
+      }
+    });
+    console.log("data: ", data)
+    return data
+  } catch {
+    console.log("Error fetching registrations of event")
+  }
+}
+
 export async function approveEventRegistration(eventUserId: string) {
   try {
     const result = await prisma.eventUser.update({
