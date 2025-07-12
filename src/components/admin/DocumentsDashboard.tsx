@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent } from "@/components/ui/tabs"
 import { toast } from "sonner"
 import {
   AlertDialog,
@@ -191,10 +191,6 @@ export default function DocumentsAdminDashboard() {
           </div>
 
           <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="mb-6 sm:mb-8 grid w-full grid-cols-1 h-10 sm:h-12 md:h-14">
-              <TabsTrigger value="all" className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold">All Documents</TabsTrigger>
-            </TabsList>
-
             <TabsContent value={activeTab}>
               <div className="rounded-lg sm:rounded-xl border shadow-sm overflow-hidden">
                 {/* Mobile Cards View */}
