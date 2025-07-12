@@ -11,6 +11,7 @@ export async function getAllDocuments() {
       select: {
         id: true,
         name: true,
+        description: true,
         fileUrl: true,
         createdAt: true
       }
@@ -26,18 +27,22 @@ export async function getAllDocuments() {
 export async function uploadDocument(formData: FormData) {
   const title = formData.get("title") as string
   const fileUrl = formData.get("pdfUrl") as string
+  const description = formData.get("description") as string
 
   try {
     const document = await prisma.pDFFile.create({
       data: {
         name: title,
+        description,
         fileUrl
       }
-    })
+    });
+
     revalidatePath("/admin/documents")
     return document
-  } catch {
-    throw new Error("error creating file")
+  } catch (error) {
+    console.error("Error: ", error)
+    throw new Error("error uploading file")
   }
 }
 
