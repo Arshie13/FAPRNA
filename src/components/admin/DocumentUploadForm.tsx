@@ -32,6 +32,7 @@ import { useEdgeStore } from "@/lib/libstore/libstore-config";
 interface FormValues {
   title: string;
   fileUrl: string;
+  description: string;
 }
 
 export default function DocumentUploadForm() {
@@ -45,6 +46,7 @@ export default function DocumentUploadForm() {
     defaultValues: {
       title: "",
       fileUrl: "",
+      description: ""
     },
   });
 
@@ -59,6 +61,7 @@ export default function DocumentUploadForm() {
     try {
       const formData = new FormData();
       formData.append("title", values.title);
+      formData.append("description", values.description);
       formData.append("pdfUrl", fileUrl);
 
       await uploadDocument(formData);
@@ -138,6 +141,37 @@ export default function DocumentUploadForm() {
                           </FormControl>
                           <FormDescription className="text-sm sm:text-base md:text-lg">
                             A descriptive title for the document.
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Description */}
+                    <FormField
+                      control={form.control}
+                      name="description"
+                      rules={{
+                        required: "Description is required",
+                        minLength: {
+                          value: 5,
+                          message: "Description must be at least 5 characters",
+                        },
+                      }}
+                      render={({ field }) => (
+                        <FormItem className="md:col-span-2">
+                          <FormLabel className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
+                            Description
+                          </FormLabel>
+                          <FormControl>
+                            <textarea
+                              placeholder="Enter a brief description of the document"
+                              className="text-sm sm:text-base md:text-lg border rounded-md p-3 w-full min-h-[120px]"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription className="text-sm sm:text-base md:text-lg">
+                            Provide a summary or key details about the document.
                           </FormDescription>
                           <FormMessage />
                         </FormItem>

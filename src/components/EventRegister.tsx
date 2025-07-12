@@ -150,7 +150,6 @@ export default function EventRegistration() {
 
           {events && (
             <>
-              {/* Remove Mobile carousel */}
               {/* Desktop/tablet grid and always show all events */}
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 {events.map((event, index) => (
