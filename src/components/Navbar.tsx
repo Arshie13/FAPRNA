@@ -1,45 +1,50 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { Menu, ChevronRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
-import { getLatestEvent } from "@/lib/actions/event-actions"
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Menu, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { getLatestEvent } from "@/lib/actions/event-actions";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   const [latestEventTitle, setLatestEventTitle] = useState("");
 
   useEffect(() => {
     const fetchLatestEvent = async () => {
       const result = await getLatestEvent();
-      setLatestEventTitle(result.title)
-    }
+      setLatestEventTitle(result.title);
+    };
 
-    fetchLatestEvent()
+    fetchLatestEvent();
   }, []);
-
 
   const mainNavItems = [
     { href: "/", label: "Home" },
     { href: "/membership", label: "Membership" },
     { href: "/event-registration", label: "Events" },
     { href: "/luminance", label: "Luminance" },
-  ]
+  ];
 
   const moreNavItems = [
     { href: "/about", label: "About Us" },
     { href: "#contact", label: "Contact" },
     { href: "/board", label: "Executive Board Members" },
     { href: "/bylaws", label: "By Laws & Policies" },
-  ]
+    { href: "/documents", label: "Documents" },
+  ];
 
   return (
     <header className="w-full border-b bg-white">
-      <div className="max-w-screen-xl mx-auto flex h-32 items-center justify-between px-2">
+      <div className="max-w-screen-xl mx-auto flex h-32 items-center justify-center gap-6 px-4 md:px-6 lg:px-8">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center">
             <div className="flex flex-col">
@@ -51,7 +56,9 @@ export default function Navbar() {
                   height={40}
                   className="mr-2 max-w-full h-auto"
                 />
-                <span className="text-xl font-bold text-[#003366]">FAPRNA-NV</span>
+                <span className="text-xl font-bold text-[#003366]">
+                  FAPRNA-NV
+                </span>
               </div>
             </div>
           </Link>
@@ -95,7 +102,10 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-          <Link href={`/event-registration/details/${latestEventTitle}`} className="hidden md:block">
+          <Link
+            href={`/event-registration/details/${latestEventTitle}`}
+            className="hidden md:block"
+          >
             <Button
               className="rounded-full bg-red-600 px-6 text-white hover:bg-red-700 shadow-sm transition-all 
                             hover:shadow-md hover:scale-105 duration-300 transform"
@@ -106,7 +116,6 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-4">
-
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button
@@ -119,12 +128,22 @@ export default function Navbar() {
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-full sm:w-80 p-0 bg-gradient-to-b from-white to-gray-50">
-              <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
+            <SheetContent
+              side="right"
+              className="w-full sm:w-80 p-0 bg-gradient-to-b from-white to-gray-50"
+            >
+              <SheetTitle className="sr-only">
+                Mobile Navigation Menu
+              </SheetTitle>
               {/* Mobile Menu Header */}
               <div className="flex items-center justify-between p-6 bg-[#003366] text-white">
                 <div className="flex items-center gap-3">
-                  <Image src="/faprna_logo.png" alt="FAPRNA-NV Logo" width={32} height={32} />
+                  <Image
+                    src="/faprna_logo.png"
+                    alt="FAPRNA-NV Logo"
+                    width={32}
+                    height={32}
+                  />
                   <div>
                     <h2 className="text-lg font-bold">FAPRNA-NV</h2>
                     <p className="text-xs text-blue-100">Nevada Chapter</p>
@@ -188,7 +207,10 @@ export default function Navbar() {
 
                 {/* Mobile CTA Button */}
                 <div className="p-6 bg-white border-t">
-                  <Link href="/event-registration/details/MaternalandChildHealthEvent" onClick={() => setIsOpen(false)}>
+                  <Link
+                    href="/event-registration/details/MaternalandChildHealthEvent"
+                    onClick={() => setIsOpen(false)}
+                  >
                     <Button
                       className="w-full h-12 rounded-xl bg-gradient-to-r from-red-600 to-red-700 
                                     text-white font-semibold shadow-lg hover:shadow-xl 
@@ -198,14 +220,15 @@ export default function Navbar() {
                       Register for Events
                     </Button>
                   </Link>
-                  <p className="text-xs text-gray-500 text-center mt-2">Join our upcoming events and workshops</p>
+                  <p className="text-xs text-gray-500 text-center mt-2">
+                    Join our upcoming events and workshops
+                  </p>
                 </div>
               </div>
-
             </SheetContent>
           </Sheet>
         </div>
       </div>
     </header>
-  )
+  );
 }
