@@ -21,6 +21,7 @@ interface Document {
   id: string
   name: string
   description: string | null
+  author: string | null
   fileUrl: string
   createdAt: Date
 }
@@ -37,8 +38,6 @@ export default function DocumentsDashboard() {
       try {
         setIsLoading(true)
         const docs = await getAllDocuments()
-        // Filter only public documents for public view
-        // const publicDocs = docs.filter((doc) => doc.isPublic)
         setDocuments(docs)
         setFilteredDocuments(docs)
       } catch (error) {
@@ -58,7 +57,8 @@ export default function DocumentsDashboard() {
     if (searchQuery) {
       filtered = filtered.filter(
         (doc) =>
-          doc.name.toLowerCase().includes(searchQuery.toLowerCase())
+          doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          doc.author?.toLowerCase().includes(searchQuery.toLowerCase())
       )
     }
 
