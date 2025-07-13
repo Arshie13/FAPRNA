@@ -16,11 +16,12 @@ import { Input } from "@/components/ui/input";
 import { getAllDocuments } from "@/lib/actions/document-actions";
 
 interface Document {
-  id: string;
-  name: string;
-  description: string | null;
-  fileUrl: string;
-  createdAt: Date;
+  id: string
+  name: string
+  description: string | null
+  author: string | null
+  fileUrl: string
+  createdAt: Date
 }
 
 export default function DocumentsDashboard() {
@@ -36,16 +37,10 @@ export default function DocumentsDashboard() {
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
-        setIsLoading(true);
-        const docs = await getAllDocuments();
-        // Filter only public documents for public view
-        // const publicDocs = docs.filter((doc) => doc.isPublic);
-        setDocuments(docs);
-        setFilteredDocuments(docs);
-        // Auto-select first document if available
-        if (docs.length > 0) {
-          setSelectedDocument(docs[0]);
-        }
+        setIsLoading(true)
+        const docs = await getAllDocuments()
+        setDocuments(docs)
+        setFilteredDocuments(docs)
       } catch (error) {
         console.error("Failed to fetch documents:", error);
       } finally {
@@ -63,8 +58,8 @@ export default function DocumentsDashboard() {
       filtered = filtered.filter(
         (doc) =>
           doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          doc.description?.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+          doc.author?.toLowerCase().includes(searchQuery.toLowerCase())
+      )
     }
 
     setFilteredDocuments(filtered);
