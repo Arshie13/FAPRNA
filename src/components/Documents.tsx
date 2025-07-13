@@ -57,7 +57,8 @@ export default function DocumentsDashboard() {
     if (searchQuery) {
       filtered = filtered.filter(
         (doc) =>
-          doc.name.toLowerCase().includes(searchQuery.toLowerCase())
+          doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          doc.author?.toLowerCase().includes(searchQuery.toLowerCase())
       )
     }
 
