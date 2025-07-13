@@ -12,6 +12,7 @@ export async function getAllDocuments() {
         id: true,
         name: true,
         description: true,
+        author: true,
         fileUrl: true,
         createdAt: true
       }
@@ -27,6 +28,7 @@ export async function getAllDocuments() {
 export async function uploadDocument(formData: FormData) {
   const title = formData.get("title") as string
   const fileUrl = formData.get("pdfUrl") as string
+  const author = formData.get("author") as string
   const description = formData.get("description") as string
 
   try {
@@ -34,6 +36,7 @@ export async function uploadDocument(formData: FormData) {
       data: {
         name: title,
         description,
+        author,
         fileUrl
       }
     });
