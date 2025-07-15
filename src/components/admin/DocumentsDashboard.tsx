@@ -35,6 +35,7 @@ import { useEdgeStore } from "@/lib/libstore/libstore-config"
 interface Document {
   id: string
   name: string
+  author: string | null
   fileUrl: string
   createdAt?: Date
   size?: string
@@ -265,7 +266,7 @@ export default function DocumentsAdminDashboard() {
                     <TableHeader>
                       <TableRow className="bg-gray-50/50">
                         <TableHead className="text-sm md:text-base lg:text-lg font-bold py-3 md:py-4">Document</TableHead>
-                        <TableHead className="text-sm md:text-base lg:text-lg font-bold py-3 md:py-4">Type</TableHead>
+                        <TableHead className="text-sm md:text-base lg:text-lg font-bold py-3 md:py-4">Author</TableHead>
                         <TableHead className="text-sm md:text-base lg:text-lg font-bold py-3 md:py-4">Upload Date</TableHead>
                         <TableHead className="text-sm md:text-base lg:text-lg font-bold py-3 md:py-4 text-right">Actions</TableHead>
                       </TableRow>
@@ -297,7 +298,7 @@ export default function DocumentsAdminDashboard() {
                             </TableCell>
                             <TableCell className="py-3 sm:py-4 md:py-5">
                               <span className="text-sm sm:text-base md:text-lg">
-                                {doc.name.split('.').pop()?.toUpperCase() || 'Unknown'}
+                                {doc.author || 'Unknown'}
                               </span>
                             </TableCell>
                             <TableCell className="py-3 sm:py-4 md:py-5">

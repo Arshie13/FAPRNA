@@ -32,6 +32,7 @@ import { useEdgeStore } from "@/lib/libstore/libstore-config";
 interface FormValues {
   title: string;
   fileUrl: string;
+  author: string;
   description: string;
 }
 
@@ -45,6 +46,7 @@ export default function DocumentUploadForm() {
   const form = useForm<FormValues>({
     defaultValues: {
       title: "",
+      author: "",
       fileUrl: "",
       description: ""
     },
@@ -61,6 +63,7 @@ export default function DocumentUploadForm() {
     try {
       const formData = new FormData();
       formData.append("title", values.title);
+      formData.append("author", values.author);
       formData.append("description", values.description);
       formData.append("pdfUrl", fileUrl);
 
@@ -146,6 +149,38 @@ export default function DocumentUploadForm() {
                         </FormItem>
                       )}
                     />
+
+                    {/* Author Name */}
+                    <FormField
+                      control={form.control}
+                      name="author"
+                      rules={{
+                        required: "Author name is required",
+                        minLength: {
+                          value: 3,
+                          message: "Author name must be at least 3 characters",
+                        },
+                      }}
+                      render={({ field }) => (
+                        <FormItem className="md:col-span-2">
+                          <FormLabel className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
+                            Author Name
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter author name"
+                              className="text-sm sm:text-base md:text-lg"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription className="text-sm sm:text-base md:text-lg">
+                            Name of the document&apos;s author.
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
 
                     {/* Description */}
                     <FormField

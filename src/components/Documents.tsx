@@ -7,7 +7,6 @@ import {
   Download,
   Search,
   Calendar,
-  RefreshCw,
   ArrowLeft,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -96,11 +95,10 @@ export default function DocumentsDashboard() {
     isSelected: boolean;
   }) => (
     <Card
-      className={`cursor-pointer transition-all duration-200 hover:shadow-md ${
-        isSelected
+      className={`cursor-pointer transition-all duration-200 hover:shadow-md ${isSelected
           ? "ring-2 ring-blue-500 bg-blue-50 border-blue-200"
           : "hover:bg-gray-50 bg-white"
-      }`}
+        }`}
       onClick={() => handleDocumentSelect(doc)}
     >
       <CardContent className="p-4">
@@ -110,23 +108,20 @@ export default function DocumentsDashboard() {
           </div>
           <div className="flex-1 min-w-0">
             <h3
-              className={`font-semibold text-base md:text-lg mb-1 line-clamp-2 ${
-                isSelected ? "text-blue-900" : "text-gray-900"
-              }`}
+              className={`font-semibold text-base md:text-lg mb-1 line-clamp-2 ${isSelected ? "text-blue-900" : "text-gray-900"
+                }`}
             >
               {doc.name}
             </h3>
             <p
-              className={`text-sm md:text-base line-clamp-2 mb-2 ${
-                isSelected ? "text-blue-700" : "text-gray-600"
-              }`}
+              className={`text-sm md:text-base line-clamp-2 mb-2 ${isSelected ? "text-blue-700" : "text-gray-600"
+                }`}
             >
               {doc.description || "No description available"}
             </p>
             <div
-              className={`flex items-center text-sm md:text-base ${
-                isSelected ? "text-blue-600" : "text-gray-500"
-              }`}
+              className={`flex items-center text-sm md:text-base ${isSelected ? "text-blue-600" : "text-gray-500"
+                }`}
             >
               <Calendar className="w-4 h-4 mr-1" />
               {format(new Date(doc.createdAt), "MMM d, yyyy")}
@@ -243,27 +238,16 @@ export default function DocumentsDashboard() {
         {/* Search Bar */}
         <Card className="bg-white border-0 shadow-lg mb-8">
           <CardContent className="p-6">
-            <div className="flex gap-4 items-center justify-between">
-              <div className="w-2/5">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                  <Input
-                    placeholder="Search documents..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 bg-transparent"
-                  />
-                </div>
+            <div className="items-center justify-between">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Input
+                  placeholder="Search documents..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 bg-transparent"
+                />
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => window.location.reload()}
-                className="gap-2 bg-transparent"
-              >
-                <RefreshCw className="w-4 h-4" />
-                Refresh
-              </Button>
             </div>
           </CardContent>
         </Card>
@@ -291,11 +275,10 @@ export default function DocumentsDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 min-h-[600px]">
               {/* Document List Panel */}
               <div
-                className={`lg:col-span-2 ${
-                  showMobileDetail ? "hidden md:block" : "block"
-                }`}
+                className={`lg:col-span-2 ${showMobileDetail ? "hidden md:block" : "block"
+                  }`}
               >
-                <div className="max-h-[600px] overflow-y-auto space-y-3 pr-2">
+                <div className="max-h-[600px] overflow-y-auto space-y-3">
                   {filteredDocuments.map((doc) => (
                     <DocumentCard
                       key={doc.id}
@@ -308,9 +291,8 @@ export default function DocumentsDashboard() {
 
               {/* Document Detail Panel */}
               <div
-                className={`lg:col-span-3 ${
-                  !showMobileDetail ? "hidden md:block" : "block"
-                }`}
+                className={`lg:col-span-3 ${!showMobileDetail ? "hidden md:block" : "block"
+                  }`}
               >
                 {selectedDocument ? (
                   <DocumentDetail doc={selectedDocument} />

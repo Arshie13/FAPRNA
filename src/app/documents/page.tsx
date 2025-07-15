@@ -9,9 +9,7 @@ export const metadata: Metadata = {
 export default function DocumentsPage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <main className="flex-1">
-        <DocumentsDashboard />
-      </main>
+      <DocumentsDashboard />
     </div>
   )
 }
