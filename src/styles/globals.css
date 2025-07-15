@@ -7,6 +7,16 @@ html {
   scroll-behavior: smooth;
 }
 
+@media screen and (max-width: 640px) {
+    .limit-wd-40 {
+      width: 40%;
+    }
+
+    .limit-wd-46 {
+      width: 46%;
+    }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

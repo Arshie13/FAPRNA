@@ -49,7 +49,8 @@ import {
   deleteWinner,
 } from "@/lib/actions/luminance-actions";
 import { Plus, Trash2, RefreshCw, Search, Star } from "lucide-react";
-import { useEdgeStore } from '@/lib/libstore/libstore-config';
+import { useEdgeStore } from "@/lib/libstore/libstore-config";
+import { checkLuminanceEventStatus, luminanceEventAction } from "@/lib/actions/luminance-actions";
 
 interface LuminanceWinner {
   id: string;
@@ -68,7 +69,8 @@ export default function LuminanceDashboard() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [resetKey, setResetKey] = useState(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { edgestore } = useEdgeStore()
+  const [isLuminanceActive, setIsLuminanceActive] = useState<boolean | null>(null)
+  const { edgestore } = useEdgeStore();
 
   const fetchWinners = async () => {
     setIsLoading(true);
@@ -85,13 +87,32 @@ export default function LuminanceDashboard() {
     }
   };
 
+  const startLuminance = async () => {
+    await luminanceEventAction("start");
+  }
+
+  const endLuminanceEvent = async () => {
+    await luminanceEventAction("end")
+  }
+
+  const fetchLuminanceStatus = async () => {
+    try {
+      setIsLoading(true);
+      const isActive = await checkLuminanceEventStatus();
+      setIsLuminanceActive(isActive!.hasStarted);
+    } catch (error) {
+      console.error("error: ", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   useEffect(() => {
-    fetchWinners();
+    Promise.all([fetchWinners(), fetchLuminanceStatus()])
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTab]);
+  }, []);
 
   const handleAddWinner = async () => {
-
     await edgestore.publicFiles.confirmUpload({
       url: newWinnerImage,
     });
@@ -102,12 +123,16 @@ export default function LuminanceDashboard() {
     }
     setIsSubmitting(true);
     try {
-      await uploadWinner(newWinnerName, newWinnerImage, activeTab === "current");
+      await uploadWinner(
+        newWinnerName,
+        newWinnerImage,
+        activeTab === "current"
+      );
       toast("Winner added successfully");
       setNewWinnerName("");
       setNewWinnerImage("");
       setResetKey((k) => k + 1);
-      setIsDialogOpen(false)
+      setIsDialogOpen(false);
       fetchWinners();
     } catch {
       toast("Failed to add winner");
@@ -119,8 +144,8 @@ export default function LuminanceDashboard() {
   const handleDeleteWinner = async (fileUrl: string, fileName: string) => {
     try {
       await edgestore.publicFiles.delete({
-        url: fileUrl
-      })
+        url: fileUrl,
+      });
 
       await deleteWinner(fileName);
 
@@ -157,7 +182,8 @@ export default function LuminanceDashboard() {
             Luminance Awards Dashboard
           </CardTitle>
           <CardDescription className="text-sm sm:text-base md:text-lg lg:text-xl">
-            View, add, or remove Luminance Award winners. Only one &quot;current&quot; winner is allowed at a time.
+            View, add, or remove Luminance Award winners. Only one
+            &quot;current&quot; winner is allowed at a time.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -182,6 +208,35 @@ export default function LuminanceDashboard() {
               </Button>
             </div>
           </div>
+
+          <div className="mb-6 sm:mb-8 flex items-center justify-between">
+            <div className="text-sm sm:text-base md:text-lg font-semibold">
+              Event Status:{" "}
+              <span
+                className={`${isLuminanceActive ? "text-green-600" : "text-red-600"
+                  } font-bold`}
+              >
+                {isLuminanceActive === null ? "Checking..." : isLuminanceActive ? "Active" : "Inactive"}
+              </span>
+            </div>
+            <Button
+              variant={isLuminanceActive ? "destructive" : "default"}
+              onClick={async () => {
+                if (isLuminanceActive) {
+                  await endLuminanceEvent();
+                  toast("Luminance event ended.");
+                } else {
+                  await startLuminance();
+                  toast("Luminance event started.");
+                }
+                fetchLuminanceStatus();
+              }}
+              className="h-10 sm:h-11 md:h-12 px-4 sm:px-6 text-sm sm:text-base md:text-lg"
+            >
+              {isLuminanceActive ? "End Luminance Event" : "Start Luminance Event"}
+            </Button>
+          </div>
+
 
           <Tabs
             defaultValue="current"
@@ -209,7 +264,7 @@ export default function LuminanceDashboard() {
                 <div className="p-4 border-b">
                   <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                     <DialogTrigger asChild>
-                      <Button className="gap-2">
+                      <Button className="gap-2 sm:gap-3 h-10 sm:h-11 md:h-12 px-4 sm:px-5 md:px-6 text-sm sm:text-base md:text-lg bg-[#003366] text-white font-semibold hover:bg-[#002244] hover:text-white transition-all duration-300 rounded-xl shadow-lg">
                         <Plus className="h-4 w-4" />
                         Add Winner
                       </Button>
@@ -224,13 +279,19 @@ export default function LuminanceDashboard() {
                           value={newWinnerName}
                           onChange={(e) => setNewWinnerName(e.target.value)}
                         />
-                        <ImageUploadForm setImageUrl={setNewWinnerImage} resetKey={resetKey} />
+                        <ImageUploadForm
+                          setImageUrl={setNewWinnerImage}
+                          resetKey={resetKey}
+                        />
                       </div>
                       <DialogFooter className="mt-4">
                         <DialogClose asChild>
                           <Button variant="outline">Cancel</Button>
                         </DialogClose>
-                        <Button onClick={handleAddWinner} disabled={isSubmitting}>
+                        <Button
+                          onClick={handleAddWinner}
+                          disabled={isSubmitting}
+                        >
                           <Plus className="h-4 w-4 mr-2" />
                           Submit
                         </Button>
@@ -292,56 +353,66 @@ export default function LuminanceDashboard() {
                                 </div>
                               )}
                             </TableCell>
-                            <TableCell className="py-3 md:py-4 font-semibold">
+                            <TableCell className="py-3 md:py-4 font-semibold text-lg md:text-xl lg:text-2xl">
                               {winner.name}
                             </TableCell>
-                            <TableCell className="text-right py-3 md:py-4 flex items-center justify-end gap-2">
-                              {/* View Image Button */}
-                              {winner.fileUrl && (
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  className="mr-2"
-                                  onClick={() => window.open(winner.fileUrl, "_blank")}
-                                >
-                                  View Image
-                                </Button>
-                              )}
-                              <AlertDialog>
-                                <AlertDialogTrigger asChild>
-                                  <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="h-8 w-8"
-                                  >
-                                    <Trash2 className="h-4 w-4 text-red-500" />
-                                  </Button>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent className="max-w-sm">
-                                  <AlertDialogHeader>
-                                    <AlertDialogTitle className="text-lg">
-                                      Delete Winner
-                                    </AlertDialogTitle>
-                                    <AlertDialogDescription className="text-sm">
-                                      Are you sure you want to delete &quot;
-                                      {winner.name}&quot;?
-                                    </AlertDialogDescription>
-                                  </AlertDialogHeader>
-                                  <AlertDialogFooter className="gap-2">
-                                    <AlertDialogCancel className="text-sm px-4 py-2">
-                                      Cancel
-                                    </AlertDialogCancel>
-                                    <AlertDialogAction
-                                      className="bg-red-600 text-white hover:bg-red-700 text-sm px-4 py-2"
+                            <TableCell className="py-3 md:py-4 align-middle text-center relative">
+                              <div className="flex items-center gap-2 justify-end absolute right-4 top-1/2 -translate-y-1/2">
+                                <div className="flex-shrink-0">
+                                  {winner.fileUrl && (
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      className=""
                                       onClick={() =>
-                                        handleDeleteWinner(winner.fileUrl, winner.name)
+                                        window.open(winner.fileUrl, "_blank")
                                       }
                                     >
-                                      Delete
-                                    </AlertDialogAction>
-                                  </AlertDialogFooter>
-                                </AlertDialogContent>
-                              </AlertDialog>
+                                      View Image
+                                    </Button>
+                                  )}
+                                </div>
+                                <div className="flex-shrink-0">
+                                  <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8"
+                                      >
+                                        <Trash2 className="h-4 w-4 text-red-500" />
+                                      </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent className="max-w-sm">
+                                      <AlertDialogHeader>
+                                        <AlertDialogTitle className="text-lg">
+                                          Delete Winner
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription className="text-sm">
+                                          Are you sure you want to delete &quot;
+                                          {winner.name}&quot;?
+                                        </AlertDialogDescription>
+                                      </AlertDialogHeader>
+                                      <AlertDialogFooter className="gap-2">
+                                        <AlertDialogCancel className="text-sm px-4 py-2">
+                                          Cancel
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                          className="bg-red-600 text-white hover:bg-red-700 text-sm px-4 py-2"
+                                          onClick={() =>
+                                            handleDeleteWinner(
+                                              winner.fileUrl,
+                                              winner.name
+                                            )
+                                          }
+                                        >
+                                          Delete
+                                        </AlertDialogAction>
+                                      </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                  </AlertDialog>
+                                </div>
+                              </div>
                             </TableCell>
                           </TableRow>
                         ))
@@ -358,7 +429,10 @@ export default function LuminanceDashboard() {
                   ) : (
                     <div className="space-y-4">
                       {filteredWinners.map((winner) => (
-                        <Card key={winner.id} className="p-3 flex items-center gap-4">
+                        <Card
+                          key={winner.id}
+                          className="p-3 flex items-center gap-4"
+                        >
                           {winner.fileUrl ? (
                             <Image
                               src={winner.fileUrl}
@@ -372,14 +446,18 @@ export default function LuminanceDashboard() {
                               <Star className="h-6 w-6" />
                             </div>
                           )}
-                          <div className="flex-1 font-semibold">{winner.name}</div>
+                          <div className="flex-1 font-semibold">
+                            {winner.name}
+                          </div>
                           {/* View Image Button for mobile */}
                           {winner.fileUrl && (
                             <Button
                               variant="outline"
                               size="sm"
                               className="mr-2"
-                              onClick={() => window.open(winner.fileUrl, "_blank")}
+                              onClick={() =>
+                                window.open(winner.fileUrl, "_blank")
+                              }
                             >
                               View Image
                             </Button>
@@ -410,7 +488,12 @@ export default function LuminanceDashboard() {
                                 </AlertDialogCancel>
                                 <AlertDialogAction
                                   className="bg-red-600 text-white hover:bg-red-700 text-sm px-4 py-2"
-                                  onClick={() => handleDeleteWinner(winner.fileUrl, winner.name)}
+                                  onClick={() =>
+                                    handleDeleteWinner(
+                                      winner.fileUrl,
+                                      winner.name
+                                    )
+                                  }
                                 >
                                   Delete
                                 </AlertDialogAction>

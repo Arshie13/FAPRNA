@@ -47,22 +47,22 @@ import { IEvent } from "@/lib/interfaces";
 import { ImageUploadForm } from "@/components/admin/ImageUpload";
 
 interface Event {
-  id: string
-  type: "EVENT" | "RECOGNITION" | "TEAM"
-  title: string
-  time: string
-  date: Date
-  location: string
-  address: string
-  description: string
-  ceus: number
-  image: string
-  ytLink?: string | undefined | null
-  expected_attendees: number
-  createdAt: Date
-  updatedAt: Date
-  isFinished: boolean
-  isLatest: boolean
+  id: string;
+  type: "EVENT" | "RECOGNITION" | "TEAM";
+  title: string;
+  time: string;
+  date: Date;
+  location: string;
+  address: string;
+  description: string;
+  ceus: number;
+  image: string;
+  ytLink?: string | undefined | null;
+  expected_attendees: number;
+  createdAt: Date;
+  updatedAt: Date;
+  isFinished: boolean;
+  isLatest: boolean;
 }
 
 interface EventFormProps {
@@ -167,7 +167,7 @@ export default function EventForm({ event }: EventFormProps) {
                     rules={{ required: "Please select a event type" }}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
+                        <FormLabel className="text-sm sm:text-base md:text-lg">
                           Event Type
                         </FormLabel>
                         <Select
@@ -176,20 +176,34 @@ export default function EventForm({ event }: EventFormProps) {
                         >
                           <FormControl>
                             <SelectTrigger className="text-sm sm:text-base md:text-lg">
-                              <SelectValue placeholder="Select an event type" />
+                              <SelectValue
+                                placeholder="Select an event type"
+                                className="text-sm sm:text-base md:text-lg"
+                              />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value={EventType.EVENT}>
+                            <SelectItem
+                              value={EventType.EVENT}
+                              className="text-sm sm:text-base md:text-lg"
+                            >
                               Event
                             </SelectItem>
-                            <SelectItem value={EventType.RECOGNITION}>
+                            <SelectItem
+                              value={EventType.RECOGNITION}
+                              className="text-sm sm:text-base md:text-lg"
+                            >
                               Recognition
                             </SelectItem>
-                            <SelectItem value={EventType.TEAM}>Team</SelectItem>
+                            <SelectItem
+                              value={EventType.TEAM}
+                              className="text-sm sm:text-base md:text-lg"
+                            >
+                              Team
+                            </SelectItem>
                           </SelectContent>
                         </Select>
-                        <FormDescription className="text-sm sm:text-base md:text-lg">
+                        <FormDescription className="text-xs sm:text-sm md:text-base">
                           Select the type of event item you are creating.
                         </FormDescription>
                         <FormMessage />
@@ -478,74 +492,101 @@ export default function EventForm({ event }: EventFormProps) {
                           <Switch
                             checked={field.value}
                             onCheckedChange={field.onChange}
+                            className="data-[state=checked]:bg-[#003366] data-[state=unchecked]:bg-gray-200"
                           />
                         </FormControl>
                       </FormItem>
                     )}
                   />
 
-                {/* Is Latest */}
-                <FormField
-                  control={form.control}
-                  name="isLatest"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                      <div className="space-y-0.5">
-                        <FormLabel className="text-base">Latest Event</FormLabel>
-                        <FormDescription>Feature this as the latest event item on the homepage.</FormDescription>
-                      </div>
-                      <FormControl>
-                        <Switch checked={field.value} onCheckedChange={field.onChange} />
-                      </FormControl>
-                    </FormItem>
+                  {/* Is Latest */}
+                  <FormField
+                    control={form.control}
+                    name="isLatest"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                        <div className="space-y-0.5">
+                          <FormLabel className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
+                            Latest Event
+                          </FormLabel>
+                          <FormDescription className="text-sm sm:text-base md:text-lg">
+                            Feature this as the latest event item on the
+                            homepage.
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            className="data-[state=checked]:bg-[#003366] data-[state=unchecked]:bg-gray-200"
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </CardContent>
+              {/* Show YouTube Link if event is finished */}
+              {form.watch("isFinished") && (
+                <div className="px-6 pb-6 mt-8">
+                  <FormField
+                    control={form.control}
+                    name="ytLink"
+                    rules={{
+                      pattern: {
+                        value:
+                          /^$|^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/,
+                        message: "Please enter a valid YouTube URL",
+                      },
+                    }}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
+                          YouTube Link
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter YouTube video URL (optional)"
+                            {...field}
+                            value={field.value ?? ""}
+                            className="text-sm sm:text-base md:text-lg"
+                          />
+                        </FormControl>
+                        <FormDescription className="text-sm sm:text-base md:text-lg">
+                          Add a YouTube link for the event recording (optional,
+                          shown only for finished events).
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
+              <CardFooter className="flex justify-between mt-6">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => router.push("/admin/events")}
+                  className="text-base sm:text-lg md:text-xl lg:text-2xl font-semibold px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 min-w-40 sm:min-w-44 md:min-w-48
+      rounded-xl shadow-lg transition-all duration-300"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-[#003366] text-white hover:bg-[#002244] hover:text-white transition-all duration-300 rounded-xl shadow-lg text-base sm:text-lg md:text-xl lg:text-2xl font-semibold px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 min-w-40 sm:min-w-44 md:min-w-48"
+                >
+                  {isSubmitting && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                />
-              </div>
-            </CardContent>
-            {/* Show YouTube Link if event is finished */}
-            {form.watch("isFinished") && (
-              <div className="px-6 pb-6">
-                <FormField
-                  control={form.control}
-                  name="ytLink"
-                  rules={{
-                    pattern: {
-                      value: /^$|^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/,
-                      message: "Please enter a valid YouTube URL",
-                    },
-                  }}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>YouTube Link</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter YouTube video URL (optional)"
-                          {...field}
-                          value={field.value ?? ""}
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        Add a YouTube link for the event recording (optional, shown only for finished events).
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            )}
-            <CardFooter className="flex justify-between">
-              <Button type="button" variant="outline" onClick={() => router.push("/admin/events")}>
-                Cancel
-              </Button>
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {isEditing ? "Update Event" : "Create Event"}
-              </Button>
-            </CardFooter>
-          </form>
-        </Form>
-      </Card>
+                  {isEditing ? "Update Event" : "Create Event"}
+                </Button>
+              </CardFooter>
+            </form>
+          </Form>
+        </Card>
+      </div>
     </div>
-    </div>
-  )
+  );
 }

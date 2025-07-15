@@ -32,6 +32,7 @@ import { useEdgeStore } from "@/lib/libstore/libstore-config";
 interface FormValues {
   title: string;
   fileUrl: string;
+  author: string;
   description: string;
 }
 
@@ -45,6 +46,7 @@ export default function DocumentUploadForm() {
   const form = useForm<FormValues>({
     defaultValues: {
       title: "",
+      author: "",
       fileUrl: "",
       description: ""
     },
@@ -61,6 +63,7 @@ export default function DocumentUploadForm() {
     try {
       const formData = new FormData();
       formData.append("title", values.title);
+      formData.append("author", values.author);
       formData.append("description", values.description);
       formData.append("pdfUrl", fileUrl);
 
@@ -147,6 +150,38 @@ export default function DocumentUploadForm() {
                       )}
                     />
 
+                    {/* Author Name */}
+                    <FormField
+                      control={form.control}
+                      name="author"
+                      rules={{
+                        required: "Author name is required",
+                        minLength: {
+                          value: 3,
+                          message: "Author name must be at least 3 characters",
+                        },
+                      }}
+                      render={({ field }) => (
+                        <FormItem className="md:col-span-2">
+                          <FormLabel className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
+                            Author Name
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter author name"
+                              className="text-sm sm:text-base md:text-lg"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription className="text-sm sm:text-base md:text-lg">
+                            Name of the document&apos;s author.
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+
                     {/* Description */}
                     <FormField
                       control={form.control}
@@ -195,7 +230,8 @@ export default function DocumentUploadForm() {
                   <Button
                     type="submit"
                     disabled={isSubmitting || fileUploading}
-                    className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 min-w-40 sm:min-w-44 md:min-w-48"
+                    className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 min-w-40 sm:min-w-44 md:min-w-48
+                      bg-[#003366] text-white hover:bg-[#002244] hover:text-white transition-all duration-300 rounded-xl shadow-lg"
                   >
                     {(isSubmitting || fileUploading) && (
                       <Loader2 className="mr-2 h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 animate-spin" />

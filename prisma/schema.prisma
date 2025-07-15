@@ -141,3 +141,10 @@ model Luminance {
   isCurrent Boolean  @default(false)
   createdAt DateTime @default(now())
 }
+
+model LuminanceToggle {
+  id         String    @id @default(cuid()) @map("_id")
+  createdAt  DateTime  @default(now())
+  endedAt    DateTime? @updatedAt
+  hasStarted Boolean   @default(false)
+}
