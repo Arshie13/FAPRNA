@@ -16,12 +16,12 @@ import { Input } from "@/components/ui/input";
 import { getAllDocuments } from "@/lib/actions/document-actions";
 
 interface Document {
-  id: string
-  name: string
-  description: string | null
-  author: string | null
-  fileUrl: string
-  createdAt: Date
+  id: string;
+  name: string;
+  description: string | null;
+  author: string | null;
+  fileUrl: string;
+  createdAt: Date;
 }
 
 export default function DocumentsDashboard() {
@@ -37,10 +37,10 @@ export default function DocumentsDashboard() {
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
-        setIsLoading(true)
-        const docs = await getAllDocuments()
-        setDocuments(docs)
-        setFilteredDocuments(docs)
+        setIsLoading(true);
+        const docs = await getAllDocuments();
+        setDocuments(docs);
+        setFilteredDocuments(docs);
       } catch (error) {
         console.error("Failed to fetch documents:", error);
       } finally {
@@ -59,7 +59,7 @@ export default function DocumentsDashboard() {
         (doc) =>
           doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           doc.author?.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      );
     }
 
     setFilteredDocuments(filtered);
@@ -88,7 +88,6 @@ export default function DocumentsDashboard() {
     link.click();
   };
 
-
   const DocumentCard = ({
     doc,
     isSelected,
@@ -111,25 +110,25 @@ export default function DocumentsDashboard() {
           </div>
           <div className="flex-1 min-w-0">
             <h3
-              className={`font-semibold text-sm mb-1 line-clamp-2 ${
+              className={`font-semibold text-base md:text-lg mb-1 line-clamp-2 ${
                 isSelected ? "text-blue-900" : "text-gray-900"
               }`}
             >
               {doc.name}
             </h3>
             <p
-              className={`text-xs line-clamp-2 mb-2 ${
+              className={`text-sm md:text-base line-clamp-2 mb-2 ${
                 isSelected ? "text-blue-700" : "text-gray-600"
               }`}
             >
               {doc.description || "No description available"}
             </p>
             <div
-              className={`flex items-center text-xs ${
+              className={`flex items-center text-sm md:text-base ${
                 isSelected ? "text-blue-600" : "text-gray-500"
               }`}
             >
-              <Calendar className="w-3 h-3 mr-1" />
+              <Calendar className="w-4 h-4 mr-1" />
               {format(new Date(doc.createdAt), "MMM d, yyyy")}
             </div>
           </div>
@@ -145,11 +144,11 @@ export default function DocumentsDashboard() {
         <div className="md:hidden mb-4">
           <Button
             variant="ghost"
-            size="sm"
+            size="lg"
             onClick={() => setShowMobileDetail(false)}
-            className="gap-2"
+            className="gap-3 h-12 px-6 text-lg bg-[#003366] text-white font-semibold hover:bg-[#002244] hover:text-white transition-all duration-300 rounded-xl shadow-lg"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-5 h-5" />
             Back to Documents
           </Button>
         </div>
@@ -161,21 +160,32 @@ export default function DocumentsDashboard() {
                 <div className="w-16 h-16 bg-red-500 rounded-xl flex items-center justify-center flex-shrink-0">
                   <FileText className="w-8 h-8 text-white" />
                 </div>
-                <h1 className="text-2xl font-bold text-gray-900">{doc.name}</h1>
-              </div>
-              <div className="flex items-center text-sm text-gray-500">
-                <Calendar className="w-4 h-4 mr-2" />
-                {format(new Date(doc.createdAt), "MMMM d, yyyy")}
+                <div>
+                  <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+                    {doc.name}
+                  </h1>
+                  <div className="flex items-center text-base md:text-lg text-gray-500 mt-2">
+                    <Calendar className="w-5 h-5 mr-2" />
+                    {format(new Date(doc.createdAt), "MMMM d, yyyy")}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
+          <div className="mb-6">
+            <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3">
+              Author
+            </h2>
+            <p className="text-lg md:text-xl text-gray-700">
+              {doc.author || "Author information not available"}
+            </p>
+          </div>
           <div className="mb-8">
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
+            <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3">
               Description
             </h2>
-            <div className="prose prose-sm max-w-none">
-              <p className="text-gray-700 leading-relaxed">
+            <div className="prose prose-lg max-w-none">
+              <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
                 {doc.description ||
                   "No description available for this document."}
               </p>
@@ -265,10 +275,10 @@ export default function DocumentsDashboard() {
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FileText className="w-8 h-8 text-gray-400" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-2">
                 No Documents Found
               </h3>
-              <p className="text-gray-600">
+              <p className="text-lg md:text-xl text-gray-600">
                 {searchQuery
                   ? `No documents match "${searchQuery}"`
                   : "No documents available at this time"}
@@ -311,10 +321,10 @@ export default function DocumentsDashboard() {
                         <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                           <FileText className="w-8 h-8 text-gray-400" />
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                        <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-2">
                           Select a Document
                         </h3>
-                        <p className="text-gray-600">
+                        <p className="text-lg md:text-xl text-gray-600">
                           Choose a document from the list to view its details
                         </p>
                       </div>
