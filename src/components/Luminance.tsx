@@ -5,7 +5,7 @@ import { Trophy, History, Home, StarIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { getCurrentWinners } from "@/lib/actions/luminance-actions";
+import { getCurrentWinners, checkLuminanceEventStatus } from "@/lib/actions/luminance-actions";
 
 interface LuminanceAwardsProps {
   onVote: () => void;
@@ -162,14 +162,22 @@ const GoldenSparkles = () => {
 
 export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
   const [showHistory, setShowHistory] = useState(false);
-  const [currentWinner, setCurrentWinner] = useState("")
+  const [currentWinner, setCurrentWinner] = useState("");
+  const [hasStarted, setHasStarted] = useState<boolean | null>(null)
+
+  const fetchCurrentWinners = async () => {
+    const result = await getCurrentWinners();
+    setCurrentWinner(result[0].fileUrl)
+  }
+
+  const fetchEventStatus = async () => {
+    const status = await checkLuminanceEventStatus();
+    setHasStarted(status!.hasStarted)
+  }
 
   useEffect(() => {
-    getCurrentWinners().then((r) => {
-      setCurrentWinner(r[0].fileUrl)
-    })
-  })
-
+    Promise.all([fetchCurrentWinners(), fetchEventStatus()])
+  }, [])
 
   // Common button style for uniform appearance
   const uniformButtonStyle = {
@@ -310,12 +318,15 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
               <Button
                 onClick={onVote}
                 size="lg"
-                className="px-12 py-8 text-xl font-medium tracking-wide transition-all duration-300 backdrop-blur-sm transform hover:scale-105"
-                style={uniformButtonStyle}
+                disabled={!hasStarted}
+                className={`px-12 py-8 text-xl font-medium tracking-wide transition-all duration-300 backdrop-blur-sm transform ${hasStarted ? "hover:scale-105" : "opacity-50 cursor-not-allowed"
+                  }`}
+                style={hasStarted ? uniformButtonStyle : inactiveButtonStyle}
               >
                 <StarIcon className="w-6 h-6 mr-3" />
-                Submit Nomination
+                {hasStarted ? "Submit Nomination" : "Nominations Closed"}
               </Button>
+
             </div>
           </div>
         )}

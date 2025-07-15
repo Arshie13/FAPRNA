@@ -51,9 +51,42 @@ export async function uploadWinner(name: string, fileUrl: string, isCurrent: boo
 }
 
 export async function deleteWinner(name: string) {
-  
+
   await prisma.luminance.delete({
     where: { name }
   });
   return 200
+}
+
+export async function luminanceEventAction(action: string) {
+  if (action === "start") {
+    await prisma.luminanceToggle.update({
+      where: {
+        id: "1"
+      },
+      data: {
+        hasStarted: true
+      }
+    });
+  } else {
+    await prisma.luminanceToggle.update({
+      where: {
+        id: "1"
+      },
+      data: {
+        hasStarted: false
+      }
+    });
+  }
+}
+
+export async function checkLuminanceEventStatus() {
+  return await prisma.luminanceToggle.findFirst({
+    where: {
+      id: "1"
+    },
+    select: {
+      hasStarted: true
+    }
+  })
 }

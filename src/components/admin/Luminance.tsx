@@ -50,6 +50,7 @@ import {
 } from "@/lib/actions/luminance-actions";
 import { Plus, Trash2, RefreshCw, Search, Star } from "lucide-react";
 import { useEdgeStore } from "@/lib/libstore/libstore-config";
+import { checkLuminanceEventStatus, luminanceEventAction } from "@/lib/actions/luminance-actions";
 
 interface LuminanceWinner {
   id: string;
@@ -68,6 +69,7 @@ export default function LuminanceDashboard() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [resetKey, setResetKey] = useState(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isLuminanceActive, setIsLuminanceActive] = useState<boolean | null>(null)
   const { edgestore } = useEdgeStore();
 
   const fetchWinners = async () => {
@@ -85,10 +87,30 @@ export default function LuminanceDashboard() {
     }
   };
 
+  const startLuminance = async () => {
+    await luminanceEventAction("start");
+  }
+
+  const endLuminanceEvent = async () => {
+    await luminanceEventAction("end")
+  }
+
+  const fetchLuminanceStatus = async () => {
+    try {
+      setIsLoading(true);
+      const isActive = await checkLuminanceEventStatus();
+      setIsLuminanceActive(isActive!.hasStarted);
+    } catch (error) {
+      console.error("error: ", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   useEffect(() => {
-    fetchWinners();
+    Promise.all([fetchWinners(), fetchLuminanceStatus()])
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTab]);
+  }, []);
 
   const handleAddWinner = async () => {
     await edgestore.publicFiles.confirmUpload({
@@ -186,6 +208,35 @@ export default function LuminanceDashboard() {
               </Button>
             </div>
           </div>
+
+          <div className="mb-6 sm:mb-8 flex items-center justify-between">
+            <div className="text-sm sm:text-base md:text-lg font-semibold">
+              Event Status:{" "}
+              <span
+                className={`${isLuminanceActive ? "text-green-600" : "text-red-600"
+                  } font-bold`}
+              >
+                {isLuminanceActive === null ? "Checking..." : isLuminanceActive ? "Active" : "Inactive"}
+              </span>
+            </div>
+            <Button
+              variant={isLuminanceActive ? "destructive" : "default"}
+              onClick={async () => {
+                if (isLuminanceActive) {
+                  await endLuminanceEvent();
+                  toast("Luminance event ended.");
+                } else {
+                  await startLuminance();
+                  toast("Luminance event started.");
+                }
+                fetchLuminanceStatus();
+              }}
+              className="h-10 sm:h-11 md:h-12 px-4 sm:px-6 text-sm sm:text-base md:text-lg"
+            >
+              {isLuminanceActive ? "End Luminance Event" : "Start Luminance Event"}
+            </Button>
+          </div>
+
 
           <Tabs
             defaultValue="current"
