@@ -2,179 +2,189 @@
 
 import { revalidatePath } from "next/cache"
 import { prisma } from "../utils"
-import { NominationForm } from "../interfaces"
+import { sendNominationEmail } from "../email"
+import { isNominationOpen } from "./nomination-settings-action"
 
-// Get all nominations with related data
+const CURRENT_YEAR = new Date().getFullYear()
+
+// Create a nomination
+export async function createNomination(data: {
+  nominator: { fullName: string; email: string; phone: string }
+  nominee: { fullName: string; email: string; phone: string }
+  category: string
+  reason: string
+}) {
+  try {
+    // Check if nominations are open
+    const nominationOpen = await isNominationOpen()
+    if (!nominationOpen) {
+      return { success: false, error: "Nominations are currently closed" }
+    }
+
+    // Find or create nominator
+    let nominator = await prisma.member.findUnique({
+      where: { email: data.nominator.email }
+    })
+
+    if (!nominator) {
+      nominator = await prisma.member.create({
+        data: {
+          fullName: data.nominator.fullName,
+          email: data.nominator.email,
+          phone: data.nominator.phone,
+          membershipStatus: "PENDING"
+        }
+      })
+    }
+
+    // Find or create nominee
+    let nominee = await prisma.member.findUnique({
+      where: { email: data.nominee.email }
+    })
+
+    if (!nominee) {
+      nominee = await prisma.member.create({
+        data: {
+          fullName: data.nominee.fullName,
+          email: data.nominee.email,
+          phone: data.nominee.phone,
+          membershipStatus: "PENDING"
+        }
+      })
+    }
+
+    // Check if nominator already nominated someone for this category
+    const existingNomination = await prisma.nomination.findFirst({
+      where: {
+        nominatorId: nominator.id,
+        category: data.category,
+        year: CURRENT_YEAR
+      }
+    })
+
+    if (existingNomination) {
+      return { success: false, error: `You have already nominated someone for ${data.category} this year` }
+    }
+
+    // Create nomination
+    const nomination = await prisma.nomination.create({
+      data: {
+        nominatorId: nominator.id,
+        nomineeId: nominee.id,
+        category: data.category,
+        reason: data.reason,
+        status: "PENDING",
+        year: CURRENT_YEAR
+      },
+      include: {
+        nominator: true,
+        nominee: true
+      }
+    })
+
+    // Send email notification
+    await sendNominationEmail({
+      category: nomination.category,
+      nominee: {
+        fullName: nominee.fullName,
+        email: nominee.email
+      },
+      nominator: {
+        fullName: nominator.fullName,
+        email: nominator.email
+      },
+      reason: nomination.reason,
+      createdAt: nomination.createdAt
+    })
+
+    revalidatePath("/luminance")
+    revalidatePath("/admin/nominations")
+
+    return { success: true, nomination }
+  } catch (error) {
+    console.error("Failed to create nomination:", error)
+    return { success: false, error: "Failed to submit nomination" }
+  }
+}
+
+// Get all nominations for admin
 export async function getAllNominations() {
   try {
     const nominations = await prisma.nomination.findMany({
       include: {
-        nominator: { select: { id: true, fullName: true, email: true } },
-        nominee1: { select: { id: true, fullName: true, email: true } },
+        nominator: true,
+        nominee: true
       },
       orderBy: {
-        createdAt: "desc",
-      },
+        createdAt: "desc"
+      }
     })
-    if (nominations.length === 0) {
-      console.log("No nominations found")
-      return []
-    }
-    console.log("Fetched nominations:", nominations)
+
     return nominations
   } catch (error) {
-    console.error("Failed to fetch nominations:", error)
-    throw new Error("Failed to fetch nominations")
+    console.error("Failed to get nominations:", error)
+    return []
   }
 }
 
-// Get nomination by ID with related data
+// Update nomination status
+export async function updateNominationStatus(nominationId: string, status: string) {
+  try {
+    const updatedNomination = await prisma.nomination.update({
+      where: { id: nominationId },
+      data: { status },
+      include: {
+        nominator: true,
+        nominee: true
+      }
+    })
+
+    revalidatePath("/admin/nominations")
+    return { success: true, nomination: updatedNomination }
+  } catch (error) {
+    console.error("Failed to update nomination status:", error)
+    return { success: false, error: "Failed to update nomination status" }
+  }
+}
+
+// Get nomination by ID
 export async function getNominationById(id: string) {
   try {
     const nomination = await prisma.nomination.findUnique({
       where: { id },
       include: {
-        nominator: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-          },
-        },
-        nominee1: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-          },
-        },
-        nominee2: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-          },
-        },
-        nominee3: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-          },
-        },
-      },
+        nominator: true,
+        nominee: true
+      }
     })
-    return nomination
-  } catch (error) {
-    console.error(`Failed to fetch nomination with ID ${id}:`, error)
-    throw new Error(`Failed to fetch nomination with ID ${id}`)
-  }
-}
-
-// Update nomination status
-export async function updateNominationStatus(id: string, status: string) {
-  try {
-    const nomination = await prisma.nomination.update({
-      where: { id },
-      data: {
-        status,
-        updatedAt: new Date(),
-      },
-    })
-
-    revalidatePath("/admin/nominations")
-    revalidatePath(`/admin/nominations/${id}`)
 
     return nomination
   } catch (error) {
-    console.error(`Failed to update nomination status for ID ${id}:`, error)
-    throw new Error(`Failed to update nomination status for ID ${id}`)
+    console.error("Failed to get nomination:", error)
+    return null
   }
 }
 
-// Get nomination statistics
-export async function getNominationStats() {
+// Get eligible members for nomination
+export async function getEligibleMembers() {
   try {
-    const [total, pending, approved, rejected, categoryStats] = await Promise.all([
-      prisma.nomination.count(),
-      prisma.nomination.count({ where: { status: "PENDING" } }),
-      prisma.nomination.count({ where: { status: "APPROVED" } }),
-      prisma.nomination.count({ where: { status: "REJECTED" } }),
-      prisma.nomination.groupBy({
-        by: ["category"],
-        _count: {
-          category: true,
-        },
-      }),
-    ])
-
-    const categories = categoryStats.reduce(
-      (acc, stat) => {
-        acc[stat.category] = stat._count.category
-        return acc
+    const members = await prisma.member.findMany({
+      where: {
+        membershipStatus: "APPROVED"
       },
-      {} as { [key: string]: number },
-    )
-
-    return {
-      total,
-      pending,
-      approved,
-      rejected,
-      categories,
-    }
-  } catch (error) {
-    console.error("Failed to fetch nomination stats:", error)
-    throw new Error("Failed to fetch nomination stats")
-  }
-}
-
-// Delete nomination (if needed)
-export async function deleteNomination(id: string) {
-  try {
-    await prisma.nomination.delete({
-      where: { id },
-    })
-
-    revalidatePath("/admin/nominations")
-
-    return { success: true }
-  } catch (error) {
-    console.error(`Failed to delete nomination with ID ${id}:`, error)
-    throw new Error(`Failed to delete nomination with ID ${id}`)
-  }
-}
-
-export async function createNomination(data: NominationForm) {
-  try {
-    const { nominator, nominee } = data
-
-    const validateNominator = await prisma.member.findFirst({
-      where: { email: nominator.email },
-    })
-    const validateNominee = await prisma.member.findFirst({
-      where: { email: nominee.email },
-    })
-
-    if (!validateNominator || !validateNominee) {
-      throw new Error("Nominator or nominee not found")
-    }
-
-    // Create the nomination
-    const nomination = await prisma.nomination.create({
-      data: {
-        nominatorId: validateNominator.id,
-        nominee1Id: validateNominee.id,
-        category: data.category,
-        reason: data.reason,
+      select: {
+        id: true,
+        fullName: true,
+        email: true
       },
+      orderBy: {
+        fullName: "asc"
+      }
     })
 
-    revalidatePath("/vote")
-
-    return nomination
+    return members
   } catch (error) {
-    console.error("Failed to create nomination:", error)
-    throw new Error("Failed to create nomination")
+    console.error("Failed to get eligible members:", error)
+    return []
   }
 }

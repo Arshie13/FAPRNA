@@ -65,9 +65,8 @@ model Member {
   membershipStatus  MembershipStatus
   EventUser         EventUser[]
   nominationsMade   Nomination[]     @relation("Nominator")
-  firstNominations  Nomination[]     @relation("FirstNominee")
-  secondNominations Nomination[]     @relation("SecondNominee")
-  thirdNominations  Nomination[]     @relation("ThirdNominee")
+  nominationsReceived Nomination[]   @relation("Nominee")
+  receivedVotes     Vote[]           // For voting system
 }
 
 model NonMember {
@@ -101,27 +100,33 @@ model EventUser {
   rejected    Boolean    @default(false)
 }
 
+model NominationSettings {
+  id                    String   @id @default(cuid()) @map("_id")
+  year                  Int      @unique
+  isNominationOpen      Boolean  @default(false)
+  nominationStartDate   DateTime?
+  nominationEndDate     DateTime?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
 model Nomination {
   id          String   @id @default(cuid()) @map("_id")
   nominatorId String
-  nominee1Id  String
-  nominee2Id  String?
-  nominee3Id  String?
+  nomineeId   String   // Only one nominee per nomination
+  year        Int      @default(2025) // Add year tracking
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   category    String
   reason      String
   status      String   @default("PENDING") // PENDING, APPROVED, REJECTED
 
-  nominator Member  @relation("Nominator", fields: [nominatorId], references: [id])
-  nominee1  Member  @relation("FirstNominee", fields: [nominee1Id], references: [id])
-  nominee2  Member? @relation("SecondNominee", fields: [nominee2Id], references: [id])
-  nominee3  Member? @relation("ThirdNominee", fields: [nominee3Id], references: [id])
+  nominator Member @relation("Nominator", fields: [nominatorId], references: [id])
+  nominee   Member @relation("Nominee", fields: [nomineeId], references: [id])
 
   @@index([nominatorId])
-  @@index([nominee1Id])
-  @@index([nominee2Id])
-  @@index([nominee3Id])
+  @@index([nomineeId])
+  @@unique([nominatorId, category, year]) // Ensure one nomination per category per year
 }
 
 model PDFFile {
@@ -148,3 +153,38 @@ model LuminanceToggle {
   endedAt    DateTime? @updatedAt
   hasStarted Boolean   @default(false)
 }
+
+model VotingSettings {
+  id              String   @id @default(cuid()) @map("_id")
+  year            Int      @unique
+  isVotingOpen    Boolean  @default(false)
+  votingStartDate DateTime?
+  votingEndDate   DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Voter {
+  id        String   @id @default(cuid()) @map("_id")
+  email     String   
+  name      String
+  year      Int
+  createdAt DateTime @default(now())
+  votes     Vote[]
+  
+  @@unique([email, year])
+}
+
+model Vote {
+  id         String   @id @default(cuid()) @map("_id")
+  voterId    String
+  voter      Voter    @relation(fields: [voterId], references: [id])
+  category   String   // "intentionality", "inquiry", "impact"
+  nomineeId  String
+  nominee    Member   @relation(fields: [nomineeId], references: [id])
+  year       Int
+  createdAt  DateTime @default(now())
+  
+  @@unique([voterId, category, year])
+}
+

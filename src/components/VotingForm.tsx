@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,7 +12,7 @@ import { ArrowLeft, Send, Award, Star, Medal, Crown } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { createNomination } from "@/lib/actions/nomination-actions";
-import type { Member } from "@/lib/interfaces";
+import { toast } from "sonner";
 
 const categories = [
   {
@@ -86,6 +85,7 @@ const FloatingParticles = () => {
 
 export default function VotingForm() {
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     nomineeName: "",
     nomineeTitle: "",
@@ -98,35 +98,64 @@ export default function VotingForm() {
     agreeTerms: false,
   });
 
-  const nominee: Member = {
-    fullName: formData.nomineeName,
-    email: formData.nomineeEmail,
-    phone: formData.nomineePhone,
-  }
-
-  const nominator: Member = {
-    fullName: formData.nominatorName,
-    email: formData.nominatorEmail,
-    phone: formData.nominatorPhone,
-  }
-
-  const nominationData = {
-    nominator,
-    nominee,
-    reason: formData.reason,
-    category: selectedCategory,
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!selectedCategory || !formData.agreeTerms) {
+      toast.error("Please complete all required fields");
+      return;
+    }
 
-    await createNomination(nominationData)
+    setIsSubmitting(true);
+    
+    try {
+      const nominationData = {
+        nominator: {
+          fullName: formData.nominatorName,
+          email: formData.nominatorEmail,
+          phone: formData.nominatorPhone,
+        },
+        nominee: {
+          fullName: formData.nomineeName,
+          email: formData.nomineeEmail,
+          phone: formData.nomineePhone,
+        },
+        category: selectedCategory,
+        reason: formData.reason,
+      };
+
+      const result = await createNomination(nominationData);
+      
+      if (result.success) {
+        toast.success("Nomination submitted successfully!");
+        // Reset form
+        setSelectedCategory("");
+        setFormData({
+          nomineeName: "",
+          nomineeTitle: "",
+          nomineeEmail: "",
+          nomineePhone: "",
+          nominatorName: "",
+          nominatorEmail: "",
+          nominatorPhone: "",
+          reason: "",
+          agreeTerms: false,
+        });
+      } else {
+        toast.error(result.error || "Failed to submit nomination");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      toast.error("Failed to submit nomination");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
-
+  
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white relative overflow-hidden">
       {/* Background with subtle gold gradient */}
@@ -643,22 +672,32 @@ export default function VotingForm() {
                       className="w-full py-6 text-lg font-medium tracking-wide transition-all duration-300 disabled:bg-gray-700 disabled:text-gray-400"
                       style={{
                         background:
-                          !selectedCategory || !formData.agreeTerms
+                          !selectedCategory ||
+                          !formData.agreeTerms ||
+                          isSubmitting
                             ? "#374151"
                             : "linear-gradient(135deg, #D4AF37, #FFD700, #D4AF37)",
                         color:
-                          !selectedCategory || !formData.agreeTerms
+                          !selectedCategory ||
+                          !formData.agreeTerms ||
+                          isSubmitting
                             ? "#9ca3af"
                             : "black",
                         boxShadow:
-                          !selectedCategory || !formData.agreeTerms
+                          !selectedCategory ||
+                          !formData.agreeTerms ||
+                          isSubmitting
                             ? "none"
                             : "0 10px 25px -5px rgba(212, 175, 55, 0.4)",
                       }}
-                      disabled={!selectedCategory || !formData.agreeTerms}
+                      disabled={
+                        !selectedCategory ||
+                        !formData.agreeTerms ||
+                        isSubmitting
+                      }
                     >
                       <Send className="w-5 h-5 mr-2" />
-                      Submit Nomination
+                      {isSubmitting ? "Submitting..." : "Submit Nomination"}
                     </Button>
                   </div>
                 </form>
