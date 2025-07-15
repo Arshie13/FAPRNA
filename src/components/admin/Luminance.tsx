@@ -110,7 +110,7 @@ export default function LuminanceDashboard() {
   useEffect(() => {
     Promise.all([fetchWinners(), fetchLuminanceStatus()])
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [activeTab]);
 
   const handleAddWinner = async () => {
     await edgestore.publicFiles.confirmUpload({
