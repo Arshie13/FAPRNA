@@ -58,6 +58,7 @@ interface Event {
   ceus: number;
   image: string;
   ytLink?: string | undefined | null;
+  zeffyRegisterLink?: string | null;
   expected_attendees: number;
   createdAt: Date;
   updatedAt: Date;
@@ -86,6 +87,8 @@ export default function EventForm({ event }: EventFormProps) {
       description: event?.description || "",
       ceus: event?.ceus || 0,
       image: event?.image || "",
+      ytLink: event?.ytLink || "",
+      zeffyRegisterLink: event?.zeffyRegisterLink || "",
       expected_attendees: event?.expected_attendees || 0,
       isFinished: event?.isFinished || false,
       isLatest: event?.isLatest || false,
@@ -435,6 +438,37 @@ export default function EventForm({ event }: EventFormProps) {
                         </FormControl>
                         <FormDescription className="text-sm sm:text-base md:text-lg">
                           Estimated number of attendees.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Registration Link */}
+                  <FormField
+                    control={form.control}
+                    name="zeffyRegisterLink"
+                    rules={{
+                      pattern: {
+                        value: /^$|https?:\/\/[\w.-]+\.[a-z]{2,}(\/\S*)?$/,
+                        message: "Please enter a valid URL",
+                      },
+                    }}
+                    render={({ field }) => (
+                      <FormItem className="col-span-1 md:col-span-2">
+                        <FormLabel className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
+                          Registration Link
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter registration link"
+                            className="text-sm sm:text-base md:text-lg"
+                            {...field}
+                            value={field.value ?? ""}
+                          />
+                        </FormControl>
+                        <FormDescription className="text-sm sm:text-base md:text-lg">
+                          Add a registration link for the event.
                         </FormDescription>
                         <FormMessage />
                       </FormItem>

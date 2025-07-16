@@ -73,8 +73,7 @@ export default function RegisterModal({ isOpen, onClose, event }: EventRegistrat
   const onSubmit = async (data: RegistrationFormData) => {
     setIsSubmitting(true)
     try {
-      console.log("Submitting registration data:", data)
-      
+
       // add member/non-member to event
       const result = await addMemberToEvent({
         fullName: data.fullName,
@@ -84,15 +83,20 @@ export default function RegisterModal({ isOpen, onClose, event }: EventRegistrat
         phoneNumber: data.phoneNumber,
       })
 
-      console.log("Registration result:", result)
-
       if (result && result.success) {
         // Generate confirmation number
         const confNumber = `FAPRNA-${Date.now().toString().slice(-6)}`
         setConfirmationNumber(confNumber)
         setRegistrationComplete(true)
-  
+
         toast(`Your confirmation number is ${confNumber}`)
+
+        // Redirect to Zeffy registration page if non-member
+        if (!data.isMember && event.zeffyRegisterLink) {
+          setTimeout(() => {
+            window.open(event.zeffyRegisterLink!, "_blank")
+          }, 2500) // Optional delay
+        }
       } else {
         toast.error(result?.message || "Failed to register. Please try again.")
         console.log("Registration error. Please try again later. ", result?.message)
