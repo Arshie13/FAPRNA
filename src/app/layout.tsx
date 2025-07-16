@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../styles/globals.css";
 import LayoutShell from "@/app/layoutshell";
 import { EdgeStoreProvider } from "@/lib/libstore/libstore-config";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default function RootLayout({
             </EdgeStoreProvider>
           </LayoutShell>
         </div>
+        <Toaster />
       </body>
     </html>
   );
