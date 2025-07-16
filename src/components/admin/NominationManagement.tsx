@@ -46,25 +46,28 @@ interface Nomination {
   id: string
   nominee: {
     fullName: string
+    email: string
   }
   nominator: {
     fullName: string
+    email: string
   }
   category: string
   createdAt: string | Date
   status: "PENDING" | "APPROVED" | "REJECTED"
   reason: string
+  year: number
 }
 
-    interface NominationStats {
-    totalNominations: number
-    categories: {
-      intentionality: number
-      inquiry: number
-      impact: number
-      [key: string]: number
-    }
+interface NominationStats {
+  totalNominations: number
+  categories: {
+    intentionality: number
+    inquiry: number
+    impact: number
+    [key: string]: number
   }
+}
 
 
 export default function NominationManagement() {
