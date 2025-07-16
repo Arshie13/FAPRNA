@@ -213,16 +213,16 @@ export default function DocumentsDashboard() {
         </div>
 
         {/* Search Bar */}
-        <Card className="bg-white border-2 shadow-lg mb-8 rounded-full max-w-5xl mx-auto">
-          <CardContent className="p-4">
+        <Card className="bg-white border-2 shadow-lg mb-8 rounded-full max-w-sm sm:max-w-lg md:max-w-3xl lg:max-w-5xl mx-auto">
+          <CardContent className="p-2 sm:p-3 md:p-4">
             <div className="flex justify-center">
-              <div className="relative w-full max-w-4xl">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#003366] w-6 h-6" />
+              <div className="relative w-full max-w-full sm:max-w-md md:max-w-2xl lg:max-w-4xl">
+                <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-[#003366] w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
                 <Input
                   placeholder="Search documents..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 bg-transparent text-[#003366] placeholder:text-[#003366]/60 border-[#003366] focus:border-[#003366] focus:ring-[#003366] h-12 text-lg rounded-full"
+                  className="pl-8 sm:pl-10 md:pl-12 bg-transparent text-[#003366] placeholder:text-[#003366]/60 border-[#003366] focus:border-[#003366] focus:ring-[#003366] h-9 sm:h-10 md:h-12 text-sm sm:text-base md:text-lg rounded-full"
                 />
               </div>
             </div>
