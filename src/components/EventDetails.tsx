@@ -137,40 +137,6 @@ export default function EventDetails(title: {title: string}) {
                           <p className="text-gray-700 leading-relaxed text-lg">{eventDetail.description}</p>
                         </div>
                       </div>
-
-                      {/* Event Highlights */}
-                      {/* <div className="grid md:grid-cols-2 gap-6">
-                        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-6 border border-green-200">
-                          <div className="flex items-center mb-3">
-                            <CheckCircle className="w-6 h-6 text-green-600 mr-2" />
-                            <h3 className="font-bold text-green-800">Professional Development</h3>
-                          </div>
-                          <p className="text-green-700 text-sm">Enhance your skills with expert-led sessions</p>
-                        </div>
-                        <div className="bg-gradient-to-br from-purple-50 to-violet-50 rounded-lg p-6 border border-purple-200">
-                          <div className="flex items-center mb-3">
-                            <Users className="w-6 h-6 text-purple-600 mr-2" />
-                            <h3 className="font-bold text-purple-800">Networking Opportunities</h3>
-                          </div>
-                          <p className="text-purple-700 text-sm">Connect with 100+ nursing professionals</p>
-                        </div>
-                        <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg p-6 border border-orange-200">
-                          <div className="flex items-center mb-3">
-                            <Award className="w-6 h-6 text-orange-600 mr-2" />
-                            <h3 className="font-bold text-orange-800">CEU Credits</h3>
-                          </div>
-                          <p className="text-orange-700 text-sm">
-                            Earn {eventDetail.ceus} continuing education credits
-                          </p>
-                        </div>
-                        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg p-6 border border-blue-200">
-                          <div className="flex items-center mb-3">
-                            <Star className="w-6 h-6 text-blue-600 mr-2" />
-                            <h3 className="font-bold text-blue-800">Expert Speakers</h3>
-                          </div>
-                          <p className="text-blue-700 text-sm">Learn from industry-leading professionals</p>
-                        </div>
-                      </div> */}
                     </CardContent>
                   </Card>
                 </div>
