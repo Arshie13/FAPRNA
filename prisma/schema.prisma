@@ -49,6 +49,7 @@ model Event {
   ceus               Int
   image              String
   ytLink             String?
+  zeffyRegisterLink  String?
   expected_attendees Int
   createdAt          DateTime    @default(now())
   updatedAt          DateTime    @updatedAt
