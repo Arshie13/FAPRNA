@@ -2,13 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
-import {
-  FileText,
-  Download,
-  Search,
-  Calendar,
-  ArrowLeft,
-} from "lucide-react";
+import { FileText, Download, Search, Calendar, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -95,10 +89,9 @@ export default function DocumentsDashboard() {
     isSelected: boolean;
   }) => (
     <Card
-      className={`cursor-pointer transition-all duration-200 hover:shadow-md ${isSelected
-          ? "ring-2 ring-blue-500 bg-blue-50 border-blue-200"
-          : "hover:bg-gray-50 bg-white"
-        }`}
+      className={`cursor-pointer transition-all duration-200 hover:shadow-md hover:bg-gray-50 bg-white ${
+        isSelected ? "ring-2 ring-[#003366] border-[#003366]" : ""
+      }`}
       onClick={() => handleDocumentSelect(doc)}
     >
       <CardContent className="p-4">
@@ -107,22 +100,13 @@ export default function DocumentsDashboard() {
             <FileText className="w-5 h-5 text-white" />
           </div>
           <div className="flex-1 min-w-0">
-            <h3
-              className={`font-semibold text-base md:text-lg mb-1 line-clamp-2 ${isSelected ? "text-blue-900" : "text-gray-900"
-                }`}
-            >
+            <h3 className="font-semibold text-base md:text-lg mb-1 line-clamp-2 text-gray-900">
               {doc.name}
             </h3>
-            <p
-              className={`text-sm md:text-base line-clamp-2 mb-2 ${isSelected ? "text-blue-700" : "text-gray-600"
-                }`}
-            >
+            <p className="text-sm md:text-base line-clamp-2 mb-2 text-gray-600">
               {doc.description || "No description available"}
             </p>
-            <div
-              className={`flex items-center text-sm md:text-base ${isSelected ? "text-blue-600" : "text-gray-500"
-                }`}
-            >
+            <div className="flex items-center text-sm md:text-base text-gray-500">
               <Calendar className="w-4 h-4 mr-1" />
               {format(new Date(doc.createdAt), "MMM d, yyyy")}
             </div>
@@ -149,31 +133,24 @@ export default function DocumentsDashboard() {
         </div>
 
         <div className="flex-1">
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-red-500 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <FileText className="w-8 h-8 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-                    {doc.name}
-                  </h1>
-                  <div className="flex items-center text-base md:text-lg text-gray-500 mt-2">
-                    <Calendar className="w-5 h-5 mr-2" />
-                    {format(new Date(doc.createdAt), "MMMM d, yyyy")}
-                  </div>
-                </div>
+          <div className="relative mb-6">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-red-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                <FileText className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 break-words">
+                  {doc.name}
+                </h1>
+                <p className="text-lg md:text-xl text-gray-700 mt-2">
+                  {doc.author || "Author information not available"}
+                </p>
               </div>
             </div>
-          </div>
-          <div className="mb-6">
-            <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3">
-              Author
-            </h2>
-            <p className="text-lg md:text-xl text-gray-700">
-              {doc.author || "Author information not available"}
-            </p>
+            <div className="absolute top-0 right-0 flex items-center text-base md:text-lg text-gray-500">
+              <Calendar className="w-5 h-5 mr-2" />
+              {format(new Date(doc.createdAt), "MMMM d, yyyy")}
+            </div>
           </div>
           <div className="mb-8">
             <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3">
@@ -191,9 +168,9 @@ export default function DocumentsDashboard() {
         <div className="flex gap-3 pt-4 border-t">
           <Button
             onClick={() => handleDownload(doc)}
-            className="flex-1 gap-2 bg-blue-600 hover:bg-blue-700"
+            className="flex-1 gap-3 h-14 px-8 text-xl bg-[#003366] text-white font-semibold hover:bg-[#002244] hover:text-white transition-all duration-300 rounded-xl shadow-lg"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-6 h-6" />
             Download
           </Button>
         </div>
@@ -236,16 +213,16 @@ export default function DocumentsDashboard() {
         </div>
 
         {/* Search Bar */}
-        <Card className="bg-white border-0 shadow-lg mb-8">
-          <CardContent className="p-6">
-            <div className="items-center justify-between">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+        <Card className="bg-white border-2 shadow-lg mb-8 rounded-full max-w-5xl mx-auto">
+          <CardContent className="p-4">
+            <div className="flex justify-center">
+              <div className="relative w-full max-w-4xl">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#003366] w-6 h-6" />
                 <Input
                   placeholder="Search documents..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-transparent"
+                  className="pl-12 bg-transparent text-[#003366] placeholder:text-[#003366]/60 border-[#003366] focus:border-[#003366] focus:ring-[#003366] h-12 text-lg"
                 />
               </div>
             </div>
@@ -275,8 +252,9 @@ export default function DocumentsDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 min-h-[600px]">
               {/* Document List Panel */}
               <div
-                className={`lg:col-span-2 ${showMobileDetail ? "hidden md:block" : "block"
-                  }`}
+                className={`lg:col-span-2 ${
+                  showMobileDetail ? "hidden md:block" : "block"
+                }`}
               >
                 <div className="max-h-[600px] overflow-y-auto space-y-3">
                   {filteredDocuments.map((doc) => (
@@ -291,8 +269,9 @@ export default function DocumentsDashboard() {
 
               {/* Document Detail Panel */}
               <div
-                className={`lg:col-span-3 ${!showMobileDetail ? "hidden md:block" : "block"
-                  }`}
+                className={`lg:col-span-3 ${
+                  !showMobileDetail ? "hidden md:block" : "block"
+                }`}
               >
                 {selectedDocument ? (
                   <DocumentDetail doc={selectedDocument} />
