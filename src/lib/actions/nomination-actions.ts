@@ -16,13 +16,13 @@ export async function createNomination(data: {
 }) {
   try {
     console.log("Starting nomination creation process...");
-    
+
     // Check if nominations are open
     const nominationOpen = await isNominationOpen();
     if (!nominationOpen) {
-      return { 
-        success: false, 
-        error: "Nominations are currently closed. Please check back when nominations reopen." 
+      return {
+        success: false,
+        error: "Nominations are currently closed. Please check back when nominations reopen."
       };
     }
 
@@ -43,9 +43,9 @@ export async function createNomination(data: {
         console.log("Created new nominator:", nominator.id);
       } catch (nominatorError) {
         console.error("Error creating nominator:", nominatorError);
-        return { 
-          success: false, 
-          error: "Failed to create nominator profile. Please try again." 
+        return {
+          success: false,
+          error: "Failed to create nominator profile. Please try again."
         };
       }
     } else {
@@ -69,9 +69,9 @@ export async function createNomination(data: {
         console.log("Created new nominee:", nominee.id);
       } catch (nomineeError) {
         console.error("Error creating nominee:", nomineeError);
-        return { 
-          success: false, 
-          error: "Failed to create nominee profile. Please try again." 
+        return {
+          success: false,
+          error: "Failed to create nominee profile. Please try again."
         };
       }
     } else {
@@ -96,9 +96,9 @@ export async function createNomination(data: {
 
     if (existingNomination) {
       console.log("Duplicate nomination detected for category:", data.category);
-      return { 
-        success: false, 
-        error: `You have already nominated ${existingNomination.nominee.fullName} for the ${data.category} category this year. Each person can only submit one nomination per category per year.` 
+      return {
+        success: false,
+        error: `You have already nominated ${existingNomination.nominee.fullName} for the ${data.category} category this year. Each person can only submit one nomination per category per year.`
       };
     }
 
@@ -134,9 +134,9 @@ export async function createNomination(data: {
       console.log("Nomination created successfully:", nomination.id);
     } catch (createError) {
       console.error("Error creating nomination:", createError);
-      return { 
-        success: false, 
-        error: "Failed to create nomination. Please try again." 
+      return {
+        success: false,
+        error: "Failed to create nomination. Please try again."
       };
     }
 
@@ -171,8 +171,8 @@ export async function createNomination(data: {
       // Don't return error - nomination was successful even if revalidation failed
     }
 
-    return { 
-      success: true, 
+    return {
+      success: true,
       nomination: {
         id: nomination.id,
         category: nomination.category,
@@ -186,7 +186,7 @@ export async function createNomination(data: {
 
   } catch (error) {
     console.error("Unexpected error in createNomination:", error);
-    
+
     // Handle specific database errors
     if (error instanceof Error) {
       if (error.message.includes('Unique constraint')) {
@@ -195,14 +195,14 @@ export async function createNomination(data: {
           error: "This nomination already exists. Please check your entries and try again."
         };
       }
-      
+
       if (error.message.includes('Foreign key constraint')) {
         return {
           success: false,
           error: "Invalid member data. Please refresh the page and try again."
         };
       }
-      
+
       if (error.message.includes('Connection')) {
         return {
           success: false,
@@ -210,10 +210,10 @@ export async function createNomination(data: {
         };
       }
     }
-    
-    return { 
-      success: false, 
-      error: "An unexpected error occurred. Please try again or contact support if the problem persists." 
+
+    return {
+      success: false,
+      error: "An unexpected error occurred. Please try again or contact support if the problem persists."
     };
   }
 }
@@ -255,6 +255,43 @@ export async function updateNominationStatus(nominationId: string, status: strin
   } catch (error) {
     console.error("Failed to update nomination status:", error)
     return { success: false, error: "Failed to update nomination status" }
+  }
+}
+
+// Get nomination statistics
+export async function getNominationStats() {
+  try {
+    const [total, pending, approved, rejected, categoryStats] = await Promise.all([
+      prisma.nomination.count(),
+      prisma.nomination.count({ where: { status: "PENDING" } }),
+      prisma.nomination.count({ where: { status: "APPROVED" } }),
+      prisma.nomination.count({ where: { status: "REJECTED" } }),
+      prisma.nomination.groupBy({
+        by: ["category"],
+        _count: {
+          category: true,
+        },
+      }),
+    ])
+
+    const categories = categoryStats.reduce(
+      (acc, stat) => {
+        acc[stat.category] = stat._count.category
+        return acc
+      },
+      {} as { [key: string]: number },
+    )
+
+    return {
+      total,
+      pending,
+      approved,
+      rejected,
+      categories,
+    }
+  } catch (error) {
+    console.error("Failed to fetch nomination stats:", error)
+    throw new Error("Failed to fetch nomination stats")
   }
 }
 

@@ -24,7 +24,7 @@ export interface IEvent {
 export interface Nomination {
   id: string
   nominatorId: string
-  nominee1Id: string
+  nomineeId: string
   createdAt: Date
   updatedAt: Date
   category: string
@@ -35,17 +35,7 @@ export interface Nomination {
     fullName: string
     email: string
   }
-  nominee1: {
-    id: string
-    fullName: string
-    email: string
-  }
-  nominee2?: {
-    id: string
-    fullName: string
-    email: string
-  }
-  nominee3?: {
+  nominee: {
     id: string
     fullName: string
     email: string
