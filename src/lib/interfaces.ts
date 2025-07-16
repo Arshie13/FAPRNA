@@ -13,6 +13,7 @@ export interface IEvent {
   ceus: number;
   image: string;
   ytLink?: string | null;
+  zeffyRegisterLink?: string | null
   expected_attendees: number;
   createdAt: Date;
   updatedAt: Date

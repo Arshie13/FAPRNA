@@ -49,6 +49,7 @@ model Event {
   ceus               Int
   image              String
   ytLink             String?
+  zeffyRegisterLink  String?
   expected_attendees Int
   createdAt          DateTime    @default(now())
   updatedAt          DateTime    @updatedAt
@@ -140,4 +141,11 @@ model Luminance {
   fileUrl   String
   isCurrent Boolean  @default(false)
   createdAt DateTime @default(now())
+}
+
+model LuminanceToggle {
+  id         String    @id @default(cuid()) @map("_id")
+  createdAt  DateTime  @default(now())
+  endedAt    DateTime? @updatedAt
+  hasStarted Boolean   @default(false)
 }
