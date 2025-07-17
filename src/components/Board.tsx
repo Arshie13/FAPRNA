@@ -8,80 +8,80 @@ const allMembers = [
   {
     name: "Homer Tuazon",
     title:
-      " MD, DNP, APRN, MSN, BSN,  BSP, PMHNP, DACACD. GHLP-F, WCS-C, EDS-C, CCRP, CCRA, CCRC",
+      "MD, DNP, APRN, MSN, BSN, BSP, PMHNP, DACACD. GHLP-F, WCS-C, EDS-C, CCRP, CCRA, CCRC",
     email: "faprnanv702@gmail.com",
     image: "president.jpeg",
     role: "President",
   },
   {
     name: "Nikki V. Macalalad",
-    title: " MSN, BSEcon, BSPLS, RN, APRN, FNP-C, WCS-C, EDS-C",
+    title: "MSN, BSEcon, BSPLS, RN, APRN, FNP-C, WCS-C, EDS-C",
     email: "faprnanv702@gmail.com",
     image: "vpExternal.png",
     role: "VP External Affairs",
   },
   {
     name: "Maria Monica Aragon",
-    title: " MSN, RN, APRN, FNP-C, WCS-C, EDS-C",
+    title: "MSN, RN, APRN, FNP-C, WCS-C, EDS-C",
     email: "faprnanv702@gmail.com",
     image: "vpInternal.jpeg",
     role: "VP Internal Affairs",
   },
   {
     name: "Marvi Socorro M. Navarra",
-    title: " MD, MSN, BSN, APRN, FNP-C, WCS-C, EDS-C",
+    title: "MD, MSN, BSN, APRN, FNP-C, WCS-C, EDS-C",
     email: "faprnanv702@gmail.com",
     image: "vpFinance.jpeg",
     role: "VP Finance",
   },
   {
     name: "Dulce Novakovic",
-    title: " PhD (c), MSN, BSBA, RN, APRN, FNP-C, WCS-C, EDS-C",
+    title: "PhD (c), MSN, BSBA, RN, APRN, FNP-C, WCS-C, EDS-C",
     email: "faprnanv702@gmail.com",
     image: "secretary.jpeg",
     role: "Secretary",
   },
   {
     name: "Juliana A. Palijo",
-    title: "  APRN, MSN, FNP-C, CCRN, WCS-C, EDS-C",
+    title: "APRN, MSN, FNP-C, CCRN, WCS-C, EDS-C",
     email: "faprnanv702@gmail.com",
     image: "treasurer.jpeg",
     role: "Treasurer",
   },
   {
     name: "Emerlinda Sambo",
-    title: " MSN,RN,APRN,FNP-C, CWCN, WCS-C, EDS-C",
+    title: "MSN, RN, APRN, FNP-C, CWCN, WCS-C, EDS-C",
     email: "faprnanv702@gmail.com",
     image: "auditor.jpeg",
     role: "Auditor",
   },
   {
-    name: "Rhigel “Jay” A. Tan",
-    title: " Ph.D., DNP, MSN, RN, APRN, GNP, ANP, PMHNP, FAAN",
+    name: 'Rhigel "Jay" A. Tan',
+    title: "Ph.D., DNP, MSN, RN, APRN, GNP, ANP, PMHNP, FAAN",
     email: "faprnanv702@gmail.com",
     image: "adviser1.jpeg",
-    role: "Adviser",
+    role: "Founder / Adviser",
   },
   {
     name: "Mary A. Betita",
-    title: " MD, MSN, BSBio, APRN, FNP-BC, MAP-C , WCS-C, EDS-C",
+    title: "MD, MSN, BSBio, APRN, FNP-BC, MAP-C, WCS-C, EDS-C",
+    email: "faprnanv702@gmail.com",
+    image: "adviser3.jpeg",
+    role: "Co-Founder / Adviser / Founding President",
+  },
+  {
+    name: "Louvie Dizon",
+    title: "DNP, MSN, BSN, BSBA, APRN, FNP-C, WCS-C, EDS-C, AACC",
     email: "faprnanv702@gmail.com",
     image: "adviser2.jpeg",
     role: "Adviser",
   },
   {
-    name: "Louvie Dizon",
-    title: " DNP, MSN, BSN,  BSBA, APRN, FNP-C, WCS-C, EDS-C, AACC",
-    email: "faprnanv702@gmail.com",
-    image: "adviser3.jpeg",
-    role: "Adviser",
-  },
-  {
-    name: "Wilva “Vi-anne” B. Cadianza",
-    title: " DNP, RN, APRN, FNP-C, WCS-C, EDS-C",
+    name: 'Wilva "Vi-anne" B. Cadianza',
+    title: "DNP, RN, APRN, FNP-C, WCS-C, EDS-C",
     email: "faprnanv702@gmail.com",
     image: "adviser4.jpeg",
-    role: "Adviser",
+    role: "Immediate Past President / Adviser",
   },
 ];
 
@@ -213,21 +213,21 @@ export default function BoardOrgChart() {
   const featured = allMembers[currentMember];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex flex-col pb-8 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#F8FAFC] via-[#EFF6FF] to-[#EEF2FF] flex flex-col pb-8 relative overflow-hidden">
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-200/30 to-indigo-300/20 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-tl from-slate-200/40 to-blue-200/30 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2" />
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-r from-indigo-200/20 to-blue-300/20 rounded-full blur-2xl transform -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-[#BFDBFE]/30 to-[#C7D2FE]/20 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-tl from-[#F1F5F9]/40 to-[#BFDBFE]/30 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2" />
+        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-r from-[#C7D2FE]/20 to-[#93C5FD]/20 rounded-full blur-2xl transform -translate-x-1/2 -translate-y-1/2" />
       </div>
 
-      {/* Clean Header Section */}
+      {/* Header Section */}
       <div className="relative z-10 pt-12 pb-8">
         <div className="container mx-auto px-4 text-center">
-          {/* Clean Title Section */}
+          {/* Title Section */}
           <div className="relative">
             {/* Main Title */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-slate-800 via-blue-900 to-indigo-900 bg-clip-text text-transparent mb-3 tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#1E293B] via-[#1E3A8A] to-[#3730A3] bg-clip-text text-transparent mb-3 tracking-tight">
               Executive Board Members
             </h1>
           </div>
@@ -238,27 +238,28 @@ export default function BoardOrgChart() {
       <div className="relative flex-1 z-10 flex items-center justify-center min-h-[calc(100vh-200px)]">
         <div className="container mx-auto px-4 md:px-6 lg:px-8 flex flex-col items-center justify-center">
           <div
-            className={`transform transition-all duration-1000 ease-out ${isVisible
-              ? "translate-y-0 opacity-100"
-              : "translate-y-8 opacity-0"
-              }`}
+            className={`transform transition-all duration-1000 ease-out ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
           >
             {/* Main Content */}
             <div className="w-full max-w-6xl sm:px-5 mx-auto transition-all duration-100 ease-out transform">
-              <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl shadow-blue-500/20 border border-blue-100/50 p-8 md:p-12 overflow-auto">
+              <div className="relative bg-[#FFFFFF]/95 backdrop-blur-xl rounded-3xl shadow-2xl shadow-[#3B82F6]/20 border border-[#DBEAFE]/50 p-8 md:p-12 overflow-auto">
                 {/* Decorative Background Elements */}
-                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-blue-100/30 to-transparent rounded-full blur-2xl"></div>
-                <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-50/40 to-transparent rounded-full blur-xl"></div>
+                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-[#DBEAFE]/30 to-transparent rounded-full blur-2xl"></div>
+                <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-[#EFF6FF]/40 to-transparent rounded-full blur-xl"></div>
                 <div className="relative z-10 flex flex-col lg:flex-row items-center lg:items-center gap-8 lg:gap-16 justify-center">
                   {/* Profile Image Section */}
                   <div className="flex flex-col items-center lg:items-center">
                     <div className="relative group">
                       {/* Outer decorative ring */}
-                      <div className="absolute -inset-6 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 rounded-full blur-lg opacity-60 group-hover:opacity-80 transition-opacity duration-100"></div>
+                      <div className="absolute -inset-6 bg-gradient-to-r from-[#2563EB]/20 to-[#4F46E5]/20 rounded-full blur-lg opacity-60 group-hover:opacity-80 transition-opacity duration-100"></div>
                       {/* Main profile container */}
                       <div className="relative">
-                        <div className="w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden shadow-2xl border-4 border-white bg-white p-2 relative">
-                          <div className="w-full h-full rounded-full overflow-hidden border-4 border-blue-600 shadow-lg relative">
+                        <div className="w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden shadow-2xl border-4 border-[#FFFFFF] bg-[#FFFFFF] p-2 relative">
+                          <div className="w-full h-full rounded-full overflow-hidden border-4 border-[#2563EB] shadow-lg relative">
                             {/* Current image */}
                             <Image
                               key={`current-${featured.name}`}
@@ -266,10 +267,11 @@ export default function BoardOrgChart() {
                               alt={featured.name}
                               width={256}
                               height={256}
-                              className={`w-full h-full object-cover object-top transition-all duration-100 ease-out absolute inset-0 group-hover:scale-105 ${imageLoaded && showContent && !isChanging
-                                ? "opacity-100 scale-100"
-                                : "opacity-0 scale-110"
-                                }`}
+                              className={`w-full h-full object-cover object-top transition-all duration-100 ease-out absolute inset-0 group-hover:scale-105 ${
+                                imageLoaded && showContent && !isChanging
+                                  ? "opacity-100 scale-100"
+                                  : "opacity-0 scale-110"
+                              }`}
                               onLoad={() => setImageLoaded(true)}
                               priority
                             />
@@ -281,10 +283,11 @@ export default function BoardOrgChart() {
                                 alt={allMembers[previousMember].name}
                                 width={256}
                                 height={256}
-                                className={`w-full h-full object-cover object-top transition-all duration-100 ease-out absolute inset-0 ${!showContent
-                                  ? "opacity-0 scale-90"
-                                  : "opacity-100 scale-100"
-                                  }`}
+                                className={`w-full h-full object-cover object-top transition-all duration-100 ease-out absolute inset-0 ${
+                                  !showContent
+                                    ? "opacity-0 scale-90"
+                                    : "opacity-100 scale-100"
+                                }`}
                               />
                             )}
                           </div>
@@ -294,10 +297,11 @@ export default function BoardOrgChart() {
                     {/* Enhanced Role Badge */}
                     <div className="mt-6 relative">
                       <div
-                        className={`relative bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold px-8 py-3 rounded-full shadow-xl border border-white/20 transition-all duration-100 ease-out ${imageLoaded && showContent && !isChanging
-                          ? "opacity-100 translate-y-0 scale-100"
-                          : "opacity-0 translate-y-6 scale-90"
-                          }`}
+                        className={`relative bg-gradient-to-r from-[#2563EB] to-[#4F46E5] text-[#FFFFFF] font-bold px-8 py-3 rounded-full shadow-xl border border-[#FFFFFF]/20 transition-all duration-100 ease-out ${
+                          imageLoaded && showContent && !isChanging
+                            ? "opacity-100 translate-y-0 scale-100"
+                            : "opacity-0 translate-y-6 scale-90"
+                        }`}
                         style={{
                           transitionDelay:
                             imageLoaded && showContent && !isChanging
@@ -318,12 +322,16 @@ export default function BoardOrgChart() {
                       {/* Name and Title Section */}
                       <div className="text-center lg:text-left">
                         <h1
-                          className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-800 mb-4 sm:mb-6 leading-tight transition-all duration-100 ease-out ${imageLoaded && showContent && !isChanging
-                            ? "opacity-100 translate-y-0 scale-100"
-                            : "opacity-0 translate-y-8 scale-95"
-                            }`}
+                          className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#1E293B] mb-4 sm:mb-6 leading-tight transition-all duration-100 ease-out ${
+                            imageLoaded && showContent && !isChanging
+                              ? "opacity-100 translate-y-0 scale-100"
+                              : "opacity-0 translate-y-8 scale-95"
+                          }`}
                           style={{
-                            transitionDelay: imageLoaded && showContent && !isChanging ? "200ms" : "0ms",
+                            transitionDelay:
+                              imageLoaded && showContent && !isChanging
+                                ? "200ms"
+                                : "0ms",
                           }}
                         >
                           {featured.name}
@@ -331,15 +339,19 @@ export default function BoardOrgChart() {
 
                         {/* Credentials Box */}
                         <div
-                          className={`bg-gradient-to-r from-slate-50 to-blue-50 rounded-xl sm:rounded-2xl px-3 py-4 sm:px-10 sm:py-5 md:p-6 border-l-4 border-blue-600 shadow-sm sm:shadow-lg shadow-blue-500/10 sm:shadow-blue-500/20 transition-all duration-100 ease-out ${imageLoaded && showContent && !isChanging
-                            ? "opacity-100 translate-y-0 scale-100"
-                            : "opacity-0 translate-y-10 scale-95"
-                            }`}
+                          className={`bg-gradient-to-r from-[#F8FAFC] to-[#EFF6FF] rounded-xl sm:rounded-2xl px-3 py-4 sm:px-10 sm:py-5 md:p-6 border-l-4 border-[#2563EB] shadow-sm sm:shadow-lg shadow-[#3B82F6]/10 sm:shadow-[#3B82F6]/20 transition-all duration-100 ease-out ${
+                            imageLoaded && showContent && !isChanging
+                              ? "opacity-100 translate-y-0 scale-100"
+                              : "opacity-0 translate-y-10 scale-95"
+                          }`}
                           style={{
-                            transitionDelay: imageLoaded && showContent && !isChanging ? "500ms" : "0ms",
+                            transitionDelay:
+                              imageLoaded && showContent && !isChanging
+                                ? "500ms"
+                                : "0ms",
                           }}
                         >
-                          <p className="text-sm sm:text-base md:text-lg text-slate-700 leading-relaxed font-medium text-center sm:text-left">
+                          <p className="text-sm sm:text-base md:text-lg text-[#334155] leading-relaxed font-medium text-center sm:text-left">
                             {featured.title}
                           </p>
                         </div>
@@ -347,42 +359,66 @@ export default function BoardOrgChart() {
 
                       {/* Contact Section */}
                       <div
-                        className={`bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-md sm:shadow-lg shadow-blue-500/10 sm:shadow-blue-500/20 border border-blue-100 transition-all duration-100 ease-out ${imageLoaded && showContent && !isChanging
-                          ? "opacity-100 translate-y-0 scale-100"
-                          : "opacity-0 translate-y-12 scale-95"
-                          }`}
+                        className={`bg-[#FFFFFF] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-md sm:shadow-lg shadow-[#3B82F6]/10 sm:shadow-[#3B82F6]/20 border border-[#DBEAFE] transition-all duration-100 ease-out ${
+                          imageLoaded && showContent && !isChanging
+                            ? "opacity-100 translate-y-0 scale-100"
+                            : "opacity-0 translate-y-12 scale-95"
+                        }`}
                         style={{
-                          transitionDelay: imageLoaded && showContent && !isChanging ? "600ms" : "0ms",
+                          transitionDelay:
+                            imageLoaded && showContent && !isChanging
+                              ? "600ms"
+                              : "0ms",
                         }}
                       >
                         <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                          <h3 className="text-lg sm:text-xl font-bold text-slate-800">Contact Information</h3>
+                          <h3 className="text-lg sm:text-xl font-bold text-[#1E293B]">
+                            Contact Information
+                          </h3>
                         </div>
 
                         <div
-                          className={`flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg sm:rounded-xl border border-blue-100 shadow-sm sm:shadow-md shadow-blue-500/10 transition-all duration-100 ease-out ${imageLoaded && showContent && !isChanging ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
-                            }`}
+                          className={`flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-[#EFF6FF] to-[#EEF2FF] rounded-lg sm:rounded-xl border border-[#DBEAFE] shadow-sm sm:shadow-md shadow-[#3B82F6]/10 transition-all duration-100 ease-out ${
+                            imageLoaded && showContent && !isChanging
+                              ? "opacity-100 translate-x-0"
+                              : "opacity-0 translate-x-8"
+                          }`}
                           style={{
-                            transitionDelay: imageLoaded && showContent && !isChanging ? "800ms" : "0ms",
+                            transitionDelay:
+                              imageLoaded && showContent && !isChanging
+                                ? "800ms"
+                                : "0ms",
                           }}
                         >
                           <div
-                            className={`p-2 sm:p-3 bg-white rounded-full shadow-sm sm:shadow-md border border-blue-200 transition-all duration-100 ease-out flex-shrink-0 ${imageLoaded && showContent && !isChanging ? "scale-100 rotate-0" : "scale-75 rotate-180"
-                              }`}
+                            className={`p-2 sm:p-3 bg-[#FFFFFF] rounded-full shadow-sm sm:shadow-md border border-[#DBEAFE] transition-all duration-100 ease-out flex-shrink-0 ${
+                              imageLoaded && showContent && !isChanging
+                                ? "scale-100 rotate-0"
+                                : "scale-75 rotate-180"
+                            }`}
                             style={{
-                              transitionDelay: imageLoaded && showContent && !isChanging ? "900ms" : "0ms",
+                              transitionDelay:
+                                imageLoaded && showContent && !isChanging
+                                  ? "900ms"
+                                  : "0ms",
                             }}
                           >
-                            <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+                            <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-[#2563EB]" />
                           </div>
 
-                          <div className="flex-1 min-w-0 w-full sm:w-auto">
+                          <div className="flex-1 min-w-0">
                             <a
                               href={`mailto:${featured.email}`}
-                              className={`text-base sm:text-lg font-semibold text-blue-700 hover:text-blue-800 transition-all duration-100 ease-out block break-words sm:break-all ${imageLoaded && showContent && !isChanging ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                                }`}
+                              className={`text-sm sm:text-base font-semibold text-[#1D4ED8] hover:text-[#1E40AF] transition-all duration-100 ease-out block break-all ${
+                                imageLoaded && showContent && !isChanging
+                                  ? "opacity-100 translate-y-0"
+                                  : "opacity-0 translate-y-4"
+                              }`}
                               style={{
-                                transitionDelay: imageLoaded && showContent && !isChanging ? "1100ms" : "0ms",
+                                transitionDelay:
+                                  imageLoaded && showContent && !isChanging
+                                    ? "1100ms"
+                                    : "0ms",
                               }}
                             >
                               {featured.email}
@@ -398,16 +434,17 @@ export default function BoardOrgChart() {
 
             {/* Scrollable Container */}
             <div className="flex justify-center mt-8 sm:mt-10 md:mt-12 lg:mt-16">
-              <div className="limit-wd-46 px-4 py-6 sm:px-6 sm:py-8 bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-lg relative overflow-hidden border border-gray-200/50">
+              <div className="limit-wd-46 px-4 py-6 sm:px-6 sm:py-8 bg-[#FFFFFF]/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-lg relative overflow-hidden border border-[#E5E7EB]/50">
                 {/* Gradient overlays */}
-                <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none"></div>
-                <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none"></div>
+                <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-[#FFFFFF] via-[#FFFFFF]/80 to-transparent z-10 pointer-events-none"></div>
+                <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-l from-[#FFFFFF] via-[#FFFFFF]/80 to-transparent z-10 pointer-events-none"></div>
 
                 {/* Scrollable Members Container */}
                 <div
                   ref={scrollContainerRef}
-                  className={`flex overflow-x-auto space-x-3 sm:space-x-4 md:space-x-6 pb-4 transition-all duration-100 ${isDragging ? "cursor-grabbing select-none" : "cursor-grab"
-                    } touch-pan-x scrollbar-hide`}
+                  className={`flex overflow-x-auto space-x-3 sm:space-x-4 md:space-x-6 pb-4 transition-all duration-100 ${
+                    isDragging ? "cursor-grabbing select-none" : "cursor-grab"
+                  } touch-pan-x scrollbar-hide`}
                   style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                   onPointerDown={handlePointerDown}
                   onPointerMove={handlePointerMove}
@@ -417,10 +454,11 @@ export default function BoardOrgChart() {
                   {allMembers.map((member, index) => (
                     <div
                       key={member.name}
-                      className={`flex-shrink-0 transform transition-all duration-100 ease-out ${isVisible
-                        ? "translate-y-0 opacity-100"
-                        : "translate-y-6 opacity-0"
-                        }`}
+                      className={`flex-shrink-0 transform transition-all duration-100 ease-out ${
+                        isVisible
+                          ? "translate-y-0 opacity-100"
+                          : "translate-y-6 opacity-0"
+                      }`}
                       style={{
                         transitionDelay: `${(index + 1) * 60}ms`,
                         minWidth: "fit-content",
@@ -442,30 +480,33 @@ export default function BoardOrgChart() {
                       >
                         {/* Member Avatar */}
                         <div
-                          className={`w-14 h-14 sm:w-16 sm:h-16 mt-1 md:w-20 md:h-20 lg:w-24 lg:h-24 mx-auto rounded-full overflow-hidden shadow-lg bg-white p-1 transition-all duration-100 ease-out ${currentMember === index
-                            ? "ring-3 sm:ring-4 ring-blue-600 scale-110 shadow-xl"
-                            : "ring-2 ring-gray-200 group-hover:ring-blue-600 group-hover:shadow-xl"
-                            }`}
+                          className={`w-14 h-14 sm:w-16 sm:h-16 mt-1 md:w-20 md:h-20 lg:w-24 lg:h-24 mx-auto rounded-full overflow-hidden shadow-lg bg-[#FFFFFF] p-1 transition-all duration-100 ease-out ${
+                            currentMember === index
+                              ? "ring-3 sm:ring-4 ring-[#2563EB] scale-110 shadow-xl"
+                              : "ring-2 ring-[#E5E7EB] group-hover:ring-[#2563EB] group-hover:shadow-xl"
+                          }`}
                         >
                           <Image
                             src={`/${member.image}`}
                             alt={member.name}
                             width={96}
                             height={96}
-                            className={`w-full h-full object-cover object-top rounded-full transition-all duration-100 ease-out ${currentMember === index
-                              ? "opacity-100"
-                              : "opacity-90 group-hover:opacity-100"
-                              }`}
+                            className={`w-full h-full object-cover object-top rounded-full transition-all duration-100 ease-out ${
+                              currentMember === index
+                                ? "opacity-100"
+                                : "opacity-90 group-hover:opacity-100"
+                            }`}
                             draggable={false}
                           />
                         </div>
                         {/* Member Name Label */}
                         <div className="mt-2 text-center">
                           <p
-                            className={`text-xs sm:text-sm font-medium text-blue-800 transition-all duration-100 ${currentMember === index
-                              ? "opacity-100 scale-105 font-semibold text-blue-900"
-                              : "opacity-70 group-hover:opacity-100 group-hover:text-blue-900"
-                              }`}
+                            className={`text-xs sm:text-sm font-medium text-[#1E40AF] transition-all duration-100 ${
+                              currentMember === index
+                                ? "opacity-100 scale-105 font-semibold text-[#1E3A8A]"
+                                : "opacity-70 group-hover:opacity-100 group-hover:text-[#1E3A8A]"
+                            }`}
                           >
                             {member.name.split(" ")[0]}
                           </p>
@@ -479,14 +520,15 @@ export default function BoardOrgChart() {
 
             {/* Progress Indicator Dots */}
             <div className="flex justify-center mt-6">
-              <div className="flex space-x-1.5 sm:space-x-2 bg-white/80 backdrop-blur-sm px-3 py-2 sm:px-4 sm:py-3 rounded-full shadow-md border border-gray-200/50">
+              <div className="flex space-x-1.5 sm:space-x-2 bg-[#FFFFFF]/80 backdrop-blur-sm px-3 py-2 sm:px-4 sm:py-3 rounded-full shadow-md border border-[#E5E7EB]/50">
                 {allMembers.map((_, index) => (
                   <div
                     key={index}
-                    className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-100 ease-out ${currentMember === index
-                      ? "bg-blue-600 w-6 sm:w-8 shadow-lg"
-                      : "bg-gray-300"
-                      }`}
+                    className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-100 ease-out ${
+                      currentMember === index
+                        ? "bg-[#2563EB] w-6 sm:w-8 shadow-lg"
+                        : "bg-[#D1D5DB]"
+                    }`}
                     aria-label={`Member ${index + 1} indicator`}
                   />
                 ))}
@@ -495,7 +537,7 @@ export default function BoardOrgChart() {
 
             {/* Position Counter */}
             <div className="flex justify-center mt-3">
-              <div className="text-xs sm:text-sm text-blue-600 bg-white/60 backdrop-blur-sm px-2 py-1 sm:px-3 sm:py-1 rounded-full border border-gray-200/50">
+              <div className="text-xs sm:text-sm text-[#2563EB] bg-[#FFFFFF]/60 backdrop-blur-sm px-2 py-1 sm:px-3 sm:py-1 rounded-full border border-[#E5E7EB]/50">
                 {currentMember + 1} of {allMembers.length}
               </div>
             </div>
