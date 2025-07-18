@@ -1,31 +1,99 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import Image from "next/image"
-import { useState, useEffect, useRef } from "react"
+import type React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
 
 export default function CollaborationSection() {
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const carouselRef = useRef<HTMLDivElement>(null)
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   const logos = [
-    { src: "/collab1.png", alt: "EXEL Labs", name: "EXEL Labs" },
-    { src: "/collab2.png", alt: "Dynamic Manpower Consulting", name: "Dynamic Manpower" },
-    { src: "/collab3.png", alt: "Apollo Medical Group", name: "Apollo Medical" },
-    { src: "/collab4.png", alt: "iCare Psychiatry", name: "iCare Psychiatry" },
-    { src: "/collab5.png", alt: "Advance HealthCare Solutions", name: "Advance HealthCare" },
-    { src: "/collab6.png", alt: "Goodwill Pharmacy", name: "Goodwill Pharmacy" },
-  ]
+    {
+      src: "/collab1.png",
+      alt: "EXEL Labs",
+      name: "EXEL Labs",
+      url: "https://exellabs.com",
+    },
+    {
+      src: "/collab2.png",
+      alt: "Dynamic Manpower Consulting",
+      name: "Dynamic Manpower",
+      url: "https://www.dmcrs.com",
+    },
+    {
+      src: "/collab3.png",
+      alt: "Apollo Medical Group",
+      name: "Apollo Medical",
+      url: "https://www.facebook.com/amglasvegas/",
+    },
+    {
+      src: "/collab4.png",
+      alt: "iCare Psychiatry",
+      name: "iCare Psychiatry",
+      url: "https://icarepsychiatry.com",
+    },
+    {
+      src: "/collab5.png",
+      alt: "Advance HealthCare Solutions",
+      name: "Advance HealthCare",
+      url: "https://advancehealthcare.com",
+    },
+    // No link Available I've just added a dummy link
+    {
+      src: "/collab6.png",
+      alt: "Goodwill Pharmacy",
+      name: "Goodwill Pharmacy",
+      url: "https://www.advancehealthcare.solutions/about-us",
+    },
+    {
+      src: "/collab7.png",
+      alt: "DNP",
+      name: "Doctors of Nursing Practice",
+      url: "https://www.doctorsofnursingpractice.org",
+    },
+    {
+      src: "/collab8.png",
+      alt: "WRAPNN",
+      name: "Western Regional Advanced Practice Nurses Network",
+      url: "https://wrapnn.enpnetwork.com",
+    },
+    {
+      src: "/collab9.png",
+      alt: "AANP",
+      name: "American Association of Nurse Practitioners",
+      url: "https://www.aanp.org",
+    },
+    {
+      src: "/collab10.png",
+      alt: "NurseLink",
+      name: "NurseLink",
+      url: "https://www.nursingworld.org",
+    },
+    // No link Available I've just added a dummy link and Logo
+    {
+      src: "/collab11.png",
+      alt: "BOP NV",
+      name: "BOP NV",
+      url: "https://bop.nv.gov",
+    },
+    {
+      src: "/collab12.png",
+      alt: "ANI",
+      name: "American Nurses Interprise",
+      url: "https://nevadanursingboard.org",
+    },
+  ];
 
   // Auto-play functionality
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % Math.ceil(logos.length / 2))
-    }, 3000)
+      setCurrentSlide((prev) => (prev + 1) % Math.ceil(logos.length / 2));
+    }, 3000);
 
-    return () => clearInterval(interval)
-  }, [logos.length])
+    return () => clearInterval(interval);
+  }, [logos.length]);
 
   return (
     <section className="relative w-full bg-gradient-to-br from-slate-50 via-white to-blue-50 py-20 overflow-hidden">
@@ -57,16 +125,19 @@ export default function CollaborationSection() {
             className="mx-auto max-w-2xl text-lg text-gray-600 opacity-0 animate-fade-in-up"
             style={{ animationDelay: "0.2s" }}
           >
-            Working together with leading healthcare organizations to advance nursing excellence and patient care across
-            Nevada.
+            Working together with leading healthcare organizations to advance
+            nursing excellence and patient care across Nevada.
           </p>
         </div>
 
         {/* Desktop Grid - Hidden on mobile */}
         <div className="hidden md:grid grid-cols-2 lg:grid-cols-6 gap-8 mb-16">
           {logos.map((logo, idx) => (
-            <div
+            <Link
               key={logo.src}
+              href={logo.url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group flex flex-col items-center opacity-0 animate-fade-in-left"
               style={{ animationDelay: `${idx * 0.15 + 0.4}s` }}
             >
@@ -80,10 +151,10 @@ export default function CollaborationSection() {
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 16vw"
                 />
               </div>
-              <span className="text-sm font-medium text-gray-700 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+              <span className="text-sm font-medium text-gray-700 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 text-center leading-tight max-w-full px-2">
                 {logo.name}
               </span>
-            </div>
+            </Link>
           ))}
         </div>
 
@@ -91,37 +162,47 @@ export default function CollaborationSection() {
         <div className="md:hidden mb-16">
           <div className="relative">
             {/* Carousel Container */}
-            <div
-              ref={carouselRef}
-              className="overflow-hidden rounded-2xl"
-            >
+            <div ref={carouselRef} className="overflow-hidden rounded-2xl">
               <div
                 className="flex transition-transform duration-500 ease-out"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
               >
-                {Array.from({ length: Math.ceil(logos.length / 2) }).map((_, slideIndex) => (
-                  <div key={slideIndex} className="w-full flex-shrink-0 px-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      {logos.slice(slideIndex * 2, slideIndex * 2 + 2).map((logo) => (
-                        <div key={logo.src} className="group flex flex-col items-center">
-                          <div className="relative w-full h-24 mb-3 rounded-xl bg-white shadow-lg border border-gray-100 transition-all duration-300 group-active:scale-95">
-                            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/20 to-blue-100/10 rounded-xl"></div>
-                            <Image
-                              src={logo.src || "/placeholder.svg?height=96&width=200"}
-                              alt={logo.alt}
-                              fill
-                              className="object-contain p-3"
-                              sizes="50vw"
-                            />
-                          </div>
-                          <span className="text-xs font-medium text-gray-700 text-center leading-tight">
-                            {logo.name}
-                          </span>
-                        </div>
-                      ))}
+                {Array.from({ length: Math.ceil(logos.length / 2) }).map(
+                  (_, slideIndex) => (
+                    <div key={slideIndex} className="w-full flex-shrink-0 px-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        {logos
+                          .slice(slideIndex * 2, slideIndex * 2 + 2)
+                          .map((logo) => (
+                            <Link
+                              key={logo.src}
+                              href={logo.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group flex flex-col items-center"
+                            >
+                              <div className="relative w-full h-24 mb-3 rounded-xl bg-white shadow-lg border border-gray-100 transition-all duration-300 group-active:scale-95">
+                                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/20 to-blue-100/10 rounded-xl"></div>
+                                <Image
+                                  src={
+                                    logo.src ||
+                                    "/placeholder.svg?height=96&width=200"
+                                  }
+                                  alt={logo.alt}
+                                  fill
+                                  className="object-contain p-3"
+                                  sizes="50vw"
+                                />
+                              </div>
+                              <span className="text-xs font-medium text-gray-700 text-center leading-tight w-full px-1">
+                                {logo.name}
+                              </span>
+                            </Link>
+                          ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                )}
               </div>
             </div>
 
@@ -134,19 +215,23 @@ export default function CollaborationSection() {
 
           {/* Dots Indicator */}
           <div className="flex justify-center mt-6 space-x-2">
-            {Array.from({ length: Math.ceil(logos.length / 2) }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentSlide ? "bg-blue-600 w-6" : "bg-gray-300 hover:bg-gray-400"
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
+            {Array.from({ length: Math.ceil(logos.length / 2) }).map(
+              (_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === currentSlide
+                      ? "bg-blue-600 w-6"
+                      : "bg-gray-300 hover:bg-gray-400"
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              )
+            )}
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
