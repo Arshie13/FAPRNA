@@ -117,7 +117,7 @@ export default function NominationsAdminDashboard() {
       nomination.nominator.fullName
         .toLowerCase()
         .includes(searchQuery.toLowerCase()) ||
-      nomination.nominee1.fullName
+      nomination.nominee.fullName
         .toLowerCase()
         .includes(searchQuery.toLowerCase()) ||
       nomination.reason.toLowerCase().includes(searchQuery.toLowerCase());
@@ -390,7 +390,7 @@ export default function NominationsAdminDashboard() {
                                   Nominator: {nomination.nominator.fullName}
                                 </div>
                                 <div>
-                                  Nominee: {nomination.nominee1.fullName}
+                                  Nominee: {nomination.nominee.fullName}
                                 </div>
                                 <div>
                                   {format(
@@ -525,24 +525,11 @@ export default function NominationsAdminDashboard() {
                                 <User className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-gray-500" />
                                 <div>
                                   <div className="font-semibold text-sm sm:text-base md:text-lg">
-                                    {nomination.nominee1.fullName}
+                                    {nomination.nominee.fullName}
                                   </div>
                                   <div className="text-xs sm:text-sm md:text-base text-gray-500">
-                                    {nomination.nominee1.email}
+                                    {nomination.nominee.email}
                                   </div>
-                                  {(nomination.nominee2 ||
-                                    nomination.nominee3) && (
-                                    <div className="text-xs text-blue-600">
-                                      +
-                                      {
-                                        [
-                                          nomination.nominee2,
-                                          nomination.nominee3,
-                                        ].filter(Boolean).length
-                                      }{" "}
-                                      more
-                                    </div>
-                                  )}
                                 </div>
                               </div>
                             </TableCell>
