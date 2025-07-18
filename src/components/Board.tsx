@@ -419,84 +419,94 @@ export default function BoardOrgChart() {
 
             {/* Scrollable Container */}
             <div className="flex justify-center mt-8 sm:mt-10 md:mt-12 lg:mt-16">
-              <div className="limit-wd-46 px-4 py-6 sm:px-6 sm:py-8 bg-[#FFFFFF]/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-lg relative overflow-hidden border border-[#E5E7EB]/50">
-                {/* Gradient overlays */}
-                <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-[#FFFFFF] via-[#FFFFFF]/80 to-transparent z-10 pointer-events-none"></div>
-                <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-l from-[#FFFFFF] via-[#FFFFFF]/80 to-transparent z-10 pointer-events-none"></div>
+              <div className="w-full max-w-4xl mx-auto px-2 sm:px-4">
+                <div className="px-3 py-4 sm:px-4 sm:py-6 md:px-6 md:py-8 bg-[#FFFFFF]/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-lg relative overflow-hidden border border-[#E5E7EB]/50">
+                  {/* Gradient overlays with proper positioning */}
+                  <div className="absolute left-0 top-0 bottom-0 w-6 sm:w-8 md:w-10 bg-gradient-to-r from-[#FFFFFF] via-[#FFFFFF]/80 to-transparent z-10 pointer-events-none"></div>
+                  <div className="absolute right-0 top-0 bottom-0 w-6 sm:w-8 md:w-10 bg-gradient-to-l from-[#FFFFFF] via-[#FFFFFF]/80 to-transparent z-10 pointer-events-none"></div>
 
-                {/* Scrollable Members Container */}
-                <div
-                  ref={scrollContainerRef}
-                  className={`flex overflow-x-auto space-x-3 sm:space-x-4 md:space-x-6 pb-4 transition-all duration-100 ${isDragging ? "cursor-grabbing select-none" : "cursor-grab"
-                    } touch-pan-x scrollbar-hide`}
-                  style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-                  onPointerDown={handlePointerDown}
-                  onPointerMove={handlePointerMove}
-                  onPointerUp={handlePointerUp}
-                  onPointerCancel={handlePointerUp}
-                >
-                  {allMembers.map((member, index) => (
-                    <div
-                      key={member.name}
-                      className={`flex-shrink-0 transform transition-all duration-100 ease-out ${isVisible
-                        ? "translate-y-0 opacity-100"
-                        : "translate-y-6 opacity-0"
-                        }`}
-                      style={{
-                        transitionDelay: `${(index + 1) * 60}ms`,
-                        minWidth: "fit-content",
-                      }}
-                    >
+                  {/* Scrollable Members Container */}
+                  <div
+                    ref={scrollContainerRef}
+                    className={`pl-[30%] pr-[30%] lg:pl-[10%] lg:pr-[10%] md:pl-[10%] md:pr-[10%] flex overflow-x-auto space-x-2 sm:space-x-3 md:space-x-4 lg:space-x-6 pb-4 transition-all duration-100 ${isDragging ? "cursor-grabbing select-none" : "cursor-grab"
+                      } touch-pan-x scrollbar-hide`}
+                    style={{
+                      scrollbarWidth: "none",
+                      msOverflowStyle: "none",
+                      // Simple percentage-based padding
+                      
+                    }}
+                    onPointerDown={handlePointerDown}
+                    onPointerMove={handlePointerMove}
+                    onPointerUp={handlePointerUp}
+                    onPointerCancel={handlePointerUp}
+                  >
+                    {allMembers.map((member, index) => (
                       <div
-                        className={`group cursor-pointer transform transition-all duration-100 ease-out hover:scale-105 active:scale-95 p-2 relative touch-manipulation rounded-xl`}
-                        onClick={(e) => handleMemberClick(index, e)}
-                        onTouchEnd={() => handleMemberTap(index)}
-                        tabIndex={0}
-                        role="button"
-                        aria-label={`View ${member.name}'s profile`}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === " ") {
-                            e.preventDefault();
-                            handleMemberClick(index, e);
-                          }
+                        key={member.name}
+                        className={`flex-shrink-0 transform transition-all duration-100 ease-out ${isVisible
+                            ? "translate-y-0 opacity-100"
+                            : "translate-y-6 opacity-0"
+                          }`}
+                        style={{
+                          transitionDelay: `${(index + 1) * 60}ms`,
+                          minWidth: "fit-content",
+                          scrollSnapAlign: "center"
                         }}
                       >
-                        {/* Member Avatar */}
+                        {/* Your existing member item code */}
                         <div
-                          className={`w-14 h-14 sm:w-16 sm:h-16 mt-1 md:w-20 md:h-20 lg:w-24 lg:h-24 mx-auto rounded-full overflow-hidden shadow-lg bg-[#FFFFFF] p-1 transition-all duration-100 ease-out ${currentMember === index
-                            ? "ring-3 sm:ring-4 ring-[#2563EB] scale-110 shadow-xl"
-                            : "ring-2 ring-[#E5E7EB] group-hover:ring-[#2563EB] group-hover:shadow-xl"
-                            }`}
+                          className={`group cursor-pointer transform transition-all duration-100 ease-out hover:scale-105 active:scale-95 p-2 relative touch-manipulation rounded-xl`}
+                          onClick={(e) => handleMemberClick(index, e)}
+                          onTouchEnd={() => handleMemberTap(index)}
+                          tabIndex={0}
+                          role="button"
+                          aria-label={`View ${member.name}'s profile`}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              handleMemberClick(index, e);
+                            }
+                          }}
                         >
-                          <Image
-                            src={`/${member.image}`}
-                            alt={member.name}
-                            width={96}
-                            height={96}
-                            className={`w-full h-full object-cover object-top rounded-full transition-all duration-100 ease-out ${currentMember === index
-                              ? "opacity-100"
-                              : "opacity-90 group-hover:opacity-100"
-                              }`}
-                            draggable={false}
-                          />
-                        </div>
-                        {/* Member Name Label */}
-                        <div className="mt-2 text-center">
-                          <p
-                            className={`text-xs sm:text-sm font-medium text-[#1E40AF] transition-all duration-100 ${currentMember === index
-                              ? "opacity-100 scale-105 font-semibold text-[#1E3A8A]"
-                              : "opacity-70 group-hover:opacity-100 group-hover:text-[#1E3A8A]"
+                          {/* Member Avatar */}
+                          <div
+                            className={`w-14 h-14 sm:w-16 sm:h-16 mt-1 md:w-20 md:h-20 lg:w-24 lg:h-24 mx-auto rounded-full overflow-hidden shadow-lg bg-[#FFFFFF] p-1 transition-all duration-100 ease-out ${currentMember === index
+                              ? "ring-3 sm:ring-4 ring-[#2563EB] scale-110 shadow-xl"
+                              : "ring-2 ring-[#E5E7EB] group-hover:ring-[#2563EB] group-hover:shadow-xl"
                               }`}
                           >
-                            {member.name.split(" ")[0]}
-                          </p>
+                            <Image
+                              src={`/${member.image}`}
+                              alt={member.name}
+                              width={96}
+                              height={96}
+                              className={`w-full h-full object-cover object-top rounded-full transition-all duration-100 ease-out ${currentMember === index
+                                ? "opacity-100"
+                                : "opacity-90 group-hover:opacity-100"
+                                }`}
+                              draggable={false}
+                            />
+                          </div>
+                          {/* Member Name Label */}
+                          <div className="mt-2 text-center">
+                            <p
+                              className={`text-xs sm:text-sm font-medium text-[#1E40AF] transition-all duration-100 ${currentMember === index
+                                ? "opacity-100 scale-105 font-semibold text-[#1E3A8A]"
+                                : "opacity-70 group-hover:opacity-100 group-hover:text-[#1E3A8A]"
+                                }`}
+                            >
+                              {member.name.split(" ")[0]}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
+            <div />
 
             {/* Progress Indicator Dots */}
             <div className="flex justify-center mt-6">
