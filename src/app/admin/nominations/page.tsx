@@ -1,11 +1,11 @@
+import NominationManagement from "@/components/admin/NominationManagement"
 import type { Metadata } from "next"
-import NominationsAdminDashboard from "@/components/admin/NominationsDashboard"
 
 export const metadata: Metadata = {
-  title: "Nominations Admin | FAPRNA-NV",
-  description: "Admin dashboard for managing user nominations",
+  title: "Nomination Management | FAPRNA-NV Admin",
+  description: "Manage nomination settings and submissions",
 }
 
-export default function NominationsAdminPage() {
-  return <NominationsAdminDashboard />
+export default function NominationManagementPage() {
+  return <NominationManagement />
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,11 +8,14 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, Send, Award, Star, Medal, Crown } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ArrowLeft, Send, Award, Star,  Crown, Medal, User } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { createNomination } from "@/lib/actions/nomination-actions";
-import type { Member } from "@/lib/interfaces";
+import { createNomination, getEligibleMembers } from "@/lib/actions/nomination-actions";
+import { toast } from "sonner";
+
+// ...existing categories array...
 
 const categories = [
   {
@@ -39,7 +41,12 @@ const categories = [
   },
 ];
 
-// Floating particles component for added elegance with gold color
+interface EligibleMember {
+  id: string;
+  fullName: string;
+  email: string;
+}
+
 const FloatingParticles = () => {
   const [particles, setParticles] = useState<
     {
@@ -52,8 +59,8 @@ const FloatingParticles = () => {
   >([]);
 
   useEffect(() => {
-    const newParticles = Array.from({ length: 15 }).map(() => ({
-      size: Math.random() * 3 + 2,
+    const newParticles = Array.from({ length: 30 }).map(() => ({
+      size: Math.random() * 30 + 2,
       top: Math.random() * 100,
       left: Math.random() * 100,
       delay: Math.random() * 10,
@@ -61,8 +68,7 @@ const FloatingParticles = () => {
     }));
     setParticles(newParticles);
   }, []);
-
-  return (
+    return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
       {particles.map((particle, i) => (
         <div
@@ -84,11 +90,15 @@ const FloatingParticles = () => {
   );
 };
 
+
 export default function VotingForm() {
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [eligibleMembers, setEligibleMembers] = useState<EligibleMember[]>([]);
+  const [isLoadingMembers, setIsLoadingMembers] = useState(true);
   const [formData, setFormData] = useState({
+    nomineeId: "",
     nomineeName: "",
-    nomineeTitle: "",
     nomineeEmail: "",
     nomineePhone: "",
     nominatorName: "",
@@ -98,38 +108,120 @@ export default function VotingForm() {
     agreeTerms: false,
   });
 
-  const nominee: Member = {
-    fullName: formData.nomineeName,
-    email: formData.nomineeEmail,
-    phone: formData.nomineePhone,
-  }
+  // Fetch eligible members on component mount
+  useEffect(() => {
+    const fetchEligibleMembers = async () => {
+      try {
+        setIsLoadingMembers(true);
+        const members = await getEligibleMembers();
+        setEligibleMembers(members);
+      } catch (error) {
+        console.error("Failed to fetch eligible members:", error);
+        toast.error("Failed to load eligible members");
+      } finally {
+        setIsLoadingMembers(false);
+      }
+    };
 
-  const nominator: Member = {
-    fullName: formData.nominatorName,
-    email: formData.nominatorEmail,
-    phone: formData.nominatorPhone,
-  }
+    fetchEligibleMembers();
+  }, []);
 
-  const nominationData = {
-    nominator,
-    nominee,
-    reason: formData.reason,
-    category: selectedCategory,
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    await createNomination(nominationData)
+  // Handle nominee selection from dropdown
+  const handleNomineeSelect = (nomineeId: string) => {
+    const selectedMember = eligibleMembers.find((member) => member.id === nomineeId);
+    setFormData((prev) => ({
+      ...prev,
+      nomineeId,
+      nomineeName: selectedMember?.fullName || "",
+      nomineeEmail: selectedMember?.email || "",
+      nomineePhone: "", // If you have phone info, set it here
+    }));
   };
+
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  // Basic validation
+  if (!selectedCategory || !formData.agreeTerms || !formData.nomineeId) {
+    toast.error("Please complete all required fields");
+    return;
+  }
+
+  setIsSubmitting(true);
+  
+  try {
+    const nominationData = {
+      nominator: {
+        fullName: formData.nominatorName,
+        email: formData.nominatorEmail,
+        phone: formData.nominatorPhone,
+      },
+      nominee: {
+        fullName: formData.nomineeName,
+        email: formData.nomineeEmail,
+        phone: formData.nomineePhone,
+      },
+      category: selectedCategory,
+      reason: formData.reason,
+    };
+
+    const result = await createNomination(nominationData);
+    
+    if (result.success) {
+      toast.success("🎉 Nomination submitted successfully!", {
+        description: `Your nomination for ${formData.nomineeName} has been submitted for review.`,
+        duration: 5000,
+      });
+      
+      // Reset form
+      setSelectedCategory("");
+      setFormData({
+        nomineeId: "",
+        nomineeName: "",
+        nomineeEmail: "",
+        nomineePhone: "",
+        nominatorName: "",
+        nominatorEmail: "",
+        nominatorPhone: "",
+        reason: "",
+        agreeTerms: false,
+      });
+    } else {
+      // Handle specific errors
+      if (result.error?.includes("already nominated")) {
+        toast.error("⚠️ You have already nominated someone for this category", {
+          description: "Each person can only submit one nomination per category per year.",
+          duration: 6000,
+        });
+      } else if (result.error?.includes("closed")) {
+        toast.error("❌ Nominations are currently closed", {
+          description: "Please check back when nominations reopen.",
+          duration: 5000,
+        });
+      } else {
+        toast.error("❌ Failed to submit nomination", {
+          description: result.error || "Please try again.",
+          duration: 5000,
+        });
+      }
+    }
+  } catch (error) {
+    console.error("Submission error:", error);
+    toast.error("❌ Something went wrong", {
+      description: "Please try again or contact support.",
+      duration: 5000,
+    });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
-
+  
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white relative overflow-hidden">
-      {/* Background with subtle gold gradient */}
       <div
         className="absolute inset-0 opacity-20 pointer-events-none"
         style={{
@@ -138,11 +230,10 @@ export default function VotingForm() {
         }}
       ></div>
 
-      {/* Floating particles */}
       <FloatingParticles />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
-        {/* Header */}
+        {/* ...existing header... */}
         <div className="mb-10">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
             <Button
@@ -215,7 +306,8 @@ export default function VotingForm() {
         >
           <CardContent className="p-0">
             <div className="grid grid-cols-1 md:grid-cols-3">
-              {/* Sidebar */}
+              {/* sidebar */}
+
               <div
                 className="p-6 md:p-8"
                 style={{
@@ -287,32 +379,6 @@ export default function VotingForm() {
                       </li>
                     </ul>
                   </div>
-
-                  <div>
-                    <h3
-                      className="text-xl font-semibold mb-2 flex items-center"
-                      style={{ color: "#D4AF37" }}
-                    >
-                      <Star
-                        className="w-5 h-5 mr-2"
-                        style={{ color: "#D4AF37" }}
-                      />
-                      Important Dates
-                    </h3>
-                    <ul className="space-y-2 text-sm text-gray-300">
-                      <li className="flex justify-between">
-                        <span>Nominations Open:</span>
-                        <span className="font-medium">June 1, 2025</span>
-                      </li>
-                      <li className="flex justify-between">
-                        <span>Nominations Close:</span>
-                        <span className="font-medium">August 15, 2025</span>
-                      </li>
-                      <li className="flex justify-between">
-                        <span>Winners Announced:</span>
-                        <span className="font-medium">October 1, 2025</span>
-                      </li>
-                    </ul>
                   </div>
 
                   <div
@@ -325,12 +391,11 @@ export default function VotingForm() {
                     </p>
                   </div>
                 </div>
-              </div>
 
               {/* Form */}
               <div className="col-span-2 p-6 md:p-8">
                 <form onSubmit={handleSubmit} className="space-y-8">
-                  {/* Category Selection */}
+                  {/* ...existing category selection... */}
                   <div className="space-y-4">
                     <h3
                       className="text-xl font-semibold flex items-center"
@@ -405,6 +470,88 @@ export default function VotingForm() {
                     </RadioGroup>
                   </div>
 
+                  {/* Nominee Selection */}
+                  <div className="space-y-4">
+                    <h3
+                      className="text-xl font-semibold flex items-center"
+                      style={{ color: "#D4AF37" }}
+                    >
+                      <User
+                        className="w-5 h-5 mr-2"
+                        style={{ color: "#D4AF37" }}
+                      />
+                      2. Select Nominee
+                    </h3>
+                    
+                    <div className="space-y-4">
+                      <div>
+                        <Label
+                          htmlFor="nomineeSelect"
+                          className="text-gray-300 text-sm block mb-2"
+                        >
+                          Select from Eligible Members
+                        </Label>
+                        <Select 
+                          value={formData.nomineeId} 
+                          onValueChange={handleNomineeSelect}
+                          disabled={isLoadingMembers}
+                        >
+                          <SelectTrigger 
+                            className="bg-transparent border-gray-700 text-white focus:border-[#D4AF37] focus:ring-[#D4AF37]/20"
+                            style={{ minHeight: "48px" }}
+                          >
+                            <SelectValue 
+                              placeholder={isLoadingMembers ? "Loading members..." : "Choose a member to nominate"}
+                            />
+                          </SelectTrigger>
+                          <SelectContent className="bg-gray-800 border-gray-700 text-white">
+                            {isLoadingMembers ? (
+                              <SelectItem value="loading" disabled>
+                                Loading members...
+                              </SelectItem>
+                            ) : eligibleMembers.length === 0 ? (
+                              <SelectItem value="no-members" disabled>
+                                No eligible members found
+                              </SelectItem>
+                            ) : (
+                              eligibleMembers.map((member) => (
+                                <SelectItem 
+                                  key={member.id} 
+                                  value={member.id}
+                                  className="hover:bg-gray-700 focus:bg-gray-700"
+                                >
+                                  <div className="flex flex-col">
+                                    <span className="font-medium">{member.fullName}</span>
+                                    <span className="text-sm text-gray-400">{member.email}</span>
+                                  </div>
+                                </SelectItem>
+                              ))
+                            )}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      {/* Show selected nominee details */}
+                      {formData.nomineeId && (
+                        <div 
+                          className="p-4 rounded-lg"
+                          style={{
+                            backgroundColor: "rgba(212, 175, 55, 0.1)",
+                            borderWidth: "1px",
+                            borderColor: "rgba(212, 175, 55, 0.3)",
+                          }}
+                        >
+                          <h4 className="font-medium text-[#D4AF37] mb-2">Selected Nominee:</h4>
+                          <div className="text-sm text-gray-300">
+                            <p><strong>Name:</strong> {formData.nomineeName}</p>
+                            <p><strong>Email:</strong> {formData.nomineeEmail}</p>
+                          </div>
+                        </div>
+                      )}
+
+                    </div>
+                  </div>
+
                   {/* Reason Section */}
                   <div className="space-y-4">
                     <h3
@@ -415,7 +562,7 @@ export default function VotingForm() {
                         className="w-5 h-5 mr-2"
                         style={{ color: "#D4AF37" }}
                       />
-                      2. Reason for Nomination
+                      3. Reason for Nomination
                     </h3>
                     <div
                       className="rounded-lg p-4"
@@ -433,101 +580,13 @@ export default function VotingForm() {
                         }
                         className="min-h-32 bg-transparent border-gray-700 text-white placeholder-gray-500 focus:border-[#D4AF37] focus:ring-[#D4AF37]/20"
                         maxLength={300}
+                        required
                       />
                       <div className="flex justify-between mt-2 text-xs text-gray-400">
                         <span>
                           Be specific about their achievements and impact
                         </span>
                         <span>{formData.reason.length}/300 words</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Nominee Information */}
-                  <div className="space-y-4">
-                    <h3
-                      className="text-xl font-semibold flex items-center"
-                      style={{ color: "#D4AF37" }}
-                    >
-                      <Star
-                        className="w-5 h-5 mr-2"
-                        style={{ color: "#D4AF37" }}
-                      />
-                      3. Nominee Information
-                    </h3>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label
-                          htmlFor="nomineeName"
-                          className="text-gray-300 text-sm"
-                        >
-                          Full Name
-                        </Label>
-                        <Input
-                          id="nomineeName"
-                          value={formData.nomineeName}
-                          onChange={(e) =>
-                            handleInputChange("nomineeName", e.target.value)
-                          }
-                          className="bg-transparent border-gray-700 text-white focus:border-[#D4AF37] focus:ring-[#D4AF37]/20"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label
-                          htmlFor="nomineeTitle"
-                          className="text-gray-300 text-sm"
-                        >
-                          Professional Title
-                        </Label>
-                        <Input
-                          id="nomineeTitle"
-                          value={formData.nomineeTitle}
-                          onChange={(e) =>
-                            handleInputChange("nomineeTitle", e.target.value)
-                          }
-                          className="bg-transparent border-gray-700 text-white focus:border-[#D4AF37] focus:ring-[#D4AF37]/20"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label
-                          htmlFor="nomineeEmail"
-                          className="text-gray-300 text-sm"
-                        >
-                          Email Address
-                        </Label>
-                        <Input
-                          id="nomineeEmail"
-                          type="email"
-                          value={formData.nomineeEmail}
-                          onChange={(e) =>
-                            handleInputChange("nomineeEmail", e.target.value)
-                          }
-                          className="bg-transparent border-gray-700 text-white focus:border-[#D4AF37] focus:ring-[#D4AF37]/20"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label
-                          htmlFor="nomineePhone"
-                          className="text-gray-300 text-sm"
-                        >
-                          Phone Number
-                        </Label>
-                        <Input
-                          id="nomineePhone"
-                          type="tel"
-                          value={formData.nomineePhone}
-                          onChange={(e) =>
-                            handleInputChange("nomineePhone", e.target.value)
-                          }
-                          className="bg-transparent border-gray-700 text-white focus:border-[#D4AF37] focus:ring-[#D4AF37]/20"
-                          required
-                        />
                       </div>
                     </div>
                   </div>
@@ -643,22 +702,36 @@ export default function VotingForm() {
                       className="w-full py-6 text-lg font-medium tracking-wide transition-all duration-300 disabled:bg-gray-700 disabled:text-gray-400"
                       style={{
                         background:
-                          !selectedCategory || !formData.agreeTerms
+                          !selectedCategory ||
+                          !formData.agreeTerms ||
+                          !formData.nomineeId ||
+                          isSubmitting
                             ? "#374151"
                             : "linear-gradient(135deg, #D4AF37, #FFD700, #D4AF37)",
                         color:
-                          !selectedCategory || !formData.agreeTerms
+                          !selectedCategory ||
+                          !formData.agreeTerms ||
+                          !formData.nomineeId ||
+                          isSubmitting
                             ? "#9ca3af"
                             : "black",
                         boxShadow:
-                          !selectedCategory || !formData.agreeTerms
+                          !selectedCategory ||
+                          !formData.agreeTerms ||
+                          !formData.nomineeId ||
+                          isSubmitting
                             ? "none"
                             : "0 10px 25px -5px rgba(212, 175, 55, 0.4)",
                       }}
-                      disabled={!selectedCategory || !formData.agreeTerms}
+                      disabled={
+                        !selectedCategory ||
+                        !formData.agreeTerms ||
+                        !formData.nomineeId ||
+                        isSubmitting
+                      }
                     >
                       <Send className="w-5 h-5 mr-2" />
-                      Submit Nomination
+                      {isSubmitting ? "Submitting..." : "Submit Nomination"}
                     </Button>
                   </div>
                 </form>

@@ -2,93 +2,259 @@
 
 import { revalidatePath } from "next/cache"
 import { prisma } from "../utils"
-import { NominationForm } from "../interfaces"
+import { sendNominationEmail } from "../email"
+import { isNominationOpen } from "./nomination-settings-action"
 
-// Get all nominations with related data
+const CURRENT_YEAR = new Date().getFullYear()
+
+// Create a nomination
+export async function createNomination(data: {
+  nominator: { fullName: string; email: string; phone: string }
+  nominee: { fullName: string; email: string; phone: string }
+  category: string
+  reason: string
+}) {
+  try {
+    console.log("Starting nomination creation process...");
+
+    // Check if nominations are open
+    const nominationOpen = await isNominationOpen();
+    if (!nominationOpen) {
+      return {
+        success: false,
+        error: "Nominations are currently closed. Please check back when nominations reopen."
+      };
+    }
+
+    // Find or create nominator
+    let nominator = await prisma.member.findUnique({
+      where: { email: data.nominator.email }
+    });
+
+    if (!nominator) {
+      try {
+        nominator = await prisma.member.create({
+          data: {
+            fullName: data.nominator.fullName,
+            email: data.nominator.email,
+            membershipStatus: "PENDING"
+          }
+        });
+        console.log("Created new nominator:", nominator.id);
+      } catch (nominatorError) {
+        console.error("Error creating nominator:", nominatorError);
+        return {
+          success: false,
+          error: "Failed to create nominator profile. Please try again."
+        };
+      }
+    } else {
+      console.log("Found existing nominator:", nominator.id);
+    }
+
+    // Find or create nominee
+    let nominee = await prisma.member.findUnique({
+      where: { email: data.nominee.email }
+    });
+
+    if (!nominee) {
+      try {
+        nominee = await prisma.member.create({
+          data: {
+            fullName: data.nominee.fullName,
+            email: data.nominee.email,
+            membershipStatus: "PENDING"
+          }
+        });
+        console.log("Created new nominee:", nominee.id);
+      } catch (nomineeError) {
+        console.error("Error creating nominee:", nomineeError);
+        return {
+          success: false,
+          error: "Failed to create nominee profile. Please try again."
+        };
+      }
+    } else {
+      console.log("Found existing nominee:", nominee.id);
+    }
+
+    // Check if nominator already nominated someone for this category this year
+    const existingNomination = await prisma.nomination.findFirst({
+      where: {
+        nominatorId: nominator.id,
+        category: data.category,
+        year: CURRENT_YEAR
+      },
+      include: {
+        nominee: {
+          select: {
+            fullName: true
+          }
+        }
+      }
+    });
+
+    if (existingNomination) {
+      console.log("Duplicate nomination detected for category:", data.category);
+      return {
+        success: false,
+        error: `You have already nominated ${existingNomination.nominee.fullName} for the ${data.category} category this year. Each person can only submit one nomination per category per year.`
+      };
+    }
+
+    // Create the nomination
+    let nomination;
+    try {
+      nomination = await prisma.nomination.create({
+        data: {
+          nominatorId: nominator.id,
+          nomineeId: nominee.id,
+          category: data.category,
+          reason: data.reason,
+          status: "PENDING",
+          year: CURRENT_YEAR
+        },
+        include: {
+          nominator: {
+            select: {
+              id: true,
+              fullName: true,
+              email: true
+            }
+          },
+          nominee: {
+            select: {
+              id: true,
+              fullName: true,
+              email: true
+            }
+          }
+        }
+      });
+      console.log("Nomination created successfully:", nomination.id);
+    } catch (createError) {
+      console.error("Error creating nomination:", createError);
+      return {
+        success: false,
+        error: "Failed to create nomination. Please try again."
+      };
+    }
+
+    // Send email notification (don't fail if email fails)
+    try {
+      await sendNominationEmail({
+        category: nomination.category,
+        nominee: {
+          fullName: nominee.fullName,
+          email: nominee.email
+        },
+        nominator: {
+          fullName: nominator.fullName,
+          email: nominator.email
+        },
+        reason: nomination.reason,
+        createdAt: nomination.createdAt
+      });
+      console.log("Email notification sent successfully");
+    } catch (emailError) {
+      console.error("Email notification failed (nomination still successful):", emailError);
+      // Don't return error - nomination was successful even if email failed
+    }
+
+    // Revalidate paths (don't fail if revalidation fails)
+    try {
+      revalidatePath("/luminance");
+      revalidatePath("/admin/nominations");
+      console.log("Paths revalidated successfully");
+    } catch (revalidateError) {
+      console.error("Path revalidation failed (nomination still successful):", revalidateError);
+      // Don't return error - nomination was successful even if revalidation failed
+    }
+
+    return {
+      success: true,
+      nomination: {
+        id: nomination.id,
+        category: nomination.category,
+        status: nomination.status,
+        nominator: nomination.nominator,
+        nominee: nomination.nominee,
+        createdAt: nomination.createdAt
+      },
+      message: `Nomination for ${nominee.fullName} in the ${data.category} category has been successfully submitted and is now under review.`
+    };
+
+  } catch (error) {
+    console.error("Unexpected error in createNomination:", error);
+
+    // Handle specific database errors
+    if (error instanceof Error) {
+      if (error.message.includes('Unique constraint')) {
+        return {
+          success: false,
+          error: "This nomination already exists. Please check your entries and try again."
+        };
+      }
+
+      if (error.message.includes('Foreign key constraint')) {
+        return {
+          success: false,
+          error: "Invalid member data. Please refresh the page and try again."
+        };
+      }
+
+      if (error.message.includes('Connection')) {
+        return {
+          success: false,
+          error: "Database connection error. Please try again in a moment."
+        };
+      }
+    }
+
+    return {
+      success: false,
+      error: "An unexpected error occurred. Please try again or contact support if the problem persists."
+    };
+  }
+}
+
+// Get all nominations for admin
 export async function getAllNominations() {
   try {
     const nominations = await prisma.nomination.findMany({
       include: {
-        nominator: { select: { id: true, fullName: true, email: true } },
-        nominee1: { select: { id: true, fullName: true, email: true } },
+        nominator: true,
+        nominee: true
       },
       orderBy: {
-        createdAt: "desc",
-      },
+        createdAt: "desc"
+      }
     })
-    if (nominations.length === 0) {
-      console.log("No nominations found")
-      return []
-    }
-    console.log("Fetched nominations:", nominations)
+
     return nominations
   } catch (error) {
-    console.error("Failed to fetch nominations:", error)
-    throw new Error("Failed to fetch nominations")
-  }
-}
-
-// Get nomination by ID with related data
-export async function getNominationById(id: string) {
-  try {
-    const nomination = await prisma.nomination.findUnique({
-      where: { id },
-      include: {
-        nominator: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-          },
-        },
-        nominee1: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-          },
-        },
-        nominee2: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-          },
-        },
-        nominee3: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-          },
-        },
-      },
-    })
-    return nomination
-  } catch (error) {
-    console.error(`Failed to fetch nomination with ID ${id}:`, error)
-    throw new Error(`Failed to fetch nomination with ID ${id}`)
+    console.error("Failed to get nominations:", error)
+    return []
   }
 }
 
 // Update nomination status
-export async function updateNominationStatus(id: string, status: string) {
+export async function updateNominationStatus(nominationId: string, status: string) {
   try {
-    const nomination = await prisma.nomination.update({
-      where: { id },
-      data: {
-        status,
-        updatedAt: new Date(),
-      },
+    const updatedNomination = await prisma.nomination.update({
+      where: { id: nominationId },
+      data: { status },
+      include: {
+        nominator: true,
+        nominee: true
+      }
     })
 
     revalidatePath("/admin/nominations")
-    revalidatePath(`/admin/nominations/${id}`)
-
-    return nomination
+    return { success: true, nomination: updatedNomination }
   } catch (error) {
-    console.error(`Failed to update nomination status for ID ${id}:`, error)
-    throw new Error(`Failed to update nomination status for ID ${id}`)
+    console.error("Failed to update nomination status:", error)
+    return { success: false, error: "Failed to update nomination status" }
   }
 }
 
@@ -129,52 +295,44 @@ export async function getNominationStats() {
   }
 }
 
-// Delete nomination (if needed)
-export async function deleteNomination(id: string) {
+// Get nomination by ID
+export async function getNominationById(id: string) {
   try {
-    await prisma.nomination.delete({
+    const nomination = await prisma.nomination.findUnique({
       where: { id },
+      include: {
+        nominator: true,
+        nominee: true
+      }
     })
-
-    revalidatePath("/admin/nominations")
-
-    return { success: true }
-  } catch (error) {
-    console.error(`Failed to delete nomination with ID ${id}:`, error)
-    throw new Error(`Failed to delete nomination with ID ${id}`)
-  }
-}
-
-export async function createNomination(data: NominationForm) {
-  try {
-    const { nominator, nominee } = data
-
-    const validateNominator = await prisma.member.findFirst({
-      where: { email: nominator.email },
-    })
-    const validateNominee = await prisma.member.findFirst({
-      where: { email: nominee.email },
-    })
-
-    if (!validateNominator || !validateNominee) {
-      throw new Error("Nominator or nominee not found")
-    }
-
-    // Create the nomination
-    const nomination = await prisma.nomination.create({
-      data: {
-        nominatorId: validateNominator.id,
-        nominee1Id: validateNominee.id,
-        category: data.category,
-        reason: data.reason,
-      },
-    })
-
-    revalidatePath("/vote")
 
     return nomination
   } catch (error) {
-    console.error("Failed to create nomination:", error)
-    throw new Error("Failed to create nomination")
+    console.error("Failed to get nomination:", error)
+    return null
+  }
+}
+
+// Get eligible members for nomination
+export async function getEligibleMembers() {
+  try {
+    const members = await prisma.member.findMany({
+      where: {
+        membershipStatus: "APPROVED"
+      },
+      select: {
+        id: true,
+        fullName: true,
+        email: true
+      },
+      orderBy: {
+        fullName: "asc"
+      }
+    })
+
+    return members
+  } catch (error) {
+    console.error("Failed to get eligible members:", error)
+    return []
   }
 }
