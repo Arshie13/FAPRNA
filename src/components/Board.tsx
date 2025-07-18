@@ -238,11 +238,10 @@ export default function BoardOrgChart() {
       <div className="relative flex-1 z-10 flex items-center justify-center min-h-[calc(100vh-200px)]">
         <div className="container mx-auto px-4 md:px-6 lg:px-8 flex flex-col items-center justify-center">
           <div
-            className={`transform transition-all duration-1000 ease-out ${
-              isVisible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-8 opacity-0"
-            }`}
+            className={`transform transition-all duration-1000 ease-out ${isVisible
+              ? "translate-y-0 opacity-100"
+              : "translate-y-8 opacity-0"
+              }`}
           >
             {/* Main Content */}
             <div className="w-full max-w-6xl sm:px-5 mx-auto transition-all duration-100 ease-out transform">
@@ -267,11 +266,10 @@ export default function BoardOrgChart() {
                               alt={featured.name}
                               width={256}
                               height={256}
-                              className={`w-full h-full object-cover object-top transition-all duration-100 ease-out absolute inset-0 group-hover:scale-105 ${
-                                imageLoaded && showContent && !isChanging
-                                  ? "opacity-100 scale-100"
-                                  : "opacity-0 scale-110"
-                              }`}
+                              className={`w-full h-full object-cover object-top transition-all duration-100 ease-out absolute inset-0 group-hover:scale-105 ${imageLoaded && showContent && !isChanging
+                                ? "opacity-100 scale-100"
+                                : "opacity-0 scale-110"
+                                }`}
                               onLoad={() => setImageLoaded(true)}
                               priority
                             />
@@ -283,11 +281,10 @@ export default function BoardOrgChart() {
                                 alt={allMembers[previousMember].name}
                                 width={256}
                                 height={256}
-                                className={`w-full h-full object-cover object-top transition-all duration-100 ease-out absolute inset-0 ${
-                                  !showContent
-                                    ? "opacity-0 scale-90"
-                                    : "opacity-100 scale-100"
-                                }`}
+                                className={`w-full h-full object-cover object-top transition-all duration-100 ease-out absolute inset-0 ${!showContent
+                                  ? "opacity-0 scale-90"
+                                  : "opacity-100 scale-100"
+                                  }`}
                               />
                             )}
                           </div>
@@ -297,19 +294,13 @@ export default function BoardOrgChart() {
                     {/* Enhanced Role Badge */}
                     <div className="mt-6 relative">
                       <div
-                        className={`relative bg-gradient-to-r from-[#2563EB] to-[#4F46E5] text-[#FFFFFF] font-bold px-8 py-3 rounded-full shadow-xl border border-[#FFFFFF]/20 transition-all duration-100 ease-out ${
-                          imageLoaded && showContent && !isChanging
-                            ? "opacity-100 translate-y-0 scale-100"
-                            : "opacity-0 translate-y-6 scale-90"
-                        }`}
+                        className={`relative bg-gradient-to-r from-[#2563EB] to-[#4F46E5] text-[#FFFFFF] font-bold px-4 sm:px-6 py-2 sm:py-3 rounded-2xl shadow-xl border border-white/20 transition-all duration-100 ease-out w-full max-w-xs sm:max-w-md text-center mx-auto`}
                         style={{
                           transitionDelay:
-                            imageLoaded && showContent && !isChanging
-                              ? "400ms"
-                              : "0ms",
+                            imageLoaded && showContent && !isChanging ? "400ms" : "0ms",
                         }}
                       >
-                        <span className="text-lg font-semibold tracking-wide">
+                        <span className="block text-sm sm:text-base md:text-lg lg:text-xl leading-snug tracking-wide break-words whitespace-normal">
                           {featured.role}
                         </span>
                       </div>
@@ -322,11 +313,10 @@ export default function BoardOrgChart() {
                       {/* Name and Title Section */}
                       <div className="text-center lg:text-left">
                         <h1
-                          className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#1E293B] mb-4 sm:mb-6 leading-tight transition-all duration-100 ease-out ${
-                            imageLoaded && showContent && !isChanging
-                              ? "opacity-100 translate-y-0 scale-100"
-                              : "opacity-0 translate-y-8 scale-95"
-                          }`}
+                          className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#1E293B] mb-4 sm:mb-6 leading-tight transition-all duration-100 ease-out ${imageLoaded && showContent && !isChanging
+                            ? "opacity-100 translate-y-0 scale-100"
+                            : "opacity-0 translate-y-8 scale-95"
+                            }`}
                           style={{
                             transitionDelay:
                               imageLoaded && showContent && !isChanging
@@ -339,11 +329,10 @@ export default function BoardOrgChart() {
 
                         {/* Credentials Box */}
                         <div
-                          className={`bg-gradient-to-r from-[#F8FAFC] to-[#EFF6FF] rounded-xl sm:rounded-2xl px-3 py-4 sm:px-10 sm:py-5 md:p-6 border-l-4 border-[#2563EB] shadow-sm sm:shadow-lg shadow-[#3B82F6]/10 sm:shadow-[#3B82F6]/20 transition-all duration-100 ease-out ${
-                            imageLoaded && showContent && !isChanging
-                              ? "opacity-100 translate-y-0 scale-100"
-                              : "opacity-0 translate-y-10 scale-95"
-                          }`}
+                          className={`bg-gradient-to-r from-[#F8FAFC] to-[#EFF6FF] rounded-xl sm:rounded-2xl px-3 py-4 sm:px-10 sm:py-5 md:p-6 border-l-4 border-[#2563EB] shadow-sm sm:shadow-lg shadow-[#3B82F6]/10 sm:shadow-[#3B82F6]/20 transition-all duration-100 ease-out ${imageLoaded && showContent && !isChanging
+                            ? "opacity-100 translate-y-0 scale-100"
+                            : "opacity-0 translate-y-10 scale-95"
+                            }`}
                           style={{
                             transitionDelay:
                               imageLoaded && showContent && !isChanging
@@ -359,11 +348,10 @@ export default function BoardOrgChart() {
 
                       {/* Contact Section */}
                       <div
-                        className={`bg-[#FFFFFF] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-md sm:shadow-lg shadow-[#3B82F6]/10 sm:shadow-[#3B82F6]/20 border border-[#DBEAFE] transition-all duration-100 ease-out ${
-                          imageLoaded && showContent && !isChanging
-                            ? "opacity-100 translate-y-0 scale-100"
-                            : "opacity-0 translate-y-12 scale-95"
-                        }`}
+                        className={`bg-[#FFFFFF] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-md sm:shadow-lg shadow-[#3B82F6]/10 sm:shadow-[#3B82F6]/20 border border-[#DBEAFE] transition-all duration-100 ease-out ${imageLoaded && showContent && !isChanging
+                          ? "opacity-100 translate-y-0 scale-100"
+                          : "opacity-0 translate-y-12 scale-95"
+                          }`}
                         style={{
                           transitionDelay:
                             imageLoaded && showContent && !isChanging
@@ -378,11 +366,10 @@ export default function BoardOrgChart() {
                         </div>
 
                         <div
-                          className={`flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-[#EFF6FF] to-[#EEF2FF] rounded-lg sm:rounded-xl border border-[#DBEAFE] shadow-sm sm:shadow-md shadow-[#3B82F6]/10 transition-all duration-100 ease-out ${
-                            imageLoaded && showContent && !isChanging
-                              ? "opacity-100 translate-x-0"
-                              : "opacity-0 translate-x-8"
-                          }`}
+                          className={`flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-[#EFF6FF] to-[#EEF2FF] rounded-lg sm:rounded-xl border border-[#DBEAFE] shadow-sm sm:shadow-md shadow-[#3B82F6]/10 transition-all duration-100 ease-out ${imageLoaded && showContent && !isChanging
+                            ? "opacity-100 translate-x-0"
+                            : "opacity-0 translate-x-8"
+                            }`}
                           style={{
                             transitionDelay:
                               imageLoaded && showContent && !isChanging
@@ -391,11 +378,10 @@ export default function BoardOrgChart() {
                           }}
                         >
                           <div
-                            className={`p-2 sm:p-3 bg-[#FFFFFF] rounded-full shadow-sm sm:shadow-md border border-[#DBEAFE] transition-all duration-100 ease-out flex-shrink-0 ${
-                              imageLoaded && showContent && !isChanging
-                                ? "scale-100 rotate-0"
-                                : "scale-75 rotate-180"
-                            }`}
+                            className={`p-2 sm:p-3 bg-[#FFFFFF] rounded-full shadow-sm sm:shadow-md border border-[#DBEAFE] transition-all duration-100 ease-out flex-shrink-0 ${imageLoaded && showContent && !isChanging
+                              ? "scale-100 rotate-0"
+                              : "scale-75 rotate-180"
+                              }`}
                             style={{
                               transitionDelay:
                                 imageLoaded && showContent && !isChanging
@@ -409,11 +395,10 @@ export default function BoardOrgChart() {
                           <div className="flex-1 min-w-0">
                             <a
                               href={`mailto:${featured.email}`}
-                              className={`text-sm sm:text-base font-semibold text-[#1D4ED8] hover:text-[#1E40AF] transition-all duration-100 ease-out block break-all ${
-                                imageLoaded && showContent && !isChanging
-                                  ? "opacity-100 translate-y-0"
-                                  : "opacity-0 translate-y-4"
-                              }`}
+                              className={`text-sm sm:text-base font-semibold text-[#1D4ED8] hover:text-[#1E40AF] transition-all duration-100 ease-out block break-all ${imageLoaded && showContent && !isChanging
+                                ? "opacity-100 translate-y-0"
+                                : "opacity-0 translate-y-4"
+                                }`}
                               style={{
                                 transitionDelay:
                                   imageLoaded && showContent && !isChanging
@@ -442,9 +427,8 @@ export default function BoardOrgChart() {
                 {/* Scrollable Members Container */}
                 <div
                   ref={scrollContainerRef}
-                  className={`flex overflow-x-auto space-x-3 sm:space-x-4 md:space-x-6 pb-4 transition-all duration-100 ${
-                    isDragging ? "cursor-grabbing select-none" : "cursor-grab"
-                  } touch-pan-x scrollbar-hide`}
+                  className={`flex overflow-x-auto space-x-3 sm:space-x-4 md:space-x-6 pb-4 transition-all duration-100 ${isDragging ? "cursor-grabbing select-none" : "cursor-grab"
+                    } touch-pan-x scrollbar-hide`}
                   style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                   onPointerDown={handlePointerDown}
                   onPointerMove={handlePointerMove}
@@ -454,11 +438,10 @@ export default function BoardOrgChart() {
                   {allMembers.map((member, index) => (
                     <div
                       key={member.name}
-                      className={`flex-shrink-0 transform transition-all duration-100 ease-out ${
-                        isVisible
-                          ? "translate-y-0 opacity-100"
-                          : "translate-y-6 opacity-0"
-                      }`}
+                      className={`flex-shrink-0 transform transition-all duration-100 ease-out ${isVisible
+                        ? "translate-y-0 opacity-100"
+                        : "translate-y-6 opacity-0"
+                        }`}
                       style={{
                         transitionDelay: `${(index + 1) * 60}ms`,
                         minWidth: "fit-content",
@@ -480,33 +463,30 @@ export default function BoardOrgChart() {
                       >
                         {/* Member Avatar */}
                         <div
-                          className={`w-14 h-14 sm:w-16 sm:h-16 mt-1 md:w-20 md:h-20 lg:w-24 lg:h-24 mx-auto rounded-full overflow-hidden shadow-lg bg-[#FFFFFF] p-1 transition-all duration-100 ease-out ${
-                            currentMember === index
-                              ? "ring-3 sm:ring-4 ring-[#2563EB] scale-110 shadow-xl"
-                              : "ring-2 ring-[#E5E7EB] group-hover:ring-[#2563EB] group-hover:shadow-xl"
-                          }`}
+                          className={`w-14 h-14 sm:w-16 sm:h-16 mt-1 md:w-20 md:h-20 lg:w-24 lg:h-24 mx-auto rounded-full overflow-hidden shadow-lg bg-[#FFFFFF] p-1 transition-all duration-100 ease-out ${currentMember === index
+                            ? "ring-3 sm:ring-4 ring-[#2563EB] scale-110 shadow-xl"
+                            : "ring-2 ring-[#E5E7EB] group-hover:ring-[#2563EB] group-hover:shadow-xl"
+                            }`}
                         >
                           <Image
                             src={`/${member.image}`}
                             alt={member.name}
                             width={96}
                             height={96}
-                            className={`w-full h-full object-cover object-top rounded-full transition-all duration-100 ease-out ${
-                              currentMember === index
-                                ? "opacity-100"
-                                : "opacity-90 group-hover:opacity-100"
-                            }`}
+                            className={`w-full h-full object-cover object-top rounded-full transition-all duration-100 ease-out ${currentMember === index
+                              ? "opacity-100"
+                              : "opacity-90 group-hover:opacity-100"
+                              }`}
                             draggable={false}
                           />
                         </div>
                         {/* Member Name Label */}
                         <div className="mt-2 text-center">
                           <p
-                            className={`text-xs sm:text-sm font-medium text-[#1E40AF] transition-all duration-100 ${
-                              currentMember === index
-                                ? "opacity-100 scale-105 font-semibold text-[#1E3A8A]"
-                                : "opacity-70 group-hover:opacity-100 group-hover:text-[#1E3A8A]"
-                            }`}
+                            className={`text-xs sm:text-sm font-medium text-[#1E40AF] transition-all duration-100 ${currentMember === index
+                              ? "opacity-100 scale-105 font-semibold text-[#1E3A8A]"
+                              : "opacity-70 group-hover:opacity-100 group-hover:text-[#1E3A8A]"
+                              }`}
                           >
                             {member.name.split(" ")[0]}
                           </p>
@@ -524,11 +504,10 @@ export default function BoardOrgChart() {
                 {allMembers.map((_, index) => (
                   <div
                     key={index}
-                    className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-100 ease-out ${
-                      currentMember === index
-                        ? "bg-[#2563EB] w-6 sm:w-8 shadow-lg"
-                        : "bg-[#D1D5DB]"
-                    }`}
+                    className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-100 ease-out ${currentMember === index
+                      ? "bg-[#2563EB] w-6 sm:w-8 shadow-lg"
+                      : "bg-[#D1D5DB]"
+                      }`}
                     aria-label={`Member ${index + 1} indicator`}
                   />
                 ))}

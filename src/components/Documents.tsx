@@ -89,19 +89,18 @@ export default function DocumentsDashboard() {
     isSelected: boolean;
   }) => (
     <Card
-      className={`cursor-pointer transition-all duration-200 hover:shadow-md hover:bg-blue-50 bg-white rounded-xl border border-gray-200 ${
-        isSelected
-          ? "border-l-4 border-[#003366] !border-t !border-r !border-b"
-          : ""
-      }`}
+      className={`cursor-pointer transition-all duration-200 hover:shadow-md hover:bg-blue-50 bg-white rounded-xl border border-gray-200 ${isSelected
+        ? "border-l-4 border-[#003366] !border-t !border-r !border-b"
+        : ""
+        }`}
       onClick={() => handleDocumentSelect(doc)}
     >
       <CardContent className="p-4 sm:p-5">
         <div className="flex items-start gap-3 sm:gap-4">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-600 rounded-lg flex items-center justify-center flex-shrink-0">
-            <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-          </div>
           <div className="flex-1 min-w-0">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-600 rounded-lg flex items-center justify-center flex-shrink-0">
+              <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            </div>
             <h3 className="font-bold text-base sm:text-lg mb-1 line-clamp-2 text-gray-900">
               {doc.name}
             </h3>
@@ -134,7 +133,7 @@ export default function DocumentsDashboard() {
       <CardContent className="p-6 sm:p-8 min-h-[600px] flex flex-col">
         <div className="flex-1 overflow-y-auto pr-2">
           <div className="relative mb-6">
-            <div className="flex items-center gap-4">
+            <div className="flex gap-4">
               <div className="w-14 h-14 sm:w-16 sm:h-16 bg-red-600 rounded-xl flex items-center justify-center flex-shrink-0">
                 <FileText className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
               </div>
@@ -213,16 +212,16 @@ export default function DocumentsDashboard() {
         </div>
 
         {/* Search Bar */}
-        <Card className="bg-white border-2 shadow-lg mb-8 rounded-full max-w-sm sm:max-w-lg md:max-w-3xl lg:max-w-5xl mx-auto">
-          <CardContent className="p-2 sm:p-3 md:p-4">
+        <Card className="bg-white border-2 shadow-lg mb-8 rounded-full max-w-5xl mx-auto">
+          <CardContent>
             <div className="flex justify-center">
-              <div className="relative w-full max-w-full sm:max-w-md md:max-w-2xl lg:max-w-4xl">
-                <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-[#003366] w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+              <div className="w-full max-w-4xl">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#003366] w-6 h-6" />
                 <Input
                   placeholder="Search documents..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-8 sm:pl-10 md:pl-12 bg-transparent text-[#003366] placeholder:text-[#003366]/60 border-[#003366] focus:border-[#003366] focus:ring-[#003366] h-9 sm:h-10 md:h-12 text-sm sm:text-base md:text-lg rounded-full"
+                  className="pl-12 bg-transparent text-[#003366] placeholder:text-[#003366]/60 border-[#003366] focus:border-[#003366] focus:ring-[#003366] h-12 text-lg rounded-full"
                 />
               </div>
             </div>
@@ -252,9 +251,8 @@ export default function DocumentsDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 min-h-[600px]">
               {/* Document List Panel */}
               <div
-                className={`lg:col-span-2 ${
-                  showMobileDetail ? "hidden md:block" : "block"
-                }`}
+                className={`lg:col-span-2 ${showMobileDetail ? "hidden md:block" : "block"
+                  }`}
               >
                 <div className="max-h-[600px] overflow-y-auto space-y-3 pr-1">
                   {filteredDocuments.map((doc) => (
@@ -269,9 +267,8 @@ export default function DocumentsDashboard() {
 
               {/* Document Detail Panel */}
               <div
-                className={`lg:col-span-3 ${
-                  !showMobileDetail ? "hidden md:block" : "block"
-                }`}
+                className={`lg:col-span-3 ${!showMobileDetail ? "hidden md:block" : "block"
+                  }`}
               >
                 {selectedDocument ? (
                   <>
