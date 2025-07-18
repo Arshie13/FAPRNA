@@ -8,11 +8,14 @@ import {
   Search,
   Calendar,
   ArrowLeft,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { getAllDocuments } from "@/lib/actions/document-actions";
+import { getMemberByEmail } from "@/lib/actions/members-actions";
+import { sendVerificationCode, verifyCode } from "@/lib/actions/verification-action"
 
 interface Document {
   id: string;
@@ -32,6 +35,15 @@ export default function DocumentsDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [showMobileDetail, setShowMobileDetail] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isVerificationSent, setIsVerificationSent] = useState(false);
+  const [isSendingCode, setIsSendingCode] = useState(false);
+  const [codeInput, setCodeInput] = useState(""); // what the user types
+  const [sentCode, setSentCode] = useState("");   // what was sent
+  const [verifying, setVerifying] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -81,10 +93,57 @@ export default function DocumentsDashboard() {
 
   // Handle document download
   const handleDownload = (doc: Document) => {
-    const link = document.createElement("a");
-    link.href = doc.fileUrl;
-    link.download = doc.name;
-    link.click();
+    if (!isVerified) {
+      setShowModal(true);
+    } else {
+      const link = document.createElement("a");
+      link.href = doc.fileUrl;
+      link.download = doc.name;
+      link.click();
+    }
+  };
+
+  const verifyMember = async () => {
+    setError("");
+    try {
+      setVerifying(true);
+      const result = await getMemberByEmail(email.trim());
+
+      if (result.exists) {
+        setIsSendingCode(true);
+        const { code, error } = await sendVerificationCode(email.trim());
+        if (error || !code) {
+          setError("Failed to send verification code.");
+          return;
+        }
+
+        setSentCode(code); // store the actual code sent
+        setIsVerificationSent(true); // switch to "Enter code" step
+      } else {
+        setError("No member found with provided email. Become a member to gain access.");
+      }
+    } catch {
+      setError("Verification failed. Please try again.");
+    } finally {
+      setVerifying(false);
+      setIsSendingCode(false);
+    }
+  };
+
+  const handleCodeSubmit = async () => {
+    setError("");
+    try {
+      const result = await verifyCode(sentCode, codeInput.trim());
+      if (result.success) {
+        setIsVerified(true);
+        setShowModal(false);
+        handleDownload(selectedDocument!)
+      } else {
+        setError(result.error || "Invalid verification code.");
+      }
+    } catch {
+      setError("Something went wrong. Try again.");
+    }
   };
 
   const DocumentCard = ({
@@ -96,8 +155,8 @@ export default function DocumentsDashboard() {
   }) => (
     <Card
       className={`cursor-pointer transition-all duration-200 hover:shadow-md ${isSelected
-          ? "ring-2 ring-blue-500 bg-blue-50 border-blue-200"
-          : "hover:bg-gray-50 bg-white"
+        ? "ring-2 ring-blue-500 bg-blue-50 border-blue-200"
+        : "hover:bg-gray-50 bg-white"
         }`}
       onClick={() => handleDocumentSelect(doc)}
     >
@@ -318,6 +377,53 @@ export default function DocumentsDashboard() {
           </>
         )}
       </div>
+
+      {/* Modal - moved outside and made conditional */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl w-full max-w-md p-6 relative">
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <h2 className="text-2xl font-bold mb-4 text-gray-900">Member Verification</h2>
+
+            {!isVerificationSent ? (
+              <>
+                <p className="text-gray-600 mb-4">Enter your email to receive a verification code.</p>
+                <Input
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="mb-3"
+                  type="email"
+                />
+                {error && <p className="text-red-600 text-sm mb-3">{error}</p>}
+                <Button onClick={verifyMember} disabled={verifying || isSendingCode} className="w-full">
+                  {verifying || isSendingCode ? "Sending Code..." : "Send Verification Code"}
+                </Button>
+              </>
+            ) : (
+              <>
+                <p className="text-gray-600 mb-4">Enter the code sent to <span className="font-medium">{email}</span>.</p>
+                <Input
+                  placeholder="Verification Code"
+                  value={codeInput}
+                  onChange={(e) => setCodeInput(e.target.value)}
+                  className="mb-3"
+                />
+                {error && <p className="text-red-600 text-sm mb-3">{error}</p>}
+                <Button onClick={handleCodeSubmit} className="w-full">
+                  Verify Code
+                </Button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
