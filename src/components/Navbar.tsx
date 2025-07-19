@@ -130,7 +130,7 @@ export default function Navbar() {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-full sm:w-80 p-0 bg-gradient-to-b from-white to-gray-50"
+              className="sm:w-80 p-0 bg-gradient-to-b from-white to-gray-50"
             >
               <SheetTitle className="sr-only">
                 Mobile Navigation Menu
