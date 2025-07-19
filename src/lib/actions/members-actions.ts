@@ -75,6 +75,24 @@ export async function getMemberById(id: string) {
   }
 }
 
+export async function getMemberByEmail(email: string) {
+  const result = await prisma.member.findUnique({
+    where: {
+      email,
+    }
+  });
+
+  if (result === null) {
+    return {
+      exists: false
+    }
+  }
+
+  return {
+    exists: true
+  }
+}
+
 // Update member status
 export async function updateMemberStatus(id: string, status: "APPROVED" | "DENIED" | "PENDING") {
   try {

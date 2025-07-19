@@ -10,7 +10,7 @@ export default function HeroSection() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const images = [
-    "/heropage.jpeg",
+    "/heropage.jpg",
     "/heropage2.jpg",
     "/heropage3.jpg",
     "/heropage4.jpg",
@@ -100,9 +100,9 @@ export default function HeroSection() {
                 <Link href="/about">
                   <Button
                     variant="outline"
-                    className="rounded-full border-white bg-transparent px-6 py-6 text-base font-semibold text-white 
-                           hover:bg-white/10 transition-all duration-300 hover:scale-105 hover:shadow-xl 
-                           hover:shadow-white/25 hover:border-gray-200 transform-gpu
+                    className="group rounded-full border-white bg-transparent px-6 py-6 text-base font-semibold text-white 
+                           hover:bg-white hover:text-[#003366] transition-all duration-300 hover:scale-105 hover:shadow-xl 
+                           hover:shadow-white/25 hover:border-white transform-gpu
                            backdrop-blur-sm hover:backdrop-blur-md"
                   >
                     <span>Learn More</span>

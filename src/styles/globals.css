@@ -17,6 +17,15 @@ html {
     }
 }
 
+@layer utilities {
+  @variants lg {
+    .lg:ruby {
+      display: ruby;
+    }
+  }
+}
+
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
