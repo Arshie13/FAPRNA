@@ -66,15 +66,15 @@ export default function HomePage() {
   const isVisible = (sectionId: string) => visibleSections.includes(sectionId);
 
   const founder = {
-    name: "Dr. Rhigel “Jay” Tan",
-    role: "DNP, APRN, PMHNP, GNP, ANP, FAAN",
+    name: 'Dr. Rhigel "Jay" Tan',
+    role: "Ph.D., DNP, MSN, RN, APRN, GNP, ANP, PMHNP, FAAN",
     image: "/placeholder.svg?height=250&width=250&text=Founder",
   };
 
   const coFounders = [
     {
       name: "Mary Betita",
-      role: "MD, MSN, APRN, FNP-BC, MAP (NSBN, Advanced Practice Advisory Committee)",
+      role: "MD, MSN, BSBio, APRN, FNP-BC, MAP-C , WCS-C, EDS-C",
       image: "/cofounder1.png",
     },
   ];
@@ -96,7 +96,7 @@ export default function HomePage() {
       name: "Richard Talusan",
       role: "DNP, MSN, APRN, FNP-BC, NEA-BC",
       details: "",
-      image: "", // No image, will show initials
+      image: "/initialMember3.jpeg",
     },
   ];
 
@@ -111,7 +111,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#FFFFFF]">
       {/* Hero Section with Auto Slideshow - Responsive for mobile, tablet, desktop */}
       <section
         id="home"
@@ -136,7 +136,7 @@ export default function HomePage() {
               }}
             >
               {/* Black overlay for contrast */}
-              <div className="absolute inset-0 bg-black/40"></div>
+              <div className="absolute inset-0 bg-[#000000]/40"></div>
               {/* Red overlay for brand color */}
               <div className="absolute inset-0 bg-[#b81c1c]/70"></div>
             </div>
@@ -152,10 +152,10 @@ export default function HomePage() {
                 : "opacity-0 -translate-x-10"
             } mt-6 sm:mt-8 md:mt-0 flex flex-col items-center md:items-start justify-center md:justify-start`}
           >
-            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-2 sm:mb-4 md:mb-6 text-center md:text-left w-full">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-bold text-[#FFFFFF] mb-2 sm:mb-4 md:mb-6 text-center md:text-left w-full">
               FAPRNA - NV
             </h1>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white mb-2 sm:mb-4 md:mb-8 leading-relaxed text-center md:text-left w-full">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-[#FFFFFF] mb-2 sm:mb-4 md:mb-8 leading-relaxed text-center md:text-left w-full">
               A non-profit, professional organization dedicated to unify and
               foster excellence of the Filipino-American Advanced Practice
               Nurses in Nevada.
@@ -198,7 +198,7 @@ export default function HomePage() {
         ref={(el) => {
           sectionRefs.current.history = el;
         }}
-        className="py-12 md:py-20 bg-white"
+        className="py-12 md:py-20 bg-[#FFFFFF]"
       >
         <div className="container mx-auto px-4 md:px-8 max-w-10xl">
           <h1
@@ -218,7 +218,7 @@ export default function HomePage() {
                   : "opacity-0 translate-y-10"
               }`}
             >
-              <div className="w-48 h-48 md:w-80 md:h-80 rounded-full overflow-hidden shadow-xl mx-auto border-4 border-yellow-400 mb-6">
+              <div className="w-48 h-48 md:w-80 md:h-80 rounded-full overflow-hidden shadow-xl mx-auto border-4 border-[#FBBF24] mb-6">
                 <Image
                   src="/founder.jpg"
                   alt={founder.name}
@@ -228,10 +228,10 @@ export default function HomePage() {
                   priority
                 />
               </div>
-              <h3 className="font-semibold text-xl md:text-2xl text-red-600 mb-2">
+              <h3 className="font-semibold text-xl md:text-2xl text-[#DC2626] mb-2">
                 Founder
               </h3>
-              <p className="text-base md:text-lg text-gray-700 font-medium">
+              <p className="text-base md:text-lg text-[#374151] font-medium">
                 {founder.name}, {founder.role}
               </p>
             </div>
@@ -242,22 +242,21 @@ export default function HomePage() {
                   : "opacity-0 translate-y-10"
               }`}
             >
-              <p className="text-base md:text-xl text-gray-700 leading-relaxed mb-4 md:mb-6">
+              <p className="text-base md:text-xl text-[#374151] leading-relaxed mb-4 md:mb-6">
                 In 2013, the movement to create the Advanced Nurse Practitioners
-                Association was initiated by Dr. Rhigel “Jay” Tan, DNP, APRN,
-                PMHNP, GNP, ANP, FAAN who was then a member of the Nevada State
-                Board of Nursing (NSBN) and later on appointed as the first
-                Asian and Filipino to sit as president of the NSBN, alongside
-                with the co-founders:
+                Association was initiated by Dr. Rhigel &quot;Jay&quot; Tan,
+                Ph.D., DNP, MSN, RN, APRN, GNP, ANP, PMHNP, FAAN who was then a
+                member of the Nevada State Board of Nursing (NSBN) and later on
+                appointed as the first Asian and Filipino to sit as president of
+                the NSBN, alongside with the co-founders:
               </p>
-              <p className="text-base md:text-xl text-gray-700 leading-relaxed mb-4 md:mb-6">
-                Mary Betita, MD, MSN, APRN, FNP-BC, MAP (NSBN, Advanced Practice
-                Advisory Committee) Alona Angosta, PhD, APRN, FNP, NP-C (NSBN,
-                Advanced Practice Advisory Committee) Jennifer Kawi, PhD, MSN,
-                APRN, FNP-BC, CNE Richard Talusan, DNP, MSN, APRN, FNP-BC,
-                NEA-BC
+              <p className="text-base md:text-xl text-[#374151] leading-relaxed mb-4 md:mb-6">
+                Mary Betita, MD, MSN, BSBio, APRN, FNP-BC, MAP-C , WCS-C, EDS-C
+                Alona Angosta, PhD, APRN, FNP, NP-C (NSBN, Advanced Practice
+                Advisory Committee) Jennifer Kawi, PhD, MSN, APRN, FNP-BC, CNE
+                Richard Talusan, DNP, MSN, APRN, FNP-BC, NEA-BC
               </p>
-              <p className="text-base md:text-xl text-gray-700 leading-relaxed">
+              <p className="text-base md:text-xl text-[#374151] leading-relaxed">
                 The FARPNA-NV was engaged in trying to influence legislators
                 which was a very important turning point in the history of APRN
                 practice in the State of Nevada to support a strong proponent
@@ -286,7 +285,7 @@ export default function HomePage() {
       >
         <div className="container mx-auto px-4 md:px-8 max-w-10xl">
           <h2
-            className={`text-3xl md:text-6xl font-bold text-center mb-8 md:mb-16 text-white transition-all duration-1000 ${
+            className={`text-3xl md:text-6xl font-bold text-center mb-8 md:mb-16 text-[#FFFFFF] transition-all duration-1000 ${
               isVisible("team")
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-10"
@@ -297,14 +296,14 @@ export default function HomePage() {
           {/* Co-Founders - Card Layout */}
           {coFounders.length === 1 ? (
             <div
-              className={`bg-white rounded-2xl shadow-xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 mb-16 transition-all duration-1000 ${
+              className={`bg-[#FFFFFF] rounded-2xl shadow-xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 mb-16 transition-all duration-1000 max-w-5xl mx-auto ${
                 isVisible("team")
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
               }`}
             >
               {/* Circle Image */}
-              <div className="w-40 h-40 md:w-64 md:h-64 rounded-full overflow-hidden shadow-lg border-4 border-yellow-400 bg-gray-100 flex items-center justify-center transition-all duration-300 hover:border-yellow-500 hover:scale-105 hover:shadow-yellow-400/60 mb-6 md:mb-0">
+              <div className="w-40 h-40 md:w-64 md:h-64 rounded-full overflow-hidden shadow-lg border-4 border-[#FBBF24] bg-[#F3F4F6] flex items-center justify-center transition-all duration-300 hover:border-[#F59E0B] hover:scale-105 hover:shadow-[#FBBF24]/60 mb-6 md:mb-0">
                 {coFounders[0].image &&
                 !coFounders[0].image.startsWith("/placeholder.svg") ? (
                   <Image
@@ -328,7 +327,7 @@ export default function HomePage() {
                 <h3 className="font-semibold text-2xl md:text-3xl text-[#003366] mb-2 transition-all duration-1000">
                   {coFounders[0].name}
                 </h3>
-                <p className="text-lg md:text-xl text-blue-800 transition-all duration-1000">
+                <p className="text-lg md:text-xl text-[#003366] transition-all duration-1000">
                   {coFounders[0].role}
                 </p>
               </div>
@@ -345,7 +344,7 @@ export default function HomePage() {
                   }`}
                   style={{ transitionDelay: `${400 + index * 200}ms` }}
                 >
-                  <div className="w-40 h-40 md:w-64 md:h-64 rounded-full overflow-hidden shadow-lg mx-auto mb-4 md:mb-6 border-4 border-yellow-400 transition-all duration-300 group-hover:border-yellow-500 group-hover:scale-105 group-hover:shadow-yellow-400/60 bg-gray-100 flex items-center justify-center">
+                  <div className="w-40 h-40 md:w-64 md:h-64 rounded-full overflow-hidden shadow-lg mx-auto mb-4 md:mb-6 border-4 border-[#FBBF24] transition-all duration-300 group-hover:border-[#F59E0B] group-hover:scale-105 group-hover:shadow-[#FBBF24]/60 bg-[#F3F4F6] flex items-center justify-center">
                     {founder.image &&
                     !founder.image.startsWith("/placeholder.svg") ? (
                       <Image
@@ -367,7 +366,7 @@ export default function HomePage() {
                   <h3 className="font-semibold text-xl md:text-2xl text-[#003366] mb-2">
                     {founder.name}
                   </h3>
-                  <p className="text-base md:text-lg text-blue-800 mb-1">
+                  <p className="text-base md:text-lg text-[#003366] mb-1">
                     {founder.role}
                   </p>
                 </div>
@@ -377,7 +376,7 @@ export default function HomePage() {
 
           {/* Founding Members - White Card Container */}
           <h2
-            className={`text-3xl md:text-6xl font-bold text-center mb-8 md:mb-16 text-white transition-all duration-1000 ${
+            className={`text-3xl md:text-6xl font-bold text-center mb-8 md:mb-16 text-[#FFFFFF] transition-all duration-1000 ${
               isVisible("founding-members")
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-10"
@@ -390,7 +389,7 @@ export default function HomePage() {
             Founding Members
           </h2>
           <div
-            className={`bg-white rounded-2xl shadow-xl p-8 md:p-12 transition-all duration-1000 ${
+            className={`bg-[#FFFFFF] rounded-2xl shadow-xl p-8 md:p-12 transition-all duration-1000 ${
               isVisible("founding-members")
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-10"
@@ -407,7 +406,7 @@ export default function HomePage() {
                   }`}
                   style={{ transitionDelay: `${400 + idx * 200}ms` }}
                 >
-                  <div className="w-40 h-40 md:w-64 md:h-64 rounded-full overflow-hidden shadow-lg mx-auto mb-4 md:mb-6 border-4 border-yellow-400 transition-all duration-300 group-hover:border-yellow-500 group-hover:scale-105 group-hover:shadow-yellow-400/60 bg-gray-100 flex items-center justify-center">
+                  <div className="w-40 h-40 md:w-64 md:h-64 rounded-full overflow-hidden shadow-lg mx-auto mb-4 md:mb-6 border-4 border-[#FBBF24] transition-all duration-300 group-hover:border-[#F59E0B] group-hover:scale-105 group-hover:shadow-[#FBBF24]/60 bg-[#F3F4F6] flex items-center justify-center">
                     {member.image ? (
                       <Image
                         src={member.image}
@@ -428,11 +427,11 @@ export default function HomePage() {
                   <h3 className="font-semibold text-xl md:text-2xl text-[#003366] mb-2">
                     {member.name}
                   </h3>
-                  <p className="text-base md:text-lg text-blue-800 mb-1">
+                  <p className="text-base md:text-lg text-[#003366] mb-1">
                     {member.role}
                   </p>
                   {member.details && (
-                    <p className="text-sm md:text-base text-blue-800">
+                    <p className="text-sm md:text-base text-[#003366]">
                       {member.details}
                     </p>
                   )}
@@ -449,12 +448,12 @@ export default function HomePage() {
         ref={(el) => {
           sectionRefs.current.about = el;
         }}
-        className="py-12 md:py-20 bg-white"
+        className="py-12 md:py-20 bg-[#FFFFFF]"
       >
         <div className="container mx-auto px-4 md:px-8 max-w-9xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
             <Card
-              className={`bg-white shadow-xl hover:shadow-2xl transition-all duration-1000 ${
+              className={`bg-[#FFFFFF] shadow-xl hover:shadow-2xl transition-all duration-1000 ${
                 isVisible("about")
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
@@ -462,12 +461,12 @@ export default function HomePage() {
             >
               <CardContent className="p-6 md:p-12">
                 <div className="flex items-center mb-4 md:mb-6">
-                  <Target className="w-8 h-8 md:w-12 md:h-12 text-red-600 mr-3 md:mr-4" />
+                  <Target className="w-8 h-8 md:w-12 md:h-12 text-[#DC2626] mr-3 md:mr-4" />
                   <h3 className="text-2xl md:text-4xl font-bold text-[#003366]">
                     Our Mission
                   </h3>
                 </div>
-                <p className="text-base md:text-xl text-gray-700 leading-relaxed">
+                <p className="text-base md:text-xl text-[#374151] leading-relaxed">
                   The Filipino-American Advanced Practice Registered Nurses of
                   Nevada (FAPRNA-NV) is a non-profit professional organization
                   dedicated to unify and foster professional excellence of the
@@ -476,7 +475,7 @@ export default function HomePage() {
               </CardContent>
             </Card>
             <Card
-              className={`bg-white shadow-xl hover:shadow-2xl transition-all duration-1000 delay-300 ${
+              className={`bg-[#FFFFFF] shadow-xl hover:shadow-2xl transition-all duration-1000 delay-300 ${
                 isVisible("about")
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
@@ -484,16 +483,16 @@ export default function HomePage() {
             >
               <CardContent className="p-6 md:p-12">
                 <div className="flex items-center mb-4 md:mb-6">
-                  <Eye className="w-8 h-8 md:w-12 md:h-12 text-yellow-400 mr-3 md:mr-4" />
+                  <Eye className="w-8 h-8 md:w-12 md:h-12 text-[#FBBF24] mr-3 md:mr-4" />
                   <h3 className="text-2xl md:text-4xl font-bold text-[#003366]">
                     Our Vision
                   </h3>
                 </div>
-                <p className="text-base md:text-xl text-gray-700 leading-relaxed">
+                <p className="text-base md:text-xl text-[#374151] leading-relaxed">
                   The vision of FAPRNA-NV is consistent with its mission to
                   uphold the positive image of the Filipino-American Advanced
                   Practice Nurse Practitioners as excellent professionals based
-                  on the organization’s founding intentions and principles;
+                  on the organization&#39;s founding intentions and principles;
                   adapt to modern innovation changes, support the professional
                   advancements, advocate on issues plaguing healthcare; and
                   create an impact on healthcare outcomes.
@@ -522,7 +521,7 @@ export default function HomePage() {
               }`}
             >
               <div className="relative">
-                <div className="w-48 h-48 md:w-100 md:h-100 bg-white rounded-full shadow-2xl flex items-center justify-center">
+                <div className="w-48 h-48 md:w-100 md:h-100 bg-[#FFFFFF] rounded-full shadow-2xl flex items-center justify-center">
                   <div className="text-center">
                     <Image
                       src="/faprna_logo.png"
@@ -540,7 +539,7 @@ export default function HomePage() {
             </div>
             <div className="w-full lg:w-2/3">
               <h2
-                className={`text-3xl md:text-6xl font-bold mb-6 md:mb-12 text-[#ffffff] transition-all duration-1000 ${
+                className={`text-3xl md:text-6xl font-bold mb-6 md:mb-12 text-[#FFFFFF] transition-all duration-1000 ${
                   isVisible("objectives")
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-10"
@@ -552,17 +551,17 @@ export default function HomePage() {
                 {objectives.map((objective, index) => (
                   <div
                     key={index}
-                    className={`flex items-center bg-white rounded-lg p-4 md:p-6 shadow-md hover:shadow-lg transition-all duration-1000 ${
+                    className={`flex items-center bg-[#FFFFFF] rounded-lg p-4 md:p-6 shadow-md hover:shadow-lg transition-all duration-1000 ${
                       isVisible("objectives")
                         ? "opacity-100 translate-x-0"
                         : "opacity-0 -translate-x-10"
                     }`}
                     style={{ transitionDelay: `${400 + index * 150}ms` }}
                   >
-                    <div className="w-10 h-10 md:w-12 md:h-12 bg-[#003366] text-white rounded-full flex items-center justify-center font-bold mr-4 md:mr-6 text-lg md:text-xl">
+                    <div className="w-10 h-10 md:w-12 md:h-12 bg-[#003366] text-[#FFFFFF] rounded-full flex items-center justify-center font-bold mr-4 md:mr-6 text-lg md:text-xl">
                       {pearls[index]}
                     </div>
-                    <p className="text-base md:text-xl text-gray-700 font-medium">
+                    <p className="text-base md:text-xl text-[#374151] font-medium">
                       {objective}
                     </p>
                   </div>
@@ -579,7 +578,7 @@ export default function HomePage() {
         ref={(el) => {
           sectionRefs.current.cta = el;
         }}
-        className="py-12 md:py-20 bg-[#fffffff]"
+        className="py-12 md:py-20 bg-[#FFFFFF]"
       >
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
           <Card
@@ -592,12 +591,12 @@ export default function HomePage() {
             <CardContent className="p-6 md:p-16">
               <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-16">
                 <div className="w-full lg:w-1/2 text-center mb-8 lg:mb-0">
-                  <div className="w-32 h-32 md:w-48 md:h-48 bg-[#ffffff] rounded-full flex items-center justify-center shadow-2xl mx-auto mb-4 md:mb-6">
+                  <div className="w-32 h-32 md:w-48 md:h-48 bg-[#FFFFFF] rounded-full flex items-center justify-center shadow-2xl mx-auto mb-4 md:mb-6">
                     <Mail className="w-16 h-16 md:w-24 md:h-24 text-[#003366]" />
                   </div>
                 </div>
                 <div className="w-full lg:w-1/2 flex flex-col justify-center">
-                  <h2 className="text-3xl md:text-6xl font-extrabold text-[#ffffff] mb-6 md:mb-12 drop-shadow-lg">
+                  <h2 className="text-3xl md:text-6xl font-extrabold text-[#FFFFFF] mb-6 md:mb-12 drop-shadow-lg">
                     Get in touch
                   </h2>
                   <div className="space-y-6 md:space-y-10">
@@ -608,14 +607,14 @@ export default function HomePage() {
                           : "opacity-0 -translate-x-10"
                       }`}
                     >
-                      <div className="w-10 h-10 md:w-16 md:h-16 bg-[#ffffff] rounded-full flex items-center justify-center shadow-xl mr-4 md:mr-8">
+                      <div className="w-10 h-10 md:w-16 md:h-16 bg-[#FFFFFF] rounded-full flex items-center justify-center shadow-xl mr-4 md:mr-8">
                         <Phone className="w-6 h-6 md:w-9 md:h-9 text-[#003366]" />
                       </div>
                       <div>
-                        <p className="text-xl md:text-3xl text-[#ffffff] font-extrabold mb-1 md:mb-2">
+                        <p className="text-xl md:text-3xl text-[#FFFFFF] font-extrabold mb-1 md:mb-2">
                           Give us a Text
                         </p>
-                        <p className="text-lg md:text-2xl text-[#ffffff] tracking-wide">
+                        <p className="text-lg md:text-2xl text-[#FFFFFF] tracking-wide">
                           (702) 417-3865
                         </p>
                       </div>
@@ -627,14 +626,14 @@ export default function HomePage() {
                           : "opacity-0 -translate-x-10"
                       }`}
                     >
-                      <div className="w-10 h-10 md:w-16 md:h-16 bg-[#ffffff] rounded-full flex items-center justify-center shadow-xl mr-4 md:mr-8">
+                      <div className="w-10 h-10 md:w-16 md:h-16 bg-[#FFFFFF] rounded-full flex items-center justify-center shadow-xl mr-4 md:mr-8">
                         <Mail className="w-6 h-6 md:w-9 md:h-9 text-[#003366]" />
                       </div>
                       <div>
-                        <p className="text-xl md:text-3xl text-[#ffffff] font-extrabold mb-1 md:mb-2">
+                        <p className="text-xl md:text-3xl text-[#FFFFFF] font-extrabold mb-1 md:mb-2">
                           Send us an Email
                         </p>
-                        <p className="text-lg md:text-2xl text-[#ffffff] tracking-wide">
+                        <p className="text-lg md:text-2xl text-[#FFFFFF] tracking-wide">
                           faprnanv702@gmail.com
                         </p>
                       </div>
