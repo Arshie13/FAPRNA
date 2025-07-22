@@ -154,10 +154,11 @@ export default function DocumentsDashboard() {
     isSelected: boolean;
   }) => (
     <Card
-      className={`cursor-pointer transition-all duration-200 hover:shadow-md ${isSelected
-        ? "ring-2 ring-blue-500 bg-blue-50 border-blue-200"
-        : "hover:bg-gray-50 bg-white"
-        }`}
+      className={`cursor-pointer transition-all duration-200 hover:shadow-md hover:bg-blue-50 bg-white rounded-xl border border-gray-200 ${
+        isSelected
+          ? "border-l-4 border-[#003366] !border-t !border-r !border-b"
+          : ""
+      }`}
       onClick={() => handleDocumentSelect(doc)}
     >
       <CardContent className="p-4 sm:p-5">
