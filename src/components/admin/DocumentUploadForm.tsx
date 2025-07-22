@@ -218,12 +218,8 @@ export default function DocumentUploadForm() {
                   <Button
                     type="button"
                     variant="outline"
-                    onClick={async () => {
-                      await edgestore.publicFiles.confirmUpload({
-                        url: fileUrl,
-                      });
-                    }}
                     className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 min-w-32 sm:min-w-36 md:min-w-40"
+                    onClick={() => router.back()}
                   >
                     Cancel
                   </Button>
@@ -231,7 +227,12 @@ export default function DocumentUploadForm() {
                     type="submit"
                     disabled={isSubmitting || fileUploading}
                     className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 min-w-40 sm:min-w-44 md:min-w-48
-                      bg-[#003366] text-white hover:bg-[#002244] hover:text-white transition-all duration-300 rounded-xl shadow-lg"
+                            bg-[#003366] text-white hover:bg-[#002244] hover:text-white transition-all duration-300 rounded-xl shadow-lg"
+                    onClick={async () => {
+                      await edgestore.publicFiles.confirmUpload({
+                        url: fileUrl,
+                      });
+                    }}
                   >
                     {(isSubmitting || fileUploading) && (
                       <Loader2 className="mr-2 h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 animate-spin" />
