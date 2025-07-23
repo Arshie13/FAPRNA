@@ -136,7 +136,7 @@ export async function getRecentActivity() {
         id: `nomination-${nomination.id}`,
         type: "NOMINATION_SUBMITTED" as const,
         title: "New Nomination",
-        description: `${nomination.nominator.fullName} submitted a nomination for ${nomination.category}`,
+        description: `${nomination.nominator?.fullName} submitted a nomination for ${nomination.category}`,
         timestamp: nomination.createdAt,
         status: nomination.status,
       })),
