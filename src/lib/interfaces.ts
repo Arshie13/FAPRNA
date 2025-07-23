@@ -23,8 +23,8 @@ export interface IEvent {
 
 export interface Nomination {
   id: string
-  nominatorId: string
-  nomineeId: string
+  nominatorId: string | null
+  nomineeId: string | null
   createdAt: Date
   updatedAt: Date
   category: string
@@ -34,12 +34,12 @@ export interface Nomination {
     id: string
     fullName: string
     email: string
-  }
+  } | null
   nominee: {
     id: string
     fullName: string
     email: string
-  }
+  } | null
 }
 
 export interface NominationStats {

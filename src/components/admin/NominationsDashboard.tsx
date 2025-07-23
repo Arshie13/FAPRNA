@@ -114,10 +114,10 @@ export default function NominationsAdminDashboard() {
   const filteredNominations = nominations.filter((nomination) => {
     const matchesSearch =
       nomination.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      nomination.nominator.fullName
+      nomination.nominator?.fullName
         .toLowerCase()
         .includes(searchQuery.toLowerCase()) ||
-      nomination.nominee.fullName
+      nomination.nominee?.fullName
         .toLowerCase()
         .includes(searchQuery.toLowerCase()) ||
       nomination.reason.toLowerCase().includes(searchQuery.toLowerCase());
@@ -387,10 +387,10 @@ export default function NominationsAdminDashboard() {
                               </div>
                               <div className="space-y-1 text-xs text-gray-600">
                                 <div>
-                                  Nominator: {nomination.nominator.fullName}
+                                  Nominator: {nomination.nominator?.fullName}
                                 </div>
                                 <div>
-                                  Nominee: {nomination.nominee.fullName}
+                                  Nominee: {nomination.nominee?.fullName}
                                 </div>
                                 <div>
                                   {format(
@@ -512,10 +512,10 @@ export default function NominationsAdminDashboard() {
                                 <User className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-gray-500" />
                                 <div>
                                   <div className="font-semibold text-sm sm:text-base md:text-lg">
-                                    {nomination.nominator.fullName}
+                                    {nomination.nominator?.fullName}
                                   </div>
                                   <div className="text-xs sm:text-sm md:text-base text-gray-500">
-                                    {nomination.nominator.email}
+                                    {nomination.nominator?.email}
                                   </div>
                                 </div>
                               </div>
@@ -525,10 +525,10 @@ export default function NominationsAdminDashboard() {
                                 <User className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-gray-500" />
                                 <div>
                                   <div className="font-semibold text-sm sm:text-base md:text-lg">
-                                    {nomination.nominee.fullName}
+                                    {nomination.nominee?.fullName}
                                   </div>
                                   <div className="text-xs sm:text-sm md:text-base text-gray-500">
-                                    {nomination.nominee.email}
+                                    {nomination.nominee?.email}
                                   </div>
                                 </div>
                               </div>

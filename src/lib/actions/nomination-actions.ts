@@ -98,7 +98,7 @@ export async function createNomination(data: {
       console.log("Duplicate nomination detected for category:", data.category);
       return {
         success: false,
-        error: `You have already nominated ${existingNomination.nominee.fullName} for the ${data.category} category this year. Each person can only submit one nomination per category per year.`
+        error: `You have already nominated ${existingNomination.nominee?.fullName} for the ${data.category} category this year. Each person can only submit one nomination per category per year.`
       };
     }
 

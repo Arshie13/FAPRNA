@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  Award,
   LayoutDashboard,
   Newspaper,
   Users,
@@ -39,11 +40,11 @@ export default function AdminSidebar() {
       href: "/admin/events",
       icon: <Newspaper className="h-7 w-7" />,
     },
-    // {
-    //   title: "Nominations",
-    //   href: "/admin/nominations",
-    //   icon: <Award className="h-7 w-7" />,
-    // },
+    {
+      title: "Nominations",
+      href: "/admin/nominations",
+      icon: <Award className="h-7 w-7" />,
+    },
     {
       title: "Members",
       href: "/admin/members",

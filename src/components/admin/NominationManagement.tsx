@@ -383,7 +383,7 @@ const fetchData = async () => {
               <div key={nomination.id} className="border rounded-lg p-4">
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <h4 className="font-medium">{nomination.nominee.fullName}</h4>
+                    <h4 className="font-medium">{nomination.nominee?.fullName}</h4>
                     <p className="text-sm text-gray-600">{getCategoryTitle(nomination.category)}</p>
                     <p className="text-xs text-gray-500">
                       Nominated by {nomination.nominator.fullName} • {format(new Date(nomination.createdAt), "PPP")}
