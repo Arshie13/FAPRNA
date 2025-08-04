@@ -36,8 +36,9 @@ export default function HeroSection() {
             src={src || "/placeholder.svg"}
             alt="FAPRNA-NV Healthcare Professionals"
             fill
-            className={`object-cover object-center transition-opacity duration-1000 ${index === currentImageIndex ? "opacity-100" : "opacity-0"
-              }`}
+            className={`object-cover object-center transition-opacity duration-1000 ${
+              index === currentImageIndex ? "opacity-100" : "opacity-0"
+            }`}
             priority={index === 0}
           />
         ))}
@@ -53,12 +54,16 @@ export default function HeroSection() {
             <div className="text-white animate-fade-in-up">
               {/* Main Title */}
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-in-up animation-delay-200 text-border">
-                <span className="drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-red-600 hover:text-red-400 transition-colors duration-300 animate-text-shimmer bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text bg-size-200 animate-gradient-x">
-                  FAPRNA
-                </span>
-                <span className="hover:text-gray-100 transition-colors duration-300">
-                  -NV
-                </span>
+                <div className="relative">
+                  {/* Main text */}
+                  <div className="text-5xl md:text-6xl lg:text-7xl font-bold uppercase text-red-600">
+                    FAPRNA<span className="text-white">-NV</span>
+                  </div>
+                  {/* Shadow text */}
+                  <div className="absolute top-1 left-1 text-5xl md:text-6xl lg:text-7xl font-bold uppercase text-white -z-10">
+                    FAPRNA<span className="text-red-600">-NV</span>
+                  </div>
+                </div>
               </h1>
 
               {/* Description */}
