@@ -45,7 +45,7 @@ export default function Navbar() {
   return (
     <header className="w-full border-b bg-white">
       <div className="max-w-screen-xl mx-auto flex h-32 items-center justify-center gap-6 px-4 md:px-6 lg:px-8">
-        <div className="flex items-center gap-2">
+        <div className="relative group flex items-center">
           <Link href="/" className="flex items-center">
             <div className="flex flex-col">
               <div className="flex items-center">
@@ -54,7 +54,7 @@ export default function Navbar() {
                   alt="FAPRNA-NV Logo"
                   width={60}
                   height={40}
-                  className="mr-2 max-w-full h-auto"
+                  className="mr-2 max-w-full h-auto spin-slow"
                 />
                 <span className="text-xl font-bold text-[#003366]">
                   FAPRNA-NV
@@ -62,6 +62,16 @@ export default function Navbar() {
               </div>
             </div>
           </Link>
+
+          {/* Dropdown */}
+          <div className="z-10 absolute left-0 top-full hidden w-40 rounded-lg bg-white shadow-lg border border-gray-100 group-hover:block">
+            <Link
+              href="/about"
+              className="block px-4 py-3 text-sm font-bold text-[#003366] hover:bg-[#003366]/10 transition-all duration-300"
+            > 
+              About Us
+            </Link>
+          </div>
         </div>
 
         <nav className="hidden md:flex items-center gap-6 lg:gap-10 flex-wrap">

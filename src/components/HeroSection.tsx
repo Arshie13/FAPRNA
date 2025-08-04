@@ -36,9 +36,8 @@ export default function HeroSection() {
             src={src || "/placeholder.svg"}
             alt="FAPRNA-NV Healthcare Professionals"
             fill
-            className={`object-cover object-center transition-opacity duration-1000 ${
-              index === currentImageIndex ? "opacity-100" : "opacity-0"
-            }`}
+            className={`object-cover object-center transition-opacity duration-1000 ${index === currentImageIndex ? "opacity-100" : "opacity-0"
+              }`}
             priority={index === 0}
           />
         ))}
@@ -52,23 +51,12 @@ export default function HeroSection() {
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             {/* Left Content */}
             <div className="text-white animate-fade-in-up">
-              {/* Professional Organization Badge */}
-              {/* <div className="inline-block mb-6 animate-fade-in-up animation-delay-100">
-                <span
-                  className="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide \
-                               hover:bg-red-700 transition-all duration-300 hover:scale-105 hover:shadow-lg
-                               animate-pulse-subtle"
-                >
-                  Non Profit Organization
-                </span>
-              </div> */}
-
               {/* Main Title */}
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-in-up animation-delay-200">
-                <span className="text-red-500 hover:text-red-400 transition-colors duration-300 animate-text-shimmer bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text bg-size-200 animate-gradient-x">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-in-up animation-delay-200 text-border">
+                <span className="drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] text-red-600 hover:text-red-400 transition-colors duration-300 animate-text-shimmer bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text bg-size-200 animate-gradient-x">
                   FAPRNA
                 </span>
-                <span className="text-white hover:text-gray-100 transition-colors duration-300">
+                <span className="hover:text-gray-100 transition-colors duration-300">
                   -NV
                 </span>
               </h1>

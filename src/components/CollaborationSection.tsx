@@ -38,14 +38,7 @@ export default function CollaborationSection() {
       src: "/collab5.png",
       alt: "Advance HealthCare Solutions",
       name: "Advance HealthCare",
-      url: "https://advancehealthcare.com",
-    },
-    // No link Available I've just added a dummy link
-    {
-      src: "/collab6.png",
-      alt: "Goodwill Pharmacy",
-      name: "Goodwill Pharmacy",
-      url: "https://www.advancehealthcare.solutions/about-us",
+      url: "https://www.advancehealthcare.solutions/",
     },
     {
       src: "/collab7.png",

@@ -280,6 +280,20 @@ html {
   }
 }
 
+@keyframes spin-slow {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.spin-slow {
+  animation: spin-slow 5s linear infinite; /* 5s per rotation */
+}
+
+.text-border-gradient {
+  -webkit-text-stroke: 1px white;
+  -webkit-text-fill-color: transparent; /* preserves gradient */
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 2.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
