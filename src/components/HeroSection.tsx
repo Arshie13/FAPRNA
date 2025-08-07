@@ -1,30 +1,21 @@
-"use client";
-
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { ChevronRight } from "lucide-react";
-import { useState, useEffect } from "react";
+"use client"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import Image from "next/image"
+import { ChevronRight } from "lucide-react"
+import { useState, useEffect } from "react"
 
 export default function HeroSection() {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  const images = [
-    "/heropage.jpg",
-    "/heropage2.jpg",
-    "/heropage3.jpg",
-    "/heropage4.jpg",
-  ];
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const images = ["/heropage.jpg", "/heropage2.jpg", "/heropage3.jpg", "/heropage4.jpg"]
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) =>
-        prevIndex === images.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 3000);
+      setCurrentImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1))
+    }, 3000)
 
-    return () => clearInterval(interval);
-  }, [images.length]);
+    return () => clearInterval(interval)
+  }, [images.length])
 
   return (
     <section className="relative w-full overflow-hidden h-[600px] md:h-[700px]">
@@ -53,38 +44,48 @@ export default function HeroSection() {
             {/* Left Content */}
             <div className="text-white animate-fade-in-up">
               {/* Main Title */}
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-in-up animation-delay-200 text-border">
-                <div className="relative">
-                  {/* Main text */}
-                  <div className="text-5xl md:text-6xl lg:text-7xl font-bold uppercase text-red-600">
-                    FAPRNA<span className="text-white">-NV</span>
-                  </div>
-                  {/* Shadow text */}
-                  <div className="absolute top-1 left-1 text-5xl md:text-6xl lg:text-7xl font-bold uppercase text-white -z-10">
-                    FAPRNA<span className="text-red-600">-NV</span>
-                  </div>
-                </div>
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-in-up">
+                <span className="relative inline-block">
+                  <span
+                    className="bg-gradient-to-r from-red-500 via-pink-500 to-red-600 bg-clip-text text-transparent 
+                               animate-gradient-x bg-200 hover:from-red-300 hover:via-pink-400 hover:to-red-500
+                               transition-all duration-500 drop-shadow-glow-red hover:drop-shadow-glow-red-strong
+                               animate-text-glow"
+                  >
+                    FAPRNA
+                  </span>
+                  {/* Animated underline */}
+                  <div
+                    className="absolute -bottom-2 left-0 h-2   w-full bg-gradient-to-r from-red-400 via-pink-500 to-red-600 
+                               animate-pulse rounded-full shadow-lg shadow-red-500/50"
+                  ></div>
+                </span>
+                <span
+                  className="text-white hover:text-gray-100 transition-colors duration-300 
+                             drop-shadow-glow-white hover:drop-shadow-glow-white-strong"
+                >
+                  -NV
+                </span>
               </h1>
 
               {/* Description */}
               <p
-                className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed max-w-2xl animate-fade-in-up animation-delay-300
+                className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed max-w-2xl animate-fade-in-up
                            hover:text-white transition-colors duration-300"
               >
-                Filipino-American Advanced Practice Registered Nurses
-                Association
+                Filipino-American Advanced Practice Registered Nurses Association
               </p>
 
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-400">
+              <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up">
                 <Link href="/event-registration">
                   <Button
-                    className="group rounded-full bg-red-600 px-6 py-6 text-base font-semibold hover:bg-red-700 
-                                 transition-all duration-300 hover:scale-105 hover:shadow-xl 
-                                 hover:shadow-red-500/25 transform-gpu
-                                 before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-r 
-                                 before:from-red-400 before:to-red-600 before:opacity-0 before:transition-opacity 
-                                 before:duration-300 hover:before:opacity-20 relative overflow-hidden"
+                    className="group rounded-full bg-red-600 px-6 py-6 text-base font-semibold hover:bg-red-700
+                               transition-all duration-300 hover:scale-105 hover:shadow-xl
+                               hover:shadow-red-500/25 transform-gpu
+                               before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-r
+                               before:from-red-400 before:to-red-600 before:opacity-0 before:transition-opacity
+                               before:duration-300 hover:before:opacity-20 relative overflow-hidden"
                   >
                     <span className="relative z-10">Upcoming Events</span>
                     <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 relative z-10" />
@@ -93,10 +94,10 @@ export default function HeroSection() {
                 <Link href="/about">
                   <Button
                     variant="outline"
-                    className="group rounded-full border-white bg-transparent px-6 py-6 text-base font-semibold text-white 
-                           hover:bg-white hover:text-[#003366] transition-all duration-300 hover:scale-105 hover:shadow-xl 
-                           hover:shadow-white/25 hover:border-white transform-gpu
-                           backdrop-blur-sm hover:backdrop-blur-md"
+                    className="group rounded-full border-white bg-transparent px-6 py-6 text-base font-semibold text-white
+                               hover:bg-white hover:text-[#003366] transition-all duration-300 hover:scale-105 hover:shadow-xl
+                               hover:shadow-white/25 hover:border-white transform-gpu
+                               backdrop-blur-sm hover:backdrop-blur-md"
                   >
                     <span>Learn More</span>
                     <svg
@@ -105,12 +106,7 @@ export default function HeroSection() {
                       stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </Button>
                 </Link>
@@ -119,12 +115,12 @@ export default function HeroSection() {
 
             {/* Right Content - Circular Badge */}
             <div className="hidden md:flex items-center justify-center">
-              <div className="relative h-80 w-80 overflow-hidden rounded-full border-4 border-white/20 shadow-2xl animate-fade-in-up animation-delay-300">
+              <div className="relative h-80 w-80 overflow-hidden rounded-full border-4 border-white/20 shadow-2xl animate-fade-in-up">
                 <div className="absolute inset-0 bg-gradient-to-b from-red-600/20 to-blue-900/20 animate-gradient-x"></div>
-                <div className="absolute right-0 bottom-0 h-24 w-24 rounded-full bg-red-600 blur-2xl animate-fade-in-up animation-delay-400"></div>
-                <div className="absolute left-0 top-0 h-24 w-24 rounded-full bg-blue-600 blur-2xl animate-fade-in-up animation-delay-400"></div>
+                <div className="absolute right-0 bottom-0 h-24 w-24 rounded-full bg-red-600 blur-2xl animate-fade-in-up"></div>
+                <div className="absolute left-0 top-0 h-24 w-24 rounded-full bg-blue-600 blur-2xl animate-fade-in-up"></div>
                 <div className="flex h-full w-full items-center justify-center">
-                  <h2 className="text-center font-bold text-white text-4xl animate-fade-in-up animation-delay-400">
+                  <h2 className="text-center font-bold text-white text-4xl animate-fade-in-up">
                     Serving
                     <br />
                     Since
@@ -140,11 +136,7 @@ export default function HeroSection() {
 
       {/* Bottom wave decoration */}
       <div className="absolute bottom-0 left-0 right-0 z-10">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1440 120"
-          className="w-full"
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" className="w-full">
           <path
             fill="#ffffff"
             fillOpacity="1"
@@ -153,5 +145,5 @@ export default function HeroSection() {
         </svg>
       </div>
     </section>
-  );
+  )
 }

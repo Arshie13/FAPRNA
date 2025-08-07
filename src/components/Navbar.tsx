@@ -28,7 +28,7 @@ export default function Navbar() {
   }, []);
 
   const mainNavItems = [
-    { href: "/", label: "Home" },
+    { href: "/about", label: "About Us" },
     { href: "/membership", label: "Membership" },
     { href: "/event-registration", label: "Events" },
     { href: "/luminance", label: "Luminance" },
