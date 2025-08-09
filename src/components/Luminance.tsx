@@ -5,7 +5,7 @@ import { Trophy, History, Home, StarIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { getCurrentWinners, checkLuminanceEventStatus } from "@/lib/actions/luminance-actions";
+import { getCurrentWinners, getPreviousWinners, checkLuminanceEventStatus } from "@/lib/actions/luminance-actions";
 
 interface LuminanceAwardsProps {
   onVote: () => void;
@@ -163,11 +163,18 @@ const GoldenSparkles = () => {
 export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
   const [showHistory, setShowHistory] = useState(false);
   const [currentWinner, setCurrentWinner] = useState("");
+  const [previousWinners, setPreviousWinners] = useState<string[]>([]);
   const [hasStarted, setHasStarted] = useState<boolean | null>(null)
 
   const fetchCurrentWinners = async () => {
-    const result = await getCurrentWinners();
-    setCurrentWinner(result[0].fileUrl)
+
+    const [ currentWinner, previousWinners ] = await Promise.all([
+      getCurrentWinners(),
+      getPreviousWinners()
+    ]);
+
+    setCurrentWinner(currentWinner[0].fileUrl);
+    setPreviousWinners(previousWinners.map(winner => winner.fileUrl));
   }
 
   const fetchEventStatus = async () => {
@@ -352,6 +359,25 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
                   boxShadow: "0 0 20px rgba(255, 215, 0, 0.4)",
                 }}
               ></div>
+
+              {previousWinners && (
+                previousWinners.map((prevWinner, index) => (
+                  <div key={index} className="flex justify-center mb-8">
+                    <Image
+                      src={prevWinner}
+                      alt="LUMINANCE AWARDEES 2025 - Dr. Reimund Serafica winners in three categories: Advancement of Intentionality, Advancement in Inquiry, and Advancement with Impact"
+                      width={1200}
+                      height={1600}
+                      className="w-full h-auto rounded-xl shadow-2xl relative z-10"
+                      style={{
+                        boxShadow:
+                          "0 25px 50px -12px rgba(255, 215, 0, 0.5), 0 0 50px rgba(255, 215, 0, 0.3)",
+                      }}
+                      priority
+                    />
+                  </div>
+                ))
+              )}
 
               <div
                 className="bg-black/60 rounded-xl p-12 max-w-3xl mx-auto backdrop-blur-sm"
