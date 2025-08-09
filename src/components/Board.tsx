@@ -2,7 +2,7 @@
 import type React from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import { User } from "lucide-react";
+import { User, ChevronDown, ChevronUp } from "lucide-react";
 
 const allMembers = [
   {
@@ -100,6 +100,7 @@ export default function BoardOrgChart() {
   const [currentMember, setCurrentMember] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dragStart, setDragStart] = useState({
     x: 0,
     y: 0,
@@ -309,22 +310,39 @@ export default function BoardOrgChart() {
 
                       {/* Contact Section */}
                       <div className="bg-[#FFFFFF] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-md sm:shadow-lg shadow-[#3B82F6]/10 sm:shadow-[#3B82F6]/20 border border-[#DBEAFE]">
-                        <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                        <div className="flex items-center justify-between gap-2 sm:gap-3 ">
                           <h2 className="text-lg sm:text-xl font-bold text-[#1E293B]">
                             About:
                           </h2>
+                          {/* Mobile dropdown toggle button */}
+                          <button
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            className="sm:hidden p-1 rounded-md hover:bg-[#F1F5F9] transition-colors duration-200"
+                            aria-label="Toggle about section"
+                          >
+                            {isDropdownOpen ? (
+                              <ChevronUp className="w-5 h-5 text-[#64748B]" />
+                            ) : (
+                              <ChevronDown className="w-5 h-5 text-[#64748B]" />
+                            )}
+                          </button>
                         </div>
-                        <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-[#EFF6FF] to-[#EEF2FF] rounded-lg sm:rounded-xl border border-[#DBEAFE] shadow-sm sm:shadow-md shadow-[#3B82F6]/10">
-                          <div className="p-2 sm:p-3 bg-[#FFFFFF] rounded-full shadow-sm sm:shadow-md border border-[#DBEAFE] flex-shrink-0 mb-12">
-                            <User className="w-4 h-4 sm:w-5 sm:h-5 text-[#2563EB]" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <a
-                              href={`mailto:${featured.about}`}
-                              className="text-sm sm:text-base font-semibold text-[#1D4ED8] hover:text-[#1E40AF] transition-colors duration-200 block break-all"
-                            >
-                              {featured.about}
-                            </a>
+
+                        {/* Content - always visible on desktop, toggleable on mobile */}
+                        <div
+                          className={`${
+                            isDropdownOpen ? "block" : "hidden"
+                          } sm:block`}
+                        >
+                          <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-[#EFF6FF] to-[#EEF2FF] rounded-lg sm:rounded-xl border border-[#DBEAFE] shadow-sm sm:shadow-md shadow-[#3B82F6]/10">
+                            <div className="p-2 sm:p-3 bg-[#FFFFFF] rounded-full shadow-sm sm:shadow-md border border-[#DBEAFE] flex-shrink-0 mb-34 sm:mb-12">
+                              <User className="w-4 h-4 sm:w-5 sm:h-5 text-[#2563EB]" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm sm:text-base text-[#334155] leading-relaxed">
+                                {featured.about}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>

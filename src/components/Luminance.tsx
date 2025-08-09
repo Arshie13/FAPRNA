@@ -5,7 +5,7 @@ import { Trophy, History, Home, StarIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { getCurrentWinners, checkLuminanceEventStatus } from "@/lib/actions/luminance-actions";
+import { getCurrentWinners, getPreviousWinners, checkLuminanceEventStatus } from "@/lib/actions/luminance-actions";
 
 interface LuminanceAwardsProps {
   onVote: () => void;
@@ -162,18 +162,33 @@ const GoldenSparkles = () => {
 
 export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
   const [showHistory, setShowHistory] = useState(false);
-  const [currentWinner, setCurrentWinner] = useState("");
-  const [hasStarted, setHasStarted] = useState<boolean | null>(null)
+  const [currentWinner, setCurrentWinner] = useState('');
+  const [previousWinners, setPreviousWinners] = useState<{
+    fileUrl: string,
+    winnerYear: string | null,
+  }[]>([]);
+  const [hasStarted, setHasStarted] = useState<boolean | null>(null);
+  const [yearFilter, setYearFilter] = useState<string>("all");
 
   const fetchCurrentWinners = async () => {
-    const result = await getCurrentWinners();
-    setCurrentWinner(result[0].fileUrl)
+
+    const [currentWinner, previousWinners] = await Promise.all([
+      getCurrentWinners(),
+      getPreviousWinners()
+    ]);
+    setCurrentWinner(currentWinner[0].fileUrl);
+    setPreviousWinners(previousWinners);
   }
 
   const fetchEventStatus = async () => {
     const status = await checkLuminanceEventStatus();
     setHasStarted(status!.hasStarted)
   }
+
+  const years = Array.from(
+    new Set(previousWinners.map(w => w.winnerYear).filter(Boolean))
+  ).sort((a, b) => parseInt(b!) - parseInt(a!)); // newest first
+
 
   useEffect(() => {
     Promise.all([fetchCurrentWinners(), fetchEventStatus()])
@@ -331,6 +346,25 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
           </div>
         )}
 
+        {/* Filter dropdown */}
+        {showHistory && (
+          <div className="flex justify-end mb-6">
+            <select
+              value={yearFilter}
+              onChange={(e) => setYearFilter(e.target.value)}
+              className="bg-black text-yellow-400 border border-yellow-400 rounded px-4 py-2"
+            >
+              <option value="all">All Years</option>
+              {years.map((year) => (
+                <option key={year} value={year!}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+
         {/* Historical Winners */}
         {showHistory && (
           <div className="space-y-12">
@@ -352,6 +386,27 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
                   boxShadow: "0 0 20px rgba(255, 215, 0, 0.4)",
                 }}
               ></div>
+
+              {previousWinners &&
+                previousWinners
+                  .filter(w => yearFilter === "all" || w.winnerYear === yearFilter)
+                  .map((prevWinner, index) => (
+                    <div key={index} className="flex justify-center mb-8">
+                      <Image
+                        src={prevWinner.fileUrl}
+                        alt={`LUMINANCE AWARDEES ${prevWinner.winnerYear}`}
+                        width={1200}
+                        height={1600}
+                        className="w-full h-auto rounded-xl shadow-2xl relative z-10"
+                        style={{
+                          boxShadow:
+                            "0 25px 50px -12px rgba(255, 215, 0, 0.5), 0 0 50px rgba(255, 215, 0, 0.3)",
+                        }}
+                        priority
+                      />
+                    </div>
+                  ))
+              }
 
               <div
                 className="bg-black/60 rounded-xl p-12 max-w-3xl mx-auto backdrop-blur-sm"
