@@ -523,7 +523,7 @@ export default function EventRegistration() {
 
           {/* Featured Event */}
           {latestEvent && !hasActiveFilters && (
-            <Card className="mb-8 sm:mb-12 border-0 shadow-xl overflow-hidden">
+            <Card className="mb-8 sm:mb-12 border-0 shadow-blue-300 shadow-xl overflow-hidden">
               <div className="grid grid-cols-1 md:grid-cols-2">
                 <div className="relative h-64 sm:h-80 md:h-auto">
                   <Image
@@ -609,7 +609,7 @@ export default function EventRegistration() {
           {filteredEvents.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {filteredEvents.map((event, index) => (
-                <Card key={`${event.title}-${index}`} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
+                <Card key={`${event.title}-${index}`} className="shadow-blue-300 group hover:shadow-blue-500 transition-all duration-300 border-0 shadow-lg">
                   <div className="relative h-40 sm:h-48 overflow-hidden rounded-t-lg">
                     <Image
                       src={event.image || "/placeholder.svg?height=200&width=300&query=nursing professional event"}
