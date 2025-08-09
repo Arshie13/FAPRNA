@@ -141,11 +141,12 @@ model PDFFile {
 }
 
 model Luminance {
-  id        String   @id @default(cuid()) @map("_id")
-  name      String   @unique
-  fileUrl   String
-  isCurrent Boolean  @default(false)
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid()) @map("_id")
+  name       String   @unique
+  fileUrl    String
+  winnerYear String?
+  isCurrent  Boolean  @default(false)
+  createdAt  DateTime @default(now())
 }
 
 model LuminanceToggle {

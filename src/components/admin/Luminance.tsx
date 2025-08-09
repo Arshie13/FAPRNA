@@ -66,6 +66,7 @@ export default function LuminanceDashboard() {
   const [activeTab, setActiveTab] = useState("current");
   const [newWinnerName, setNewWinnerName] = useState("");
   const [newWinnerImage, setNewWinnerImage] = useState("");
+  const [winnerYear, setWinnerYear] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [resetKey, setResetKey] = useState(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -126,6 +127,7 @@ export default function LuminanceDashboard() {
       await uploadWinner(
         newWinnerName,
         newWinnerImage,
+        winnerYear,
         activeTab === "current"
       );
       toast("Winner added successfully");
@@ -278,6 +280,11 @@ export default function LuminanceDashboard() {
                           placeholder="Image name"
                           value={newWinnerName}
                           onChange={(e) => setNewWinnerName(e.target.value)}
+                        />
+                        <Input
+                          placeholder="Winner Year (2025, 2026, etc.)"
+                          value={winnerYear}
+                          onChange={(e) => setWinnerYear(e.target.value)}
                         />
                         <ImageUploadForm
                           setImageUrl={setNewWinnerImage}

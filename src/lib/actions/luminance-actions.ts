@@ -26,7 +26,7 @@ export async function getPreviousWinners() {
   return result;
 }
 
-export async function uploadWinner(name: string, fileUrl: string, isCurrent: boolean) {
+export async function uploadWinner(name: string, fileUrl: string, winnerYear: string, isCurrent: boolean) {
 
   // offset the current winners
   await prisma.luminance.updateMany({
@@ -43,6 +43,7 @@ export async function uploadWinner(name: string, fileUrl: string, isCurrent: boo
     data: {
       name,
       fileUrl,
+      winnerYear,
       isCurrent
     }
   });
