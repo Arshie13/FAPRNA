@@ -123,7 +123,7 @@ export default function Footer() {
             <address className="not-italic">
               <p className="mb-2 text-sm text-white/80">Las Vegas, Nevada</p>
               <p className="mb-2 text-sm text-white/80">
-                Email: info@faprna.org
+                Email: faprnanv702@gmail.com
               </p>
               <p className="mb-2 text-sm text-white/80">
                 Vi Anne Calipusan (President): 702-335-8206

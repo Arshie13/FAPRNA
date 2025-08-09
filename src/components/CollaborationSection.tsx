@@ -38,14 +38,7 @@ export default function CollaborationSection() {
       src: "/collab5.png",
       alt: "Advance HealthCare Solutions",
       name: "Advance HealthCare",
-      url: "https://advancehealthcare.com",
-    },
-    // No link Available I've just added a dummy link
-    {
-      src: "/collab6.png",
-      alt: "Goodwill Pharmacy",
-      name: "Goodwill Pharmacy",
-      url: "https://www.advancehealthcare.solutions/about-us",
+      url: "https://www.advancehealthcare.solutions/",
     },
     {
       src: "/collab7.png",
@@ -85,6 +78,79 @@ export default function CollaborationSection() {
       url: "https://nevadanursingboard.org",
     },
   ];
+
+  const upperLogo = [
+        {
+      src: "/collab1.png",
+      alt: "EXEL Labs",
+      name: "EXEL Labs",
+      url: "https://exellabs.com",
+    },
+    {
+      src: "/collab2.png",
+      alt: "Dynamic Manpower Consulting",
+      name: "Dynamic Manpower",
+      url: "https://www.dmcrs.com",
+    },
+    {
+      src: "/collab3.png",
+      alt: "Apollo Medical Group",
+      name: "Apollo Medical",
+      url: "https://www.facebook.com/amglasvegas/",
+    },
+    {
+      src: "/collab4.png",
+      alt: "iCare Psychiatry",
+      name: "iCare Psychiatry",
+      url: "https://icarepsychiatry.com",
+    },
+    {
+      src: "/collab5.png",
+      alt: "Advance HealthCare Solutions",
+      name: "Advance HealthCare",
+      url: "https://www.advancehealthcare.solutions/",
+    },
+    {
+      src: "/collab7.png",
+      alt: "DNP",
+      name: "Doctors of Nursing Practice",
+      url: "https://www.doctorsofnursingpractice.org",
+    },
+  ]
+
+  const lowerLogo = [
+     {
+      src: "/collab8.png",
+      alt: "WRAPNN",
+      name: "Western Regional Advanced Practice Nurses Network",
+      url: "https://wrapnn.enpnetwork.com",
+    },
+    {
+      src: "/collab9.png",
+      alt: "AANP",
+      name: "American Association of Nurse Practitioners",
+      url: "https://www.aanp.org",
+    },
+    {
+      src: "/collab10.png",
+      alt: "NurseLink",
+      name: "NurseLink",
+      url: "https://www.nursingworld.org",
+    },
+    // No link Available I've just added a dummy link and Logo
+    {
+      src: "/collab11.png",
+      alt: "BOP NV",
+      name: "BOP NV",
+      url: "https://bop.nv.gov",
+    },
+    {
+      src: "/collab12.png",
+      alt: "ANI",
+      name: "American Nurses Interprise",
+      url: "https://nevadanursingboard.org",
+    },
+  ]
 
   // Auto-play functionality
   useEffect(() => {
@@ -132,7 +198,7 @@ export default function CollaborationSection() {
 
         {/* Desktop Grid - Hidden on mobile */}
         <div className="hidden md:grid grid-cols-2 lg:grid-cols-6 gap-8 mb-16">
-          {logos.map((logo, idx) => (
+          {upperLogo.map((logo, idx) => (
             <Link
               key={logo.src}
               href={logo.url}
@@ -141,8 +207,42 @@ export default function CollaborationSection() {
               className="group flex flex-col items-center opacity-0 animate-fade-in-left"
               style={{ animationDelay: `${idx * 0.15 + 0.4}s` }}
             >
-              <div className="relative w-full max-w-[200px] h-24 mb-4 rounded-2xl bg-white shadow-lg border border-gray-100 transition-all duration-500 group-hover:shadow-2xl group-hover:scale-105 group-hover:border-blue-200 group-hover:-translate-y-2">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-blue-100/0 group-hover:from-blue-50/30 group-hover:to-blue-100/20 rounded-2xl transition-all duration-500"></div>
+              <div className="relative w-full max-w-[250px] h-36 mb-4 rounded-2xl bg-white shadow-blue-200 shadow-xl border
+               border-gray-100 transition-all duration-500 group-hover:shadow-2xl group-hover:scale-105
+                group-hover:border-blue-200 group-hover:-translate-y-2">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-blue-100/0 group-hover:from-blue-50/30
+                 group-hover:to-blue-100/20 rounded-2xl transition-all duration-500"></div>
+                <Image
+                  src={logo.src || "/placeholder.svg?height=96&width=200"}
+                  alt={logo.alt}
+                  fill
+                  className="object-contain p-4 transition-all duration-500 group-hover:scale-110"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                />
+              </div>
+              <span className="text-sm font-medium text-gray-700 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 text-center leading-tight max-w-full px-2">
+                {logo.name}
+              </span>
+            </Link>
+          ))}
+        </div>
+
+        {/* Desktop Grid - Hidden on mobile */}
+        <div className="hidden md:grid grid-cols-2 lg:grid-cols-5 gap-8 mb-16">
+          {lowerLogo.map((logo, idx) => (
+            <Link
+              key={logo.src}
+              href={logo.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col items-center opacity-0 animate-fade-in-left"
+              style={{ animationDelay: `${idx * 0.15 + 0.4}s` }}
+            >
+              <div className="relative w-full max-w-[250px] h-36 mb-4 rounded-2xl bg-white shadow-blue-200 shadow-xl border
+               border-gray-100 transition-all duration-500 group-hover:shadow-2xl group-hover:scale-105
+                group-hover:border-blue-200 group-hover:-translate-y-2">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-blue-100/0 group-hover:from-blue-50/30
+                 group-hover:to-blue-100/20 rounded-2xl transition-all duration-500"></div>
                 <Image
                   src={logo.src || "/placeholder.svg?height=96&width=200"}
                   alt={logo.alt}

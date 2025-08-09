@@ -2,84 +2,95 @@
 import type React from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import { Mail } from "lucide-react";
+import { User, ChevronDown, ChevronUp } from "lucide-react";
 
 const allMembers = [
   {
     name: "Homer Tuazon",
     title:
       "MD, DNP, APRN, MSN, BSN, BSP, PMHNP, DACACD. GHLP-F, WCS-C, EDS-C, CCRP, CCRA, CCRC",
-    email: "faprnanv702@gmail.com",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     image: "president.jpeg",
     role: "President",
   },
   {
     name: "Nikki V. Macalalad",
     title: "MSN, BSEcon, BSPLS, RN, APRN, FNP-C, WCS-C, EDS-C",
-    email: "faprnanv702@gmail.com",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     image: "vpExternal.png",
     role: "VP External Affairs",
   },
   {
     name: "Maria Monica Aragon",
     title: "MSN, RN, APRN, FNP-C, WCS-C, EDS-C",
-    email: "faprnanv702@gmail.com",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     image: "vpInternal.jpeg",
     role: "VP Internal Affairs",
   },
   {
     name: "Marvi Socorro M. Navarra",
     title: "MD, MSN, BSN, APRN, FNP-C, WCS-C, EDS-C",
-    email: "faprnanv702@gmail.com",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     image: "vpFinance.jpeg",
     role: "VP Finance",
   },
   {
     name: "Dulce Novakovic",
     title: "PhD (c), MSN, BSBA, RN, APRN, FNP-C, WCS-C, EDS-C",
-    email: "faprnanv702@gmail.com",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     image: "secretary.jpeg",
     role: "Secretary",
   },
   {
     name: "Juliana A. Palijo",
     title: "APRN, MSN, FNP-C, CCRN, WCS-C, EDS-C",
-    email: "faprnanv702@gmail.com",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     image: "treasurer.jpeg",
     role: "Treasurer",
   },
   {
     name: "Emerlinda Sambo",
     title: "MSN, RN, APRN, FNP-C, CWCN, WCS-C, EDS-C",
-    email: "faprnanv702@gmail.com",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     image: "auditor.jpeg",
     role: "Auditor",
   },
   {
     name: 'Rhigel "Jay" A. Tan',
     title: "Ph.D., DNP, MSN, RN, APRN, GNP, ANP, PMHNP, FAAN",
-    email: "faprnanv702@gmail.com",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     image: "adviser1.jpeg",
     role: "Founder / Adviser",
   },
   {
     name: "Mary A. Betita",
     title: "MD, MSN, BSBio, APRN, FNP-BC, MAP-C, WCS-C, EDS-C",
-    email: "faprnanv702@gmail.com",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     image: "adviser3.jpeg",
     role: "Co-Founder / Adviser / Founding President",
   },
   {
     name: "Louvie Dizon",
     title: "DNP, MSN, BSN, BSBA, APRN, FNP-C, WCS-C, EDS-C, AACC",
-    email: "faprnanv702@gmail.com",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     image: "adviser2.jpeg",
     role: "Adviser",
   },
   {
     name: 'Wilva "Vi-anne" B. Cadianza',
     title: "DNP, RN, APRN, FNP-C, WCS-C, EDS-C",
-    email: "faprnanv702@gmail.com",
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     image: "adviser4.jpeg",
     role: "Immediate Past President / Adviser",
   },
@@ -89,6 +100,7 @@ export default function BoardOrgChart() {
   const [currentMember, setCurrentMember] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dragStart, setDragStart] = useState({
     x: 0,
     y: 0,
@@ -264,7 +276,7 @@ export default function BoardOrgChart() {
                         </div>
                       </div>
                     </div>
-                    {/* Enhanced Role Badge */}
+                    {/*Role Badge */}
                     <div className="mt-6 relative">
                       <div className="relative bg-gradient-to-r from-[#2563EB] to-[#4F46E5] text-[#FFFFFF] font-bold px-4 sm:px-6 py-2 sm:py-3 rounded-2xl shadow-xl border border-white/20 w-full max-w-xs sm:max-w-md text-center mx-auto">
                         <span className="block text-sm sm:text-base md:text-lg lg:text-xl leading-snug tracking-wide break-words whitespace-normal">
@@ -295,24 +307,42 @@ export default function BoardOrgChart() {
                           </p>
                         </div>
                       </div>
+
                       {/* Contact Section */}
                       <div className="bg-[#FFFFFF] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-md sm:shadow-lg shadow-[#3B82F6]/10 sm:shadow-[#3B82F6]/20 border border-[#DBEAFE]">
-                        <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                          <h3 className="text-lg sm:text-xl font-bold text-[#1E293B]">
-                            Contact Information
-                          </h3>
+                        <div className="flex items-center justify-between gap-2 sm:gap-3 ">
+                          <h2 className="text-lg sm:text-xl font-bold text-[#1E293B]">
+                            About:
+                          </h2>
+                          {/* Mobile dropdown toggle button */}
+                          <button
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            className="sm:hidden p-1 rounded-md hover:bg-[#F1F5F9] transition-colors duration-200"
+                            aria-label="Toggle about section"
+                          >
+                            {isDropdownOpen ? (
+                              <ChevronUp className="w-5 h-5 text-[#64748B]" />
+                            ) : (
+                              <ChevronDown className="w-5 h-5 text-[#64748B]" />
+                            )}
+                          </button>
                         </div>
-                        <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-[#EFF6FF] to-[#EEF2FF] rounded-lg sm:rounded-xl border border-[#DBEAFE] shadow-sm sm:shadow-md shadow-[#3B82F6]/10">
-                          <div className="p-2 sm:p-3 bg-[#FFFFFF] rounded-full shadow-sm sm:shadow-md border border-[#DBEAFE] flex-shrink-0">
-                            <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-[#2563EB]" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <a
-                              href={`mailto:${featured.email}`}
-                              className="text-sm sm:text-base font-semibold text-[#1D4ED8] hover:text-[#1E40AF] transition-colors duration-200 block break-all"
-                            >
-                              {featured.email}
-                            </a>
+
+                        {/* Content - always visible on desktop, toggleable on mobile */}
+                        <div
+                          className={`${
+                            isDropdownOpen ? "block" : "hidden"
+                          } sm:block`}
+                        >
+                          <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-[#EFF6FF] to-[#EEF2FF] rounded-lg sm:rounded-xl border border-[#DBEAFE] shadow-sm sm:shadow-md shadow-[#3B82F6]/10">
+                            <div className="p-2 sm:p-3 bg-[#FFFFFF] rounded-full shadow-sm sm:shadow-md border border-[#DBEAFE] flex-shrink-0 mb-34 sm:mb-12">
+                              <User className="w-4 h-4 sm:w-5 sm:h-5 text-[#2563EB]" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm sm:text-base text-[#334155] leading-relaxed">
+                                {featured.about}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -330,16 +360,16 @@ export default function BoardOrgChart() {
               }`}
               style={{ transitionDelay: isVisible ? "1000ms" : "0ms" }}
             >
-              <div className="limit-wd-46 px-4 py-6 sm:px-6 sm:py-8 bg-[#FFFFFF]/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-lg relative overflow-hidden border border-[#E5E7EB]/50">
-                {/* Gradient overlays */}
-                <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-[#FFFFFF] via-[#FFFFFF]/80 to-transparent z-10 pointer-events-none"></div>
-                <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-l from-[#FFFFFF] via-[#FFFFFF]/80 to-transparent z-10 pointer-events-none"></div>
+              <div className="limit-wd-46 px-4 py-6 sm:px-6 sm:py-8 bg-[#FFFFFF]/90 backdrop-blur-sm rounded-2xl sm:rounded-full shadow-lg relative overflow-hidden border border-[#E5E7EB]/50">
+                {/* Gradient overlays with semi-circle extensions - only on desktop */}
+                <div className="hidden sm:block absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-[#FFFFFF] via-[#FFFFFF]/80 to-transparent z-10 pointer-events-none rounded-l-full"></div>
+                <div className="hidden sm:block absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-l from-[#FFFFFF] via-[#FFFFFF]/80 to-transparent z-10 pointer-events-none rounded-r-full"></div>
                 {/* Scrollable Members Container */}
                 <div
                   ref={scrollContainerRef}
                   className={`flex overflow-x-auto space-x-3 sm:space-x-4 md:space-x-6 pb-4 transition-all duration-200 ${
                     isDragging ? "cursor-grabbing select-none" : "cursor-grab"
-                  } touch-pan-x scrollbar-hide`}
+                  } touch-pan-x scrollbar-hide px-4`}
                   style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                   onPointerDown={handlePointerDown}
                   onPointerMove={handlePointerMove}

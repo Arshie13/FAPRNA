@@ -28,9 +28,9 @@ export default function Navbar() {
   }, []);
 
   const mainNavItems = [
-    { href: "/", label: "Home" },
-    { href: "/membership", label: "Membership" },
     { href: "/event-registration", label: "Events" },
+    { href: "/membership", label: "Membership" },
+    { href: "/about", label: "About Us" },
     { href: "/luminance", label: "Luminance" },
   ];
 
@@ -45,7 +45,7 @@ export default function Navbar() {
   return (
     <header className="w-full border-b bg-white">
       <div className="max-w-screen-xl mx-auto flex h-32 items-center justify-center gap-6 px-4 md:px-6 lg:px-8">
-        <div className="flex items-center gap-2">
+        <div className="relative group flex items-center">
           <Link href="/" className="flex items-center">
             <div className="flex flex-col">
               <div className="flex items-center">
@@ -54,14 +54,31 @@ export default function Navbar() {
                   alt="FAPRNA-NV Logo"
                   width={60}
                   height={40}
-                  className="mr-2 max-w-full h-auto"
+                  className="mr-2 max-w-full h-auto spin-slow"
                 />
-                <span className="text-xl font-bold text-[#003366]">
+                <span className="text-xl font-bold text-[#003366] relative group-item">
                   FAPRNA-NV
                 </span>
               </div>
             </div>
           </Link>
+
+          {/* Dropdown - positioned relative to the text only */}
+          <div className="z-10 absolute left-[62px] top-full hidden w-32 rounded-lg bg-white shadow-lg border border-gray-100 group-hover:block overflow-hidden">
+            <div className="py-1">
+              {/* <Link
+                href="/about"
+                className="block px-4 py-3 text-sm font-bold text-[#003366] hover:bg-[#003366]/10 transition-all
+                           hover:pl-6 duration-300 relative
+                           before:content-[''] before:absolute before:left-2 before:top-1/2 
+                           before:-translate-y-1/2 before:w-1 before:h-1 before:rounded-full 
+                           before:bg-[#003366] before:opacity-0 before:transition-all 
+                           before:duration-300 hover:before:opacity-100 hover:before:left-3"
+              >
+                About Us
+              </Link> */}
+            </div>
+          </div>
         </div>
 
         <nav className="hidden md:flex items-center gap-6 lg:gap-10 flex-wrap">
