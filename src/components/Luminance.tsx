@@ -162,25 +162,33 @@ const GoldenSparkles = () => {
 
 export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
   const [showHistory, setShowHistory] = useState(false);
-  const [currentWinner, setCurrentWinner] = useState("");
-  const [previousWinners, setPreviousWinners] = useState<string[]>([]);
-  const [hasStarted, setHasStarted] = useState<boolean | null>(null)
+  const [currentWinner, setCurrentWinner] = useState('');
+  const [previousWinners, setPreviousWinners] = useState<{
+    fileUrl: string,
+    winnerYear: string | null,
+  }[]>([]);
+  const [hasStarted, setHasStarted] = useState<boolean | null>(null);
+  const [yearFilter, setYearFilter] = useState<string>("all");
 
   const fetchCurrentWinners = async () => {
 
-    const [ currentWinner, previousWinners ] = await Promise.all([
+    const [currentWinner, previousWinners] = await Promise.all([
       getCurrentWinners(),
       getPreviousWinners()
     ]);
-
     setCurrentWinner(currentWinner[0].fileUrl);
-    setPreviousWinners(previousWinners.map(winner => winner.fileUrl));
+    setPreviousWinners(previousWinners);
   }
 
   const fetchEventStatus = async () => {
     const status = await checkLuminanceEventStatus();
     setHasStarted(status!.hasStarted)
   }
+
+  const years = Array.from(
+    new Set(previousWinners.map(w => w.winnerYear).filter(Boolean))
+  ).sort((a, b) => parseInt(b!) - parseInt(a!)); // newest first
+
 
   useEffect(() => {
     Promise.all([fetchCurrentWinners(), fetchEventStatus()])
@@ -338,6 +346,25 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
           </div>
         )}
 
+        {/* Filter dropdown */}
+        {showHistory && (
+          <div className="flex justify-end mb-6">
+            <select
+              value={yearFilter}
+              onChange={(e) => setYearFilter(e.target.value)}
+              className="bg-black text-yellow-400 border border-yellow-400 rounded px-4 py-2"
+            >
+              <option value="all">All Years</option>
+              {years.map((year) => (
+                <option key={year} value={year!}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+
         {/* Historical Winners */}
         {showHistory && (
           <div className="space-y-12">
@@ -360,24 +387,26 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
                 }}
               ></div>
 
-              {previousWinners && (
-                previousWinners.map((prevWinner, index) => (
-                  <div key={index} className="flex justify-center mb-8">
-                    <Image
-                      src={prevWinner}
-                      alt="LUMINANCE AWARDEES 2025 - Dr. Reimund Serafica winners in three categories: Advancement of Intentionality, Advancement in Inquiry, and Advancement with Impact"
-                      width={1200}
-                      height={1600}
-                      className="w-full h-auto rounded-xl shadow-2xl relative z-10"
-                      style={{
-                        boxShadow:
-                          "0 25px 50px -12px rgba(255, 215, 0, 0.5), 0 0 50px rgba(255, 215, 0, 0.3)",
-                      }}
-                      priority
-                    />
-                  </div>
-                ))
-              )}
+              {previousWinners &&
+                previousWinners
+                  .filter(w => yearFilter === "all" || w.winnerYear === yearFilter)
+                  .map((prevWinner, index) => (
+                    <div key={index} className="flex justify-center mb-8">
+                      <Image
+                        src={prevWinner.fileUrl}
+                        alt={`LUMINANCE AWARDEES ${prevWinner.winnerYear}`}
+                        width={1200}
+                        height={1600}
+                        className="w-full h-auto rounded-xl shadow-2xl relative z-10"
+                        style={{
+                          boxShadow:
+                            "0 25px 50px -12px rgba(255, 215, 0, 0.5), 0 0 50px rgba(255, 215, 0, 0.3)",
+                        }}
+                        priority
+                      />
+                    </div>
+                  ))
+              }
 
               <div
                 className="bg-black/60 rounded-xl p-12 max-w-3xl mx-auto backdrop-blur-sm"
