@@ -17,6 +17,31 @@ html {
     }
 }
 
+@media screen and (min-width: 641px) and (max-width: 768px) {
+    .limit-wd-40 {
+      width: 40%;
+    }
+    .limit-wd-46 {
+      width: 46%;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .limit-wd-40 {
+      width: 40%;
+    }
+    .limit-wd-46 {
+      width: 46%;
+    }
+    /* You could also add other width classes if needed */
+    .limit-wd-50 {
+      width: 50%;
+    }
+    .limit-wd-60 {
+      width: 60%;
+    }
+}
+
 @layer utilities {
   @variants lg {
     .lg:ruby {
