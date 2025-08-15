@@ -596,12 +596,12 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="w-full lg:w-1/2 flex flex-col justify-center">
-                  <h2 className="text-3xl md:text-6xl font-extrabold text-[#FFFFFF] mb-6 md:mb-12 drop-shadow-lg">
+                  <h2 className="text-3xl md:text-6xl font-extrabold text-[#FFFFFF] mb-6 md:mb-12 drop-shadow-lg text-center lg:text-left">
                     Get in touch
                   </h2>
                   <div className="space-y-6 md:space-y-10">
                     <div
-                      className={`flex items-center transition-all duration-500 delay-300 ${
+                      className={`flex items-center justify-center lg:justify-start transition-all duration-500 delay-300 ${
                         isVisible("cta")
                           ? "opacity-100 translate-x-0"
                           : "opacity-0 -translate-x-10"
@@ -610,7 +610,7 @@ export default function HomePage() {
                       <div className="w-10 h-10 md:w-16 md:h-16 bg-[#FFFFFF] rounded-full flex items-center justify-center shadow-xl mr-4 md:mr-8">
                         <Phone className="w-6 h-6 md:w-9 md:h-9 text-[#003366]" />
                       </div>
-                      <div>
+                      <div className="text-center lg:text-left">
                         <p className="text-xl md:text-3xl text-[#FFFFFF] font-extrabold mb-1 md:mb-2">
                           Give us a Text
                         </p>
@@ -620,7 +620,7 @@ export default function HomePage() {
                       </div>
                     </div>
                     <div
-                      className={`flex items-center transition-all duration-500 delay-400 ${
+                      className={`flex items-center justify-center lg:justify-start transition-all duration-500 delay-400 ${
                         isVisible("cta")
                           ? "opacity-100 translate-x-0"
                           : "opacity-0 -translate-x-10"
@@ -629,7 +629,7 @@ export default function HomePage() {
                       <div className="w-10 h-10 md:w-16 md:h-16 bg-[#FFFFFF] rounded-full flex items-center justify-center shadow-xl mr-4 md:mr-8">
                         <Mail className="w-6 h-6 md:w-9 md:h-9 text-[#003366]" />
                       </div>
-                      <div>
+                      <div className="text-center lg:text-left">
                         <p className="text-xl md:text-3xl text-[#FFFFFF] font-extrabold mb-1 md:mb-2">
                           Send us an Email
                         </p>

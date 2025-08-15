@@ -79,47 +79,47 @@ export default function CollaborationSection() {
     },
   ];
 
-  const upperLogo = [
-        {
-      src: "/collab1.png",
-      alt: "EXEL Labs",
-      name: "EXEL Labs",
-      url: "https://exellabs.com",
-    },
-    {
-      src: "/collab2.png",
-      alt: "Dynamic Manpower Consulting",
-      name: "Dynamic Manpower",
-      url: "https://www.dmcrs.com",
-    },
-    {
-      src: "/collab3.png",
-      alt: "Apollo Medical Group",
-      name: "Apollo Medical",
-      url: "https://www.facebook.com/amglasvegas/",
-    },
-    {
-      src: "/collab4.png",
-      alt: "iCare Psychiatry",
-      name: "iCare Psychiatry",
-      url: "https://icarepsychiatry.com",
-    },
-    {
-      src: "/collab5.png",
-      alt: "Advance HealthCare Solutions",
-      name: "Advance HealthCare",
-      url: "https://www.advancehealthcare.solutions/",
-    },
-    {
-      src: "/collab7.png",
-      alt: "DNP",
-      name: "Doctors of Nursing Practice",
-      url: "https://www.doctorsofnursingpractice.org",
-    },
-  ]
+  // const upperLogo = [
+  //       {
+  //     src: "/collab1.png",
+  //     alt: "EXEL Labs",
+  //     name: "EXEL Labs",
+  //     url: "https://exellabs.com",
+  //   },
+  //   {
+  //     src: "/collab2.png",
+  //     alt: "Dynamic Manpower Consulting",
+  //     name: "Dynamic Manpower",
+  //     url: "https://www.dmcrs.com",
+  //   },
+  //   {
+  //     src: "/collab3.png",
+  //     alt: "Apollo Medical Group",
+  //     name: "Apollo Medical",
+  //     url: "https://www.facebook.com/amglasvegas/",
+  //   },
+  //   {
+  //     src: "/collab4.png",
+  //     alt: "iCare Psychiatry",
+  //     name: "iCare Psychiatry",
+  //     url: "https://icarepsychiatry.com",
+  //   },
+  //   {
+  //     src: "/collab5.png",
+  //     alt: "Advance HealthCare Solutions",
+  //     name: "Advance HealthCare",
+  //     url: "https://www.advancehealthcare.solutions/",
+  //   },
+  //   {
+  //     src: "/collab7.png",
+  //     alt: "DNP",
+  //     name: "Doctors of Nursing Practice",
+  //     url: "https://www.doctorsofnursingpractice.org",
+  //   },
+  // ]
 
   const lowerLogo = [
-     {
+    {
       src: "/collab8.png",
       alt: "WRAPNN",
       name: "Western Regional Advanced Practice Nurses Network",
@@ -150,7 +150,7 @@ export default function CollaborationSection() {
       name: "American Nurses Interprise",
       url: "https://nevadanursingboard.org",
     },
-  ]
+  ];
 
   // Auto-play functionality
   useEffect(() => {
@@ -197,7 +197,7 @@ export default function CollaborationSection() {
         </div>
 
         {/* Desktop Grid - Hidden on mobile */}
-        <div className="hidden md:grid grid-cols-2 lg:grid-cols-6 gap-8 mb-16">
+        {/* <div className="hidden md:grid grid-cols-2 lg:grid-cols-6 gap-8 mb-16">
           {upperLogo.map((logo, idx) => (
             <Link
               key={logo.src}
@@ -225,7 +225,7 @@ export default function CollaborationSection() {
               </span>
             </Link>
           ))}
-        </div>
+        </div> */}
 
         {/* Desktop Grid - Hidden on mobile */}
         <div className="hidden md:grid grid-cols-2 lg:grid-cols-5 gap-8 mb-16">
@@ -238,11 +238,15 @@ export default function CollaborationSection() {
               className="group flex flex-col items-center opacity-0 animate-fade-in-left"
               style={{ animationDelay: `${idx * 0.15 + 0.4}s` }}
             >
-              <div className="relative w-full max-w-[250px] h-36 mb-4 rounded-2xl bg-white shadow-blue-200 shadow-xl border
+              <div
+                className="relative w-full max-w-[250px] h-36 mb-4 rounded-2xl bg-white shadow-blue-200 shadow-xl border
                border-gray-100 transition-all duration-500 group-hover:shadow-2xl group-hover:scale-105
-                group-hover:border-blue-200 group-hover:-translate-y-2">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-blue-100/0 group-hover:from-blue-50/30
-                 group-hover:to-blue-100/20 rounded-2xl transition-all duration-500"></div>
+                group-hover:border-blue-200 group-hover:-translate-y-2"
+              >
+                <div
+                  className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-blue-100/0 group-hover:from-blue-50/30
+                 group-hover:to-blue-100/20 rounded-2xl transition-all duration-500"
+                ></div>
                 <Image
                   src={logo.src || "/placeholder.svg?height=96&width=200"}
                   alt={logo.alt}

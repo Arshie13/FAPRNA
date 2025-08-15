@@ -267,6 +267,12 @@ export default function AdminDashboard() {
                       </Button>
                     </Link>
                   )}
+                  
+                  {/* Spacer div */}
+                  {(stats?.nominations.pending ?? 0) > 0 && (stats?.users.pending ?? 0) > 0 && (
+                    <div className="h-3 sm:h-2 md:h-2"></div>
+                  )}
+                  
                   {(stats?.users.pending ?? 0) > 0 && (
                     <Link href="/admin/members?tab=pending">
                       <Button

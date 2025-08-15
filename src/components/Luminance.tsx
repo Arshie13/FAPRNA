@@ -5,7 +5,11 @@ import { Trophy, History, Home, StarIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { getCurrentWinners, getPreviousWinners, checkLuminanceEventStatus } from "@/lib/actions/luminance-actions";
+import {
+  getCurrentWinners,
+  getPreviousWinners,
+  checkLuminanceEventStatus,
+} from "@/lib/actions/luminance-actions";
 
 interface LuminanceAwardsProps {
   onVote: () => void;
@@ -75,12 +79,15 @@ const GoldenBokeh = () => {
             left: orb.left + "%",
             animationDelay: orb.delay + "s",
             animationDuration: orb.duration + "s",
-            background: `radial-gradient(circle, rgba(255, 215, 0, ${orb.opacity
-              }) 0%, rgba(212, 175, 55, ${orb.opacity * 0.8
-              }) 30%, rgba(255, 215, 0, 0) 70%)`,
+            background: `radial-gradient(circle, rgba(255, 215, 0, ${
+              orb.opacity
+            }) 0%, rgba(212, 175, 55, ${
+              orb.opacity * 0.8
+            }) 30%, rgba(255, 215, 0, 0) 70%)`,
             filter: "blur(2px)",
-            boxShadow: `0 0 ${orb.size * 0.5}px rgba(255, 215, 0, ${orb.opacity * 0.6
-              })`,
+            boxShadow: `0 0 ${orb.size * 0.5}px rgba(255, 215, 0, ${
+              orb.opacity * 0.6
+            })`,
           }}
         ></div>
       ))}
@@ -162,41 +169,42 @@ const GoldenSparkles = () => {
 
 export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
   const [showHistory, setShowHistory] = useState(false);
-  const [currentWinner, setCurrentWinner] = useState('');
-  const [previousWinners, setPreviousWinners] = useState<{
-    fileUrl: string,
-    winnerYear: string | null,
-  }[]>([]);
+  const [currentWinner, setCurrentWinner] = useState("");
+  const [previousWinners, setPreviousWinners] = useState<
+    {
+      fileUrl: string;
+      winnerYear: string | null;
+    }[]
+  >([]);
   const [hasStarted, setHasStarted] = useState<boolean | null>(null);
   const [yearFilter, setYearFilter] = useState<string>("all");
 
   const fetchCurrentWinners = async () => {
-
     const [currentWinner, previousWinners] = await Promise.all([
       getCurrentWinners(),
-      getPreviousWinners()
+      getPreviousWinners(),
     ]);
     setCurrentWinner(currentWinner[0].fileUrl);
     setPreviousWinners(previousWinners);
-  }
+  };
 
   const fetchEventStatus = async () => {
     const status = await checkLuminanceEventStatus();
-    setHasStarted(status!.hasStarted)
-  }
+    setHasStarted(status!.hasStarted);
+  };
 
   const years = Array.from(
-    new Set(previousWinners.map(w => w.winnerYear).filter(Boolean))
+    new Set(previousWinners.map((w) => w.winnerYear).filter(Boolean))
   ).sort((a, b) => parseInt(b!) - parseInt(a!)); // newest first
 
-
   useEffect(() => {
-    Promise.all([fetchCurrentWinners(), fetchEventStatus()])
-  }, [])
+    Promise.all([fetchCurrentWinners(), fetchEventStatus()]);
+  }, []);
 
   // Common button style for uniform appearance
   const uniformButtonStyle = {
-    backgroundImage: "linear-gradient(45deg, #FFD700, #FFA500, #DAA520, #FFD700)",
+    backgroundImage:
+      "linear-gradient(45deg, #FFD700, #FFA500, #DAA520, #FFD700)",
     backgroundSize: "300% 300%",
     animation: "gradient-shift 3s ease infinite",
     color: "black",
@@ -334,21 +342,23 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
                 onClick={onVote}
                 size="lg"
                 disabled={!hasStarted}
-                className={`px-12 py-8 text-xl font-medium tracking-wide transition-all duration-300 backdrop-blur-sm transform ${hasStarted ? "hover:scale-105" : "opacity-50 cursor-not-allowed"
-                  }`}
+                className={`px-12 py-8 text-xl font-medium tracking-wide transition-all duration-300 backdrop-blur-sm transform ${
+                  hasStarted
+                    ? "hover:scale-105"
+                    : "opacity-50 cursor-not-allowed"
+                }`}
                 style={hasStarted ? uniformButtonStyle : inactiveButtonStyle}
               >
                 <StarIcon className="w-6 h-6 mr-3" />
                 {hasStarted ? "Submit Nomination" : "Nominations Closed"}
               </Button>
-
             </div>
           </div>
         )}
 
         {/* Filter dropdown */}
         {showHistory && (
-          <div className="flex justify-end mb-6">
+          <div className="flex justify-end mb-6 mr-4">
             <select
               value={yearFilter}
               onChange={(e) => setYearFilter(e.target.value)}
@@ -363,7 +373,6 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
             </select>
           </div>
         )}
-
 
         {/* Historical Winners */}
         {showHistory && (
@@ -389,7 +398,9 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
 
               {previousWinners &&
                 previousWinners
-                  .filter(w => yearFilter === "all" || w.winnerYear === yearFilter)
+                  .filter(
+                    (w) => yearFilter === "all" || w.winnerYear === yearFilter
+                  )
                   .map((prevWinner, index) => (
                     <div key={index} className="flex justify-center mb-8">
                       <Image
@@ -405,8 +416,7 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
                         priority
                       />
                     </div>
-                  ))
-              }
+                  ))}
 
               <div
                 className="bg-black/60 rounded-xl p-12 max-w-3xl mx-auto backdrop-blur-sm"

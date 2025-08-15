@@ -128,7 +128,7 @@ export default function Component() {
               exclusive benefits that support your professional journey.
             </p>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-              Your membership grants you access to exclusive benefits and directly supports our mission. 🎯
+              Your membership grants you access to exclusive benefits and directly supports our mission. 
             </p>
           </div>
 
