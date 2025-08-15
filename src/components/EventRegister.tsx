@@ -15,7 +15,8 @@ import {
   ChevronDown,
   Filter,
   X,
-
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react"
 import Image from "next/image"
 import { getLatestEvent, getNotLatestEvents } from "@/lib/actions/event-actions"
@@ -35,6 +36,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 
+const EVENTS_PER_PAGE = 3
+
 export default function EventRegistration() {
   const [isLoading, setIsLoading] = useState(true)
   const [events, setEvents] = useState<IEvent[]>([])
@@ -44,6 +47,7 @@ export default function EventRegistration() {
   const [dateFilter, setDateFilter] = useState("All dates")
   const [ceuFilter, setCeuFilter] = useState("All CEUs")
   const [isFiltersOpen, setIsFiltersOpen] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
 
   // Memoized unique values to prevent unnecessary recalculations
   const uniqueLocations = useMemo(() => {
@@ -159,6 +163,17 @@ export default function EventRegistration() {
     return filtered
   }, [events, searchQuery, locationFilter, dateFilter, ceuFilter])
 
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredEvents.length / EVENTS_PER_PAGE)
+  const startIndex = (currentPage - 1) * EVENTS_PER_PAGE
+  const endIndex = startIndex + EVENTS_PER_PAGE
+  const currentEvents = filteredEvents.slice(startIndex, endIndex)
+
+  // Reset pagination when filters change
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [filteredEvents.length])
+
   // Memoized filter state
   const hasActiveFilters = useMemo(() => 
     searchQuery.trim() || 
@@ -174,12 +189,35 @@ export default function EventRegistration() {
     setDateFilter("All dates")
     setCeuFilter("All CEUs")
     setIsFiltersOpen(false)
+    setCurrentPage(1)
   }, [])
 
   // Optimized search input handler with debouncing
   const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
   }, [])
+
+  // Pagination handlers
+  const goToPage = useCallback((page: number) => {
+    setCurrentPage(page)
+    // Smooth scroll to events section
+    const eventsSection = document.getElementById('events-section')
+    if (eventsSection) {
+      eventsSection.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [])
+
+  const goToPrevious = useCallback(() => {
+    if (currentPage > 1) {
+      goToPage(currentPage - 1)
+    }
+  }, [currentPage, goToPage])
+
+  const goToNext = useCallback(() => {
+    if (currentPage < totalPages) {
+      goToPage(currentPage + 1)
+    }
+  }, [currentPage, totalPages, goToPage])
 
   if (isLoading) {
     return (
@@ -495,7 +533,7 @@ export default function EventRegistration() {
       </section>
 
       {/* Events Section */}
-      <section className="py-8 sm:py-16 bg-gray-50">
+      <section id="events-section" className="py-8 sm:py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
             <div>
@@ -507,6 +545,11 @@ export default function EventRegistration() {
                   ? `Showing ${filteredEvents.length} of ${events.length} events`
                   : `${events.length} events available`
                 }
+                {filteredEvents.length > EVENTS_PER_PAGE && (
+                  <span className="ml-2">
+                    (Page {currentPage} of {totalPages})
+                  </span>
+                )}
               </p>
             </div>
             {hasActiveFilters && (
@@ -523,7 +566,7 @@ export default function EventRegistration() {
 
           {/* Featured Event */}
           {latestEvent && !hasActiveFilters && (
-            <Card className="mb-8 sm:mb-12 border-0 shadow-blue-300 shadow-xl overflow-hidden">
+            <Card className="mb-8 sm:mb-12 border-0 shadow-xl overflow-hidden">
               <div className="grid grid-cols-1 md:grid-cols-2">
                 <div className="relative h-64 sm:h-80 md:h-auto">
                   <Image
@@ -606,58 +649,134 @@ export default function EventRegistration() {
           )}
 
           {/* Event Grid */}
-          {filteredEvents.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {filteredEvents.map((event, index) => (
-                <Card key={`${event.title}-${index}`} className="shadow-blue-300 group hover:shadow-blue-500 transition-all duration-300 border-0 shadow-lg">
-                  <div className="relative h-40 sm:h-48 overflow-hidden rounded-t-lg">
-                    <Image
-                      src={event.image || "/placeholder.svg?height=200&width=300&query=nursing professional event"}
-                      alt={event.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                    />
-                    <div className="absolute top-4 right-4">
-                      <span className="bg-blue-600 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">
-                        {event.ceus} CEUs
-                      </span>
-                    </div>
-                    <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-1.5 sm:p-2">
-                      <div className="text-base sm:text-lg font-bold text-blue-600">
-                        {event.date.getDate()}
+          {currentEvents.length > 0 && (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                {currentEvents.map((event, index) => (
+                  <Card key={`${event.title}-${startIndex + index}`} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
+                    <div className="relative h-40 sm:h-48 overflow-hidden rounded-t-lg">
+                      <Image
+                        src={event.image || "/placeholder.svg?height=200&width=300&query=nursing professional event"}
+                        alt={event.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                      />
+                      <div className="absolute top-4 right-4">
+                        <span className="bg-blue-600 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">
+                          {event.ceus} CEUs
+                        </span>
                       </div>
-                      <div className="text-xs text-gray-600 uppercase">
-                        {event.date.toLocaleDateString("en-US", { month: "short" })}
+                      <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-1.5 sm:p-2">
+                        <div className="text-base sm:text-lg font-bold text-blue-600">
+                          {event.date.getDate()}
+                        </div>
+                        <div className="text-xs text-gray-600 uppercase">
+                          {event.date.toLocaleDateString("en-US", { month: "short" })}
+                        </div>
                       </div>
                     </div>
+                    <CardContent className="p-4 sm:p-6">
+                      <div className="mb-4">
+                        <div className="text-blue-600 font-semibold text-xs sm:text-sm mb-2">
+                          {event.date.toLocaleDateString()} • {event.time}
+                        </div>
+                        <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2 line-clamp-2">
+                          {event.title}
+                        </h3>
+                        <p className="text-gray-600 text-xs sm:text-sm mb-3 line-clamp-2">
+                          {event.description}
+                        </p>
+                        <div className="flex items-center text-gray-500 text-xs sm:text-sm">
+                          <MapPin className="w-3 h-3 sm:w-4 sm:h-4 mr-1 flex-shrink-0" />
+                          <span className="truncate">{event.location}</span>
+                        </div>
+                      </div>
+                      <Link href={`/event-registration/details/${encodeURIComponent(event.title)}`}>
+                        <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 font-semibold rounded-lg group text-sm sm:text-base">
+                          Learn More
+                          <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                        </Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row items-center justify-between">
+                  {/* Pagination Info */}
+                  <div className="text-sm text-gray-600 sm:order-1">
+                    Showing {startIndex + 1}-{Math.min(endIndex, filteredEvents.length)} of {filteredEvents.length} events
                   </div>
-                  <CardContent className="p-4 sm:p-6">
-                    <div className="mb-4">
-                      <div className="text-blue-600 font-semibold text-xs sm:text-sm mb-2">
-                        {event.date.toLocaleDateString()} • {event.time}
-                      </div>
-                      <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2 line-clamp-2">
-                        {event.title}
-                      </h3>
-                      <p className="text-gray-600 text-xs sm:text-sm mb-3 line-clamp-2">
-                        {event.description}
-                      </p>
-                      <div className="flex items-center text-gray-500 text-xs sm:text-sm">
-                        <MapPin className="w-3 h-3 sm:w-4 sm:h-4 mr-1 flex-shrink-0" />
-                        <span className="truncate">{event.location}</span>
-                      </div>
+
+                  {/* Pagination Buttons */}
+                  <div className="flex items-center gap-2 sm:order-2">
+                    {/* Previous Button */}
+                    <Button
+                      onClick={goToPrevious}
+                      disabled={currentPage === 1}
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <ChevronLeft className="w-4 h-4 mr-1" />
+                      Previous
+                    </Button>
+
+                    {/* Page Numbers */}
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                        // Show first page, last page, current page, and pages around current page
+                        const showPage = 
+                          page === 1 || 
+                          page === totalPages || 
+                          Math.abs(page - currentPage) <= 1
+
+                        if (!showPage && page === 2 && currentPage > 4) {
+                          return <span key={page} className="text-gray-400 px-2">...</span>
+                        }
+                        if (!showPage && page === totalPages - 1 && currentPage < totalPages - 3) {
+                          return <span key={page} className="text-gray-400 px-2">...</span>
+                        }
+                        if (!showPage) {
+                          return null
+                        }
+
+                        return (
+                          <Button
+                            key={page}
+                            onClick={() => goToPage(page)}
+                            variant={currentPage === page ? "default" : "outline"}
+                            size="sm"
+                            className={`w-8 h-8 p-0 ${
+                              currentPage === page 
+                                ? "bg-blue-600 text-white hover:bg-blue-700" 
+                                : "hover:bg-blue-50"
+                            }`}
+                          >
+                            {page}
+                          </Button>
+                        )
+                      })}
                     </div>
-                    <Link href={`/event-registration/details/${encodeURIComponent(event.title)}`}>
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 font-semibold rounded-lg group text-sm sm:text-base">
-                        Learn More
-                        <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+
+                    {/* Next Button */}
+                    <Button
+                      onClick={goToNext}
+                      disabled={currentPage === totalPages}
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Next
+                      <ChevronRight className="w-4 h-4 ml-1" />
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>

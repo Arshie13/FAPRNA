@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
+    "studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts"
   },
   "prisma": {
