@@ -28,14 +28,13 @@ export default function Navbar() {
   }, []);
 
   const mainNavItems = [
-    { href: "/event-registration", label: "Events" },
     { href: "/membership", label: "Membership" },
+    { href: "/event-registration", label: "Events" },
     { href: "/about", label: "About Us" },
     { href: "/luminance", label: "Luminance" },
   ];
 
   const moreNavItems = [
-    { href: "/about", label: "About Us" },
     { href: "#contact", label: "Contact" },
     { href: "/board", label: "Executive Board Members" },
     { href: "/bylaws", label: "By Laws & Policies" },
