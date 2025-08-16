@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { useEffect, useState, useMemo, useCallback } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { useEffect, useState, useMemo, useCallback } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Calendar,
   MapPin,
@@ -17,16 +17,19 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-} from "lucide-react"
-import Image from "next/image"
-import { getLatestEvent, getNotLatestEvents } from "@/lib/actions/event-actions"
-import type { IEvent } from "@/lib/interfaces"
+} from "lucide-react";
+import Image from "next/image";
+import {
+  getLatestEvent,
+  getNotLatestEvents,
+} from "@/lib/actions/event-actions";
+import type { IEvent } from "@/lib/interfaces";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Sheet,
   SheetContent,
@@ -34,197 +37,215 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@/components/ui/sheet";
 
-const EVENTS_PER_PAGE = 3
+const EVENTS_PER_PAGE = 3;
 
 export default function EventRegistration() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [events, setEvents] = useState<IEvent[]>([])
-  const [latestEvent, setLatestEvent] = useState<IEvent | null>(null)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [locationFilter, setLocationFilter] = useState("All locations")
-  const [dateFilter, setDateFilter] = useState("All dates")
-  const [ceuFilter, setCeuFilter] = useState("All CEUs")
-  const [isFiltersOpen, setIsFiltersOpen] = useState(false)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(true);
+  const [events, setEvents] = useState<IEvent[]>([]);
+  const [latestEvent, setLatestEvent] = useState<IEvent | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [locationFilter, setLocationFilter] = useState("All locations");
+  const [dateFilter, setDateFilter] = useState("All dates");
+  const [ceuFilter, setCeuFilter] = useState("All CEUs");
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Memoized unique values to prevent unnecessary recalculations
   const uniqueLocations = useMemo(() => {
-    const locations = events.map(event => event.location).filter(Boolean)
-    return ["All locations", ...Array.from(new Set(locations))]
-  }, [events])
+    const locations = events.map((event) => event.location).filter(Boolean);
+    return ["All locations", ...Array.from(new Set(locations))];
+  }, [events]);
 
   const uniqueCEUs = useMemo(() => {
-    const ceus = events.map(event => event.ceus).filter(Boolean)
-    return ["All CEUs", ...Array.from(new Set(ceus)).sort((a, b) => a - b)]
-  }, [events])
+    const ceus = events.map((event) => event.ceus).filter(Boolean);
+    return ["All CEUs", ...Array.from(new Set(ceus)).sort((a, b) => a - b)];
+  }, [events]);
 
   // Memoized date filter options
-  const dateFilterOptions = useMemo(() => [
-    "All dates",
-    "This week", 
-    "This month",
-    "Next month",
-    "Next 3 months"
-  ], [])
+  const dateFilterOptions = useMemo(
+    () => [
+      "All dates",
+      "This week",
+      "This month",
+      "Next month",
+      "Next 3 months",
+    ],
+    []
+  );
 
   // Optimized event fetching
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        setIsLoading(true)
+        setIsLoading(true);
         const [eventsData, latestData] = await Promise.all([
           getNotLatestEvents(),
-          getLatestEvent()
-        ])
-        
+          getLatestEvent(),
+        ]);
+
         // Process events once
         const processedEvents = eventsData.map((event) => ({
           ...event,
           ytLink: event.ytLink === null ? undefined : event.ytLink,
-        }))
-        
-        setEvents(processedEvents)
-        setLatestEvent(latestData ? { 
-          ...latestData, 
-          ytLink: latestData.ytLink === null ? undefined : latestData.ytLink 
-        } : null)
+        }));
+
+        setEvents(processedEvents);
+        setLatestEvent(
+          latestData
+            ? {
+                ...latestData,
+                ytLink:
+                  latestData.ytLink === null ? undefined : latestData.ytLink,
+              }
+            : null
+        );
       } catch (error) {
-        console.error("Failed to fetch events:", error)
+        console.error("Failed to fetch events:", error);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
-    
-    fetchEvents()
-  }, [])
+    };
+
+    fetchEvents();
+  }, []);
 
   // Optimized filtering with useMemo to prevent unnecessary recalculations
   const filteredEvents = useMemo(() => {
-    let filtered = events
+    let filtered = events;
 
     // Search filter
     if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase()
-      filtered = filtered.filter(event =>
-        event.title.toLowerCase().includes(query) ||
-        event.description.toLowerCase().includes(query) ||
-        event.location.toLowerCase().includes(query)
-      )
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (event) =>
+          event.title.toLowerCase().includes(query) ||
+          event.description.toLowerCase().includes(query) ||
+          event.location.toLowerCase().includes(query)
+      );
     }
 
     // Location filter
     if (locationFilter !== "All locations") {
-      filtered = filtered.filter(event => event.location === locationFilter)
+      filtered = filtered.filter((event) => event.location === locationFilter);
     }
 
     // CEU filter
     if (ceuFilter !== "All CEUs") {
-      const ceuValue = parseInt(ceuFilter)
-      filtered = filtered.filter(event => event.ceus === ceuValue)
+      const ceuValue = parseInt(ceuFilter);
+      filtered = filtered.filter((event) => event.ceus === ceuValue);
     }
 
     // Date filter
     if (dateFilter !== "All dates") {
-      const now = new Date()
-      now.setHours(0, 0, 0, 0) // Start of today
-      
+      const now = new Date();
+      now.setHours(0, 0, 0, 0); // Start of today
+
       const getDateRange = () => {
         switch (dateFilter) {
           case "This week":
-            return new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
+            return new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
           case "This month":
-            return new Date(now.getFullYear(), now.getMonth() + 1, 0)
+            return new Date(now.getFullYear(), now.getMonth() + 1, 0);
           case "Next month":
-            return new Date(now.getFullYear(), now.getMonth() + 2, 0)
+            return new Date(now.getFullYear(), now.getMonth() + 2, 0);
           case "Next 3 months":
-            return new Date(now.getFullYear(), now.getMonth() + 4, 0)
+            return new Date(now.getFullYear(), now.getMonth() + 4, 0);
           default:
-            return null
+            return null;
         }
-      }
+      };
 
-      const endDate = getDateRange()
+      const endDate = getDateRange();
       if (endDate) {
-        filtered = filtered.filter(event => {
-          const eventDate = new Date(event.date)
-          eventDate.setHours(0, 0, 0, 0)
-          
+        filtered = filtered.filter((event) => {
+          const eventDate = new Date(event.date);
+          eventDate.setHours(0, 0, 0, 0);
+
           if (dateFilter === "Next month") {
-            const currentMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
-            return eventDate > currentMonth && eventDate <= endDate
+            const currentMonth = new Date(
+              now.getFullYear(),
+              now.getMonth() + 1,
+              0
+            );
+            return eventDate > currentMonth && eventDate <= endDate;
           }
-          return eventDate >= now && eventDate <= endDate
-        })
+          return eventDate >= now && eventDate <= endDate;
+        });
       }
     }
 
-    return filtered
-  }, [events, searchQuery, locationFilter, dateFilter, ceuFilter])
+    return filtered;
+  }, [events, searchQuery, locationFilter, dateFilter, ceuFilter]);
 
   // Pagination calculations
-  const totalPages = Math.ceil(filteredEvents.length / EVENTS_PER_PAGE)
-  const startIndex = (currentPage - 1) * EVENTS_PER_PAGE
-  const endIndex = startIndex + EVENTS_PER_PAGE
-  const currentEvents = filteredEvents.slice(startIndex, endIndex)
+  const totalPages = Math.ceil(filteredEvents.length / EVENTS_PER_PAGE);
+  const startIndex = (currentPage - 1) * EVENTS_PER_PAGE;
+  const endIndex = startIndex + EVENTS_PER_PAGE;
+  const currentEvents = filteredEvents.slice(startIndex, endIndex);
 
   // Reset pagination when filters change
   useEffect(() => {
-    setCurrentPage(1)
-  }, [filteredEvents.length])
+    setCurrentPage(1);
+  }, [filteredEvents.length]);
 
   // Memoized filter state
-  const hasActiveFilters = useMemo(() => 
-    searchQuery.trim() || 
-    locationFilter !== "All locations" || 
-    dateFilter !== "All dates" || 
-    ceuFilter !== "All CEUs"
-  , [searchQuery, locationFilter, dateFilter, ceuFilter])
+  const hasActiveFilters = useMemo(
+    () =>
+      searchQuery.trim() ||
+      locationFilter !== "All locations" ||
+      dateFilter !== "All dates" ||
+      ceuFilter !== "All CEUs",
+    [searchQuery, locationFilter, dateFilter, ceuFilter]
+  );
 
   // Optimized clear filters function
   const clearFilters = useCallback(() => {
-    setSearchQuery("")
-    setLocationFilter("All locations")
-    setDateFilter("All dates")
-    setCeuFilter("All CEUs")
-    setIsFiltersOpen(false)
-    setCurrentPage(1)
-  }, [])
+    setSearchQuery("");
+    setLocationFilter("All locations");
+    setDateFilter("All dates");
+    setCeuFilter("All CEUs");
+    setIsFiltersOpen(false);
+    setCurrentPage(1);
+  }, []);
 
   // Optimized search input handler with debouncing
-  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value)
-  }, [])
+  const handleSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchQuery(e.target.value);
+    },
+    []
+  );
 
   // Pagination handlers
   const goToPage = useCallback((page: number) => {
-    setCurrentPage(page)
+    setCurrentPage(page);
     // Smooth scroll to events section
-    const eventsSection = document.getElementById('events-section')
+    const eventsSection = document.getElementById("events-section");
     if (eventsSection) {
-      eventsSection.scrollIntoView({ behavior: 'smooth' })
+      eventsSection.scrollIntoView({ behavior: "smooth" });
     }
-  }, [])
+  }, []);
 
   const goToPrevious = useCallback(() => {
     if (currentPage > 1) {
-      goToPage(currentPage - 1)
+      goToPage(currentPage - 1);
     }
-  }, [currentPage, goToPage])
+  }, [currentPage, goToPage]);
 
   const goToNext = useCallback(() => {
     if (currentPage < totalPages) {
-      goToPage(currentPage + 1)
+      goToPage(currentPage + 1);
     }
-  }, [currentPage, totalPages, goToPage])
+  }, [currentPage, totalPages, goToPage]);
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-900 to-purple-900">
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-white border-opacity-50"></div>
       </div>
-    )
+    );
   }
 
   return (
@@ -291,17 +312,22 @@ export default function EventRegistration() {
                   <div className="flex items-center justify-between">
                     <Sheet open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
                       <SheetTrigger asChild>
-                        <Button 
-                          variant="ghost" 
+                        <Button
+                          variant="ghost"
                           className="text-white hover:bg-white/20 flex items-center"
                         >
                           <Filter className="w-4 h-4 mr-2" />
                           Filters
                           {hasActiveFilters && (
                             <span className="ml-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
-                              {[searchQuery, locationFilter !== "All locations" ? 1 : 0, 
-                                dateFilter !== "All dates" ? 1 : 0, 
-                                ceuFilter !== "All CEUs" ? 1 : 0].filter(Boolean).length}
+                              {
+                                [
+                                  searchQuery,
+                                  locationFilter !== "All locations" ? 1 : 0,
+                                  dateFilter !== "All dates" ? 1 : 0,
+                                  ceuFilter !== "All CEUs" ? 1 : 0,
+                                ].filter(Boolean).length
+                              }
                             </span>
                           )}
                         </Button>
@@ -316,10 +342,14 @@ export default function EventRegistration() {
                         <div className="mt-6 space-y-6">
                           {/* Location Filter */}
                           <div>
-                            <label className="block text-sm font-medium mb-2">Location</label>
+                            <label className="block text-sm font-medium mb-2">
+                              Location
+                            </label>
                             <select
                               value={locationFilter}
-                              onChange={(e) => setLocationFilter(e.target.value)}
+                              onChange={(e) =>
+                                setLocationFilter(e.target.value)
+                              }
                               className="w-full p-3 border border-gray-300 rounded-lg bg-white text-gray-900"
                             >
                               {uniqueLocations.map((location) => (
@@ -332,7 +362,9 @@ export default function EventRegistration() {
 
                           {/* Date Filter */}
                           <div>
-                            <label className="block text-sm font-medium mb-2">Date</label>
+                            <label className="block text-sm font-medium mb-2">
+                              Date
+                            </label>
                             <select
                               value={dateFilter}
                               onChange={(e) => setDateFilter(e.target.value)}
@@ -348,7 +380,9 @@ export default function EventRegistration() {
 
                           {/* CEU Filter */}
                           <div>
-                            <label className="block text-sm font-medium mb-2">CEUs</label>
+                            <label className="block text-sm font-medium mb-2">
+                              CEUs
+                            </label>
                             <select
                               value={ceuFilter}
                               onChange={(e) => setCeuFilter(e.target.value)}
@@ -538,13 +572,12 @@ export default function EventRegistration() {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
             <div>
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                {hasActiveFilters ? 'Filtered Events' : 'Upcoming Events'}
+                {hasActiveFilters ? "Filtered Events" : "Upcoming Events"}
               </h2>
               <p className="text-gray-600 mt-2">
-                {hasActiveFilters 
+                {hasActiveFilters
                   ? `Showing ${filteredEvents.length} of ${events.length} events`
-                  : `${events.length} events available`
-                }
+                  : `${events.length} events available`}
                 {filteredEvents.length > EVENTS_PER_PAGE && (
                   <span className="ml-2">
                     (Page {currentPage} of {totalPages})
@@ -570,7 +603,10 @@ export default function EventRegistration() {
               <div className="grid grid-cols-1 md:grid-cols-2">
                 <div className="relative h-64 sm:h-80 md:h-auto">
                   <Image
-                    src={latestEvent.image || "/placeholder.svg?height=400&width=600&query=nursing conference event"}
+                    src={
+                      latestEvent.image ||
+                      "/placeholder.svg?height=400&width=600&query=nursing conference event"
+                    }
                     alt={latestEvent.title}
                     fill
                     className="object-cover"
@@ -586,7 +622,9 @@ export default function EventRegistration() {
                       {latestEvent.date.getDate()}
                     </div>
                     <div className="text-xs sm:text-sm text-gray-600 uppercase">
-                      {latestEvent.date.toLocaleDateString("en-US", { month: "short" })}
+                      {latestEvent.date.toLocaleDateString("en-US", {
+                        month: "short",
+                      })}
                     </div>
                   </div>
                 </div>
@@ -619,7 +657,11 @@ export default function EventRegistration() {
                     </div>
                   </div>
 
-                  <Link href={`/event-registration/details/${encodeURIComponent(latestEvent.title)}`}>
+                  <Link
+                    href={`/event-registration/details/${encodeURIComponent(
+                      latestEvent.title
+                    )}`}
+                  >
                     <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 sm:py-3 font-semibold rounded-lg">
                       Register Now
                       <ArrowRight className="w-4 h-4 ml-2" />
@@ -653,10 +695,16 @@ export default function EventRegistration() {
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {currentEvents.map((event, index) => (
-                  <Card key={`${event.title}-${startIndex + index}`} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
+                  <Card
+                    key={`${event.title}-${startIndex + index}`}
+                    className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg"
+                  >
                     <div className="relative h-40 sm:h-48 overflow-hidden rounded-t-lg">
                       <Image
-                        src={event.image || "/placeholder.svg?height=200&width=300&query=nursing professional event"}
+                        src={
+                          event.image ||
+                          "/placeholder.svg?height=200&width=300&query=nursing professional event"
+                        }
                         alt={event.title}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -667,12 +715,14 @@ export default function EventRegistration() {
                           {event.ceus} CEUs
                         </span>
                       </div>
-                      <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-1.5 sm:p-2">
+                      <div className="absolute bottom-4 left-4 bg-white backdrop-blur-sm rounded-lg p-1.5 sm:p-2">
                         <div className="text-base sm:text-lg font-bold text-blue-600">
                           {event.date.getDate()}
                         </div>
                         <div className="text-xs text-gray-600 uppercase">
-                          {event.date.toLocaleDateString("en-US", { month: "short" })}
+                          {event.date.toLocaleDateString("en-US", {
+                            month: "short",
+                          })}
                         </div>
                       </div>
                     </div>
@@ -692,7 +742,11 @@ export default function EventRegistration() {
                           <span className="truncate">{event.location}</span>
                         </div>
                       </div>
-                      <Link href={`/event-registration/details/${encodeURIComponent(event.title)}`}>
+                      <Link
+                        href={`/event-registration/details/${encodeURIComponent(
+                          event.title
+                        )}`}
+                      >
                         <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 font-semibold rounded-lg group text-sm sm:text-base">
                           Learn More
                           <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -708,7 +762,9 @@ export default function EventRegistration() {
                 <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row items-center justify-between">
                   {/* Pagination Info */}
                   <div className="text-sm text-gray-600 sm:order-1">
-                    Showing {startIndex + 1}-{Math.min(endIndex, filteredEvents.length)} of {filteredEvents.length} events
+                    Showing {startIndex + 1}-
+                    {Math.min(endIndex, filteredEvents.length)} of{" "}
+                    {filteredEvents.length} events
                   </div>
 
                   {/* Pagination Buttons */}
@@ -727,39 +783,55 @@ export default function EventRegistration() {
 
                     {/* Page Numbers */}
                     <div className="flex items-center gap-1">
-                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-                        // Show first page, last page, current page, and pages around current page
-                        const showPage = 
-                          page === 1 || 
-                          page === totalPages || 
-                          Math.abs(page - currentPage) <= 1
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                        (page) => {
+                          // Show first page, last page, current page, and pages around current page
+                          const showPage =
+                            page === 1 ||
+                            page === totalPages ||
+                            Math.abs(page - currentPage) <= 1;
 
-                        if (!showPage && page === 2 && currentPage > 4) {
-                          return <span key={page} className="text-gray-400 px-2">...</span>
-                        }
-                        if (!showPage && page === totalPages - 1 && currentPage < totalPages - 3) {
-                          return <span key={page} className="text-gray-400 px-2">...</span>
-                        }
-                        if (!showPage) {
-                          return null
-                        }
+                          if (!showPage && page === 2 && currentPage > 4) {
+                            return (
+                              <span key={page} className="text-gray-400 px-2">
+                                ...
+                              </span>
+                            );
+                          }
+                          if (
+                            !showPage &&
+                            page === totalPages - 1 &&
+                            currentPage < totalPages - 3
+                          ) {
+                            return (
+                              <span key={page} className="text-gray-400 px-2">
+                                ...
+                              </span>
+                            );
+                          }
+                          if (!showPage) {
+                            return null;
+                          }
 
-                        return (
-                          <Button
-                            key={page}
-                            onClick={() => goToPage(page)}
-                            variant={currentPage === page ? "default" : "outline"}
-                            size="sm"
-                            className={`w-8 h-8 p-0 ${
-                              currentPage === page 
-                                ? "bg-blue-600 text-white hover:bg-blue-700" 
-                                : "hover:bg-blue-50"
-                            }`}
-                          >
-                            {page}
-                          </Button>
-                        )
-                      })}
+                          return (
+                            <Button
+                              key={page}
+                              onClick={() => goToPage(page)}
+                              variant={
+                                currentPage === page ? "default" : "outline"
+                              }
+                              size="sm"
+                              className={`w-8 h-8 p-0 ${
+                                currentPage === page
+                                  ? "bg-blue-600 text-white hover:bg-blue-700"
+                                  : "hover:bg-blue-50"
+                              }`}
+                            >
+                              {page}
+                            </Button>
+                          );
+                        }
+                      )}
                     </div>
 
                     {/* Next Button */}
@@ -784,9 +856,12 @@ export default function EventRegistration() {
       {/* CTA Section */}
       <section className="py-12 sm:py-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4">Ready to Advance Your Career?</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+            Ready to Advance Your Career?
+          </h2>
           <p className="text-lg sm:text-xl mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto">
-            Join thousands of Filipino-American nurses advancing their careers through professional development
+            Join thousands of Filipino-American nurses advancing their careers
+            through professional development
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/membership">
@@ -799,5 +874,5 @@ export default function EventRegistration() {
         </div>
       </section>
     </div>
-  )
+  );
 }

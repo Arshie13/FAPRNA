@@ -64,9 +64,9 @@ export default function Navbar() {
           </Link>
 
           {/* Dropdown - positioned relative to the text only */}
-          <div className="z-10 absolute left-[62px] top-full hidden w-32 rounded-lg bg-white shadow-lg border border-gray-100 group-hover:block overflow-hidden">
+          {/* <div className="z-10 absolute left-[62px] top-full hidden w-32 rounded-lg bg-white shadow-lg border border-gray-100 group-hover:block overflow-hidden">
             <div className="py-1">
-              {/* <Link
+              <Link
                 href="/about"
                 className="block px-4 py-3 text-sm font-bold text-[#003366] hover:bg-[#003366]/10 transition-all
                            hover:pl-6 duration-300 relative
@@ -76,9 +76,9 @@ export default function Navbar() {
                            before:duration-300 hover:before:opacity-100 hover:before:left-3"
               >
                 About Us
-              </Link> */}
+              </Link>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <nav className="hidden md:flex items-center gap-6 lg:gap-10 flex-wrap">

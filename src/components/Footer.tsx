@@ -11,7 +11,7 @@ export default function Footer() {
   return (
     <footer
       id="contact"
-      className="w-full border-t bg-[#003366] py-10 text-white"
+      className="w-full bg-[#003366] py-10 text-white"
     >
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 text-center md:text-left">
