@@ -362,7 +362,7 @@ export default function LuminanceAwards({ onVote }: LuminanceAwardsProps) {
             <select
               value={yearFilter}
               onChange={(e) => setYearFilter(e.target.value)}
-              className="bg-black text-yellow-400 border border-yellow-400 rounded px-4 py-2"
+              className="bg-black text-yellow-400 border border-yellow-400 rounded py-2"
             >
               <option value="all">All Years</option>
               {years.map((year) => (

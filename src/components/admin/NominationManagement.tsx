@@ -94,12 +94,11 @@ export default function NominationManagement() {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const [settingsData, nominationsData, statsData] =
-        await Promise.all([
-          getNominationSettings(),
-          getAllNominations(),
-          getNominationStats(),
-        ]);
+      const [settingsData, nominationsData, statsData] = await Promise.all([
+        getNominationSettings(),
+        getAllNominations(),
+        getNominationStats(),
+      ]);
 
       setSettings(settingsData);
       setNominations(
@@ -195,19 +194,19 @@ export default function NominationManagement() {
     switch (status) {
       case "APPROVED":
         return (
-          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+          <Badge className="bg-green-100 text-green-800 hover:bg-green-100 text-xs sm:text-sm md:text-base px-2 sm:px-3 py-1 sm:py-1.5">
             Approved
           </Badge>
         );
       case "REJECTED":
         return (
-          <Badge className="bg-red-100 text-red-800 hover:bg-red-100">
+          <Badge className="bg-red-100 text-red-800 hover:bg-red-100 text-xs sm:text-sm md:text-base px-2 sm:px-3 py-1 sm:py-1.5">
             Rejected
           </Badge>
         );
       default:
         return (
-          <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
+          <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100 text-xs sm:text-sm md:text-base px-2 sm:px-3 py-1 sm:py-1.5">
             Pending
           </Badge>
         );
@@ -384,18 +383,22 @@ export default function NominationManagement() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="space-y-1">
-                <Label className="text-base font-medium">
+                <Label className="text-sm sm:text-base md:text-lg lg:text-xl font-medium">
                   Nomination Period
                 </Label>
-                <p className="text-sm text-gray-600">
+                <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600">
                   {settings?.isNominationOpen
                     ? "Nominations are currently open"
                     : "Nominations are currently closed"}
                 </p>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-3 sm:space-x-4 md:space-x-5">
                 <Badge
-                  variant={settings?.isNominationOpen ? "default" : "secondary"}
+                  className={`text-xs sm:text-sm md:text-base lg:text-lg px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 ${
+                    settings?.isNominationOpen
+                      ? "bg-green-600 text-white hover:bg-green-600"
+                      : "bg-red-600 text-white hover:bg-red-600"
+                  }`}
                 >
                   {settings?.isNominationOpen ? "Open" : "Closed"}
                 </Badge>
@@ -403,19 +406,20 @@ export default function NominationManagement() {
                   checked={settings?.isNominationOpen || false}
                   onCheckedChange={handleToggleNomination}
                   disabled={isToggling}
+                  className="scale-100 sm:scale-110 md:scale-125 lg:scale-150 data-[state=checked]:bg-[#003366] data-[state=unchecked]:bg-[#003366]"
                 />
               </div>
             </div>
 
             {settings?.isNominationOpen && (
-              <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-                <div className="flex items-center gap-2 mb-2">
-                  <Play className="w-4 h-4 text-green-600" />
-                  <span className="font-medium text-green-800">
+              <div className="bg-green-50 p-4 sm:p-5 md:p-6 lg:p-6 rounded-lg border border-green-200">
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-3 mb-2 sm:mb-3 md:mb-3">
+                  <Play className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-6 lg:h-6 text-green-600" />
+                  <span className="font-medium text-sm sm:text-base md:text-lg lg:text-xl text-green-800">
                     Nominations Active
                   </span>
                 </div>
-                <p className="text-sm text-green-700">
+                <p className="text-sm sm:text-base md:text-lg lg:text-lg text-green-700">
                   Started:{" "}
                   {settings.nominationStartDate
                     ? format(
@@ -428,14 +432,14 @@ export default function NominationManagement() {
             )}
 
             {!settings?.isNominationOpen && settings?.nominationEndDate && (
-              <div className="bg-red-50 p-4 rounded-lg border border-red-200">
-                <div className="flex items-center gap-2 mb-2">
-                  <Square className="w-4 h-4 text-red-600" />
-                  <span className="font-medium text-red-800">
+              <div className="bg-red-50 p-4 sm:p-5 md:p-6 lg:p-6 rounded-lg border border-red-200">
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-3 mb-2 sm:mb-3 md:mb-3">
+                  <Square className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-6 lg:h-6 text-red-600" />
+                  <span className="font-medium text-sm sm:text-base md:text-lg lg:text-xl text-red-800">
                     Nominations Closed
                   </span>
                 </div>
-                <p className="text-sm text-red-700">
+                <p className="text-sm sm:text-base md:text-lg lg:text-lg text-red-700">
                   Ended:{" "}
                   {format(new Date(settings.nominationEndDate), "PPP 'at' p")}
                 </p>
@@ -565,15 +569,15 @@ export default function NominationManagement() {
                     <div className="flex items-center gap-2">
                       {getStatusBadge(nomination.status)}
                       {nomination.status === "PENDING" && (
-                        <div className="flex gap-1">
+                        <div className="flex gap-2 sm:gap-3">
                           <Button
                             size="sm"
                             onClick={() =>
                               handleUpdateStatus(nomination.id, "APPROVED")
                             }
-                            className="bg-green-600 hover:bg-green-700"
+                            className="bg-green-600 hover:bg-green-700 h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11"
                           >
-                            <Check className="w-4 h-4" />
+                            <Check className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
                           </Button>
                           <Button
                             size="sm"
@@ -581,8 +585,9 @@ export default function NominationManagement() {
                             onClick={() =>
                               handleUpdateStatus(nomination.id, "REJECTED")
                             }
+                            className="h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11"
                           >
-                            <X className="w-4 h-4" />
+                            <X className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
                           </Button>
                         </div>
                       )}
@@ -600,4 +605,3 @@ export default function NominationManagement() {
     </div>
   );
 }
-
