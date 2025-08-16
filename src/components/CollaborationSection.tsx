@@ -181,19 +181,19 @@ export default function CollaborationSection() {
         <div className="text-center mb-16">
           <div className="inline-block mb-4">
             <span className="inline-block rounded-full bg-blue-100 text-blue-800 px-4 py-2 text-sm font-medium uppercase tracking-wider">
-              Our Partners
+              Links
             </span>
           </div>
           <h2 className="mb-6 text-3xl font-bold text-gray-900 md:text-4xl lg:text-5xl opacity-0 animate-fade-in-up">
-            Trusted <span className="text-blue-600">Collaborations</span>
+            Professional Organization <span className="text-blue-600">Links</span>
           </h2>
-          <p
+          {/* <p
             className="mx-auto max-w-2xl text-lg text-gray-600 opacity-0 animate-fade-in-up"
             style={{ animationDelay: "0.2s" }}
           >
             Working together with leading healthcare organizations to advance
             nursing excellence and patient care across Nevada.
-          </p>
+          </p> */}
         </div>
 
         {/* Desktop Grid - Hidden on mobile */}

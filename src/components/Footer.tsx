@@ -126,10 +126,7 @@ export default function Footer() {
                 Email: faprnanv702@gmail.com
               </p>
               <p className="mb-2 text-sm text-white/80">
-                Vi Anne Calipusan (President): 702-335-8206
-              </p>
-              <p className="mb-2 text-sm text-white/80">
-                Emer Sambo (Assistant PRO): 702-327-6162
+                Dr. Homer Tuazon (President): 702-417-3865
               </p>
             </address>
           </div>

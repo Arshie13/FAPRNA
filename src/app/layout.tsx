@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FAPRNA",
+  title: "FAPRNA-NV",
   description: "Filipino-American Advanced Practice Registered Nurses Association",
 };
 
