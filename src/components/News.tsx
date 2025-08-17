@@ -145,6 +145,16 @@ export default function FaprnaNews() {
           getFirstTwoEvents(),
         ]);
 
+        if (typeof latest === "string") {
+          setError(latest)
+          return
+        }
+
+        if (typeof firstTwo === "string") {
+          setError(firstTwo)
+          return
+        }
+
         let combined: IEvent[] = [];
         if (latest) {
           combined.push(latest);

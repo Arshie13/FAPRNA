@@ -85,6 +85,16 @@ export default function EventRegistration() {
           getLatestEvent(),
         ]);
 
+        if (typeof latestData === "string") {
+          console.error(latestData);
+          return;
+        }
+
+        if (typeof eventsData === "string") {
+          console.error(eventsData);
+          return;
+        }
+
         // Process events once
         const processedEvents = eventsData.map((event) => ({
           ...event,
@@ -95,10 +105,10 @@ export default function EventRegistration() {
         setLatestEvent(
           latestData
             ? {
-                ...latestData,
-                ytLink:
-                  latestData.ytLink === null ? undefined : latestData.ytLink,
-              }
+              ...latestData,
+              ytLink:
+                latestData.ytLink === null ? undefined : latestData.ytLink,
+            }
             : null
         );
       } catch (error) {
@@ -821,11 +831,10 @@ export default function EventRegistration() {
                                 currentPage === page ? "default" : "outline"
                               }
                               size="sm"
-                              className={`w-8 h-8 p-0 ${
-                                currentPage === page
-                                  ? "bg-blue-600 text-white hover:bg-blue-700"
-                                  : "hover:bg-blue-50"
-                              }`}
+                              className={`w-8 h-8 p-0 ${currentPage === page
+                                ? "bg-blue-600 text-white hover:bg-blue-700"
+                                : "hover:bg-blue-50"
+                                }`}
                             >
                               {page}
                             </Button>
