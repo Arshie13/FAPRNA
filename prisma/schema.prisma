@@ -91,11 +91,11 @@ model VerificationCode {
 
 model EventUser {
   id          String     @id @default(cuid()) @map("_id")
-  member      Member?    @relation(fields: [memberId], references: [id])
+  member      Member?    @relation(fields: [memberId], references: [id], onDelete: Cascade)
   memberId    String?
-  nonMember   NonMember? @relation(fields: [nonMemberId], references: [id])
+  nonMember   NonMember? @relation(fields: [nonMemberId], references: [id], onDelete: Cascade)
   nonMemberId String?
-  event       Event      @relation(fields: [eventId], references: [id])
+  event       Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId     String
   isPending   Boolean    @default(false)
   rejected    Boolean    @default(false)
@@ -122,8 +122,8 @@ model Nomination {
   reason      String
   status      String   @default("PENDING") // PENDING, APPROVED, REJECTED
 
-  nominator Member? @relation("Nominator", fields: [nominatorId], references: [id])
-  nominee   Member? @relation("Nominee", fields: [nomineeId], references: [id])
+  nominator Member? @relation("Nominator", fields: [nominatorId], references: [id], onDelete: Cascade)
+  nominee   Member? @relation("Nominee", fields: [nomineeId], references: [id], onDelete: Cascade)
 
   @@unique([nominatorId, category, year]) // Ensure one nomination per category per year
   @@index([nominatorId])
@@ -180,10 +180,10 @@ model Voter {
 model Vote {
   id        String   @id @default(cuid()) @map("_id")
   voterId   String
-  voter     Voter    @relation(fields: [voterId], references: [id])
+  voter     Voter    @relation(fields: [voterId], references: [id], onDelete: Cascade)
   category  String // "intentionality", "inquiry", "impact"
   nomineeId String
-  nominee   Member   @relation(fields: [nomineeId], references: [id])
+  nominee   Member   @relation(fields: [nomineeId], references: [id], onDelete: Cascade)
   year      Int
   createdAt DateTime @default(now())
 
