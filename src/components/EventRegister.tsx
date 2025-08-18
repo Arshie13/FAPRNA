@@ -4,6 +4,7 @@ import { useEffect, useState, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import {
   Calendar,
   MapPin,
@@ -51,6 +52,8 @@ export default function EventRegistration() {
   const [ceuFilter, setCeuFilter] = useState("All CEUs");
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<{ src: string, alt: string } | null>(null);
 
   // Memoized unique values to prevent unnecessary recalculations
   const uniqueLocations = useMemo(() => {
@@ -85,6 +88,16 @@ export default function EventRegistration() {
           getLatestEvent(),
         ]);
 
+        if (typeof latestData === "string") {
+          console.error(latestData);
+          return;
+        }
+
+        if (typeof eventsData === "string") {
+          console.error(eventsData);
+          return;
+        }
+
         // Process events once
         const processedEvents = eventsData.map((event) => ({
           ...event,
@@ -95,10 +108,10 @@ export default function EventRegistration() {
         setLatestEvent(
           latestData
             ? {
-                ...latestData,
-                ytLink:
-                  latestData.ytLink === null ? undefined : latestData.ytLink,
-              }
+              ...latestData,
+              ytLink:
+                latestData.ytLink === null ? undefined : latestData.ytLink,
+            }
             : null
         );
       } catch (error) {
@@ -189,6 +202,18 @@ export default function EventRegistration() {
   useEffect(() => {
     setCurrentPage(1);
   }, [filteredEvents.length]);
+
+  const openImage = useCallback((imageUrl: string | undefined, title: string) => {
+    if (imageUrl) {
+      setSelectedImage({
+        src: imageUrl,
+        alt: title
+      });
+      setIsImageModalOpen(true);
+    } else {
+      console.warn("No image URL provided for modal.");
+    }
+  }, []);
 
   // Memoized filter state
   const hasActiveFilters = useMemo(
@@ -577,7 +602,7 @@ export default function EventRegistration() {
               <p className="text-gray-600 mt-2">
                 {hasActiveFilters
                   ? `Showing ${filteredEvents.length} of ${events.length} events`
-                  : `${events.length} events available`}
+                  : `${events.length + 1} events available`}
                 {filteredEvents.length > EVENTS_PER_PAGE && (
                   <span className="ml-2">
                     (Page {currentPage} of {totalPages})
@@ -601,7 +626,12 @@ export default function EventRegistration() {
           {latestEvent && !hasActiveFilters && (
             <Card className="mb-8 sm:mb-12 border-0 shadow-xl overflow-hidden">
               <div className="grid grid-cols-1 md:grid-cols-2">
-                <div className="relative h-64 sm:h-80 md:h-auto">
+                <div
+                  className="relative h-64 sm:h-80 md:h-auto"
+                  onClick={() => {
+                    openImage(latestEvent.image, latestEvent.title)
+                  }}
+                >
                   <Image
                     src={
                       latestEvent.image ||
@@ -699,7 +729,10 @@ export default function EventRegistration() {
                     key={`${event.title}-${startIndex + index}`}
                     className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg"
                   >
-                    <div className="relative h-40 sm:h-48 overflow-hidden rounded-t-lg">
+                    <div
+                      className="relative h-40 sm:h-48 overflow-hidden rounded-t-lg"
+                      onClick={() => openImage(event.image, event.title)}
+                    >
                       <Image
                         src={
                           event.image ||
@@ -821,11 +854,10 @@ export default function EventRegistration() {
                                 currentPage === page ? "default" : "outline"
                               }
                               size="sm"
-                              className={`w-8 h-8 p-0 ${
-                                currentPage === page
-                                  ? "bg-blue-600 text-white hover:bg-blue-700"
-                                  : "hover:bg-blue-50"
-                              }`}
+                              className={`w-8 h-8 p-0 ${currentPage === page
+                                ? "bg-blue-600 text-white hover:bg-blue-700"
+                                : "hover:bg-blue-50"
+                                }`}
                             >
                               {page}
                             </Button>
@@ -873,6 +905,25 @@ export default function EventRegistration() {
           </div>
         </div>
       </section>
+
+      <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
+        <DialogContent className="max-w-4xl p-0 bg-white">
+          <DialogTitle className="sr-only">
+            {selectedImage?.alt || "Event Image"}
+          </DialogTitle>
+          <div className="relative w-full h-[80vh]">
+            {selectedImage && (
+              <Image
+                src={selectedImage.src}
+                alt={selectedImage.alt}
+                fill
+                className="object-contain"
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 }
