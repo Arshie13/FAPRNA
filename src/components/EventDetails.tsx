@@ -100,9 +100,9 @@ export default function EventDetails(title: { title: string }) {
                   {/* Event Image */}
                   <Card className="overflow-hidden border-0 shadow-2xl">
                     <div
-                    className="relative h-80"
-                    onClick={() => setIsImageModalOpen(true)}
-                  >
+                      className="relative h-80"
+                      onClick={() => setIsImageModalOpen(true)}
+                    >
                       <Image
                         src={eventDetail.image || "/window.svg"}
                         alt={eventDetail.title}
