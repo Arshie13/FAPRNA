@@ -587,7 +587,7 @@ export default function EventRegistration() {
               <p className="text-gray-600 mt-2">
                 {hasActiveFilters
                   ? `Showing ${filteredEvents.length} of ${events.length} events`
-                  : `${events.length} events available`}
+                  : `${events.length + 1} events available`}
                 {filteredEvents.length > EVENTS_PER_PAGE && (
                   <span className="ml-2">
                     (Page {currentPage} of {totalPages})
